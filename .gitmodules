@@ -1,0 +1,12 @@
+[submodule "increlance"]
+	path = increlance
+	url = https://github.com/OmniSudo/increlance.git
+[submodule "skillquest/public"]
+	path = skillquest/public
+	url = https://github.com/OmniSudo/skillquest.git
+[submodule "skillquest/private"]
+	path = skillquest/private
+	url = https://github.com/OmniSudo/skillquest.server.git
+[submodule "www"]
+	path = www
+	url = https://github.com/OmniSudo/www.git
