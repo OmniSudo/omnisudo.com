@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Desktop &amp; Server" type="CompoundRunConfigurationType">
+    <toRun name="skillquest.game" type="CMakeRunConfiguration" />
+    <toRun name="skillquest.server" type="CMakeRunConfiguration" />
+    <method v="2" />
+  </configuration>
+</component>
