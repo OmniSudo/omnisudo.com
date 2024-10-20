@@ -18,8 +18,3 @@ ENDIF ()
 if (IS_DIRECTORY "${PROJECT_SOURCE_DIR}/skillquest/private/game" AND NOT EMSCRIPTEN)
     include("${PROJECT_SOURCE_DIR}/skillquest/private/game/server/CMakeLists.txt")
 endif ()
-
-# INCRELANCE PUBLIC
-IF (IS_DIRECTORY "${PROJECT_SOURCE_DIR}/increlance/public/platform")
-    include("${PROJECT_SOURCE_DIR}/increlance/public/platform/desktop/CMakeLists.txt")
-ENDIF ()
