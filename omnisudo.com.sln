@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Server.Game", "skillquest\private\SkillQuest.Server.Game\SkillQuest.Server.Game.csproj", "{18207E2D-152D-41B2-AD96-E94AC94755D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Server.Terminal", "skillquest\private\SkillQuest.Server.Terminal\SkillQuest.Server.Terminal.csproj", "{78DDB638-EEAC-48C9-881F-E6BBA986D142}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Client.Game", "skillquest\public\SkillQuest.Client.Game\SkillQuest.Client.Game.csproj", "{0534A6D7-10F3-4ECB-AA37-F96EA09B619C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Shared.Game", "skillquest\public\SkillQuest.Shared.Game\SkillQuest.Shared.Game.csproj", "{9D0DB583-2A64-4909-9E7A-7FBB29F67478}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Client.Desktop", "skillquest\public\SkillQuest.Client.Desktop\SkillQuest.Client.Desktop.csproj", "{F9F06239-B191-43DF-BDB2-B201B65AD428}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Server.Game", "skillquest\private\SkillTest.Server.Game\SkillTest.Server.Game.csproj", "{F66CC20E-B9DE-455A-9378-EAC92C239F8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Client.Game", "skillquest\public\SkillTest.Client.Game\SkillTest.Client.Game.csproj", "{974E9D53-D318-476B-B00F-E4615DEF8A66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Shared.Game", "skillquest\public\SkillTest.Shared.Game\SkillTest.Shared.Game.csproj", "{57EAAAFF-9238-4570-9811-4A69155DF642}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{18207E2D-152D-41B2-AD96-E94AC94755D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18207E2D-152D-41B2-AD96-E94AC94755D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18207E2D-152D-41B2-AD96-E94AC94755D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18207E2D-152D-41B2-AD96-E94AC94755D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78DDB638-EEAC-48C9-881F-E6BBA986D142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78DDB638-EEAC-48C9-881F-E6BBA986D142}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78DDB638-EEAC-48C9-881F-E6BBA986D142}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78DDB638-EEAC-48C9-881F-E6BBA986D142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0534A6D7-10F3-4ECB-AA37-F96EA09B619C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0534A6D7-10F3-4ECB-AA37-F96EA09B619C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0534A6D7-10F3-4ECB-AA37-F96EA09B619C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0534A6D7-10F3-4ECB-AA37-F96EA09B619C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D0DB583-2A64-4909-9E7A-7FBB29F67478}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D0DB583-2A64-4909-9E7A-7FBB29F67478}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D0DB583-2A64-4909-9E7A-7FBB29F67478}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D0DB583-2A64-4909-9E7A-7FBB29F67478}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9F06239-B191-43DF-BDB2-B201B65AD428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9F06239-B191-43DF-BDB2-B201B65AD428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9F06239-B191-43DF-BDB2-B201B65AD428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9F06239-B191-43DF-BDB2-B201B65AD428}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F66CC20E-B9DE-455A-9378-EAC92C239F8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F66CC20E-B9DE-455A-9378-EAC92C239F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F66CC20E-B9DE-455A-9378-EAC92C239F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F66CC20E-B9DE-455A-9378-EAC92C239F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{974E9D53-D318-476B-B00F-E4615DEF8A66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{974E9D53-D318-476B-B00F-E4615DEF8A66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{974E9D53-D318-476B-B00F-E4615DEF8A66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{974E9D53-D318-476B-B00F-E4615DEF8A66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57EAAAFF-9238-4570-9811-4A69155DF642}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57EAAAFF-9238-4570-9811-4A69155DF642}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57EAAAFF-9238-4570-9811-4A69155DF642}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57EAAAFF-9238-4570-9811-4A69155DF642}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
