@@ -1,6 +1,3 @@
-[submodule "increlance"]
-	path = increlance
-	url = https://github.com/OmniSudo/increlance.git
 [submodule "skillquest/public"]
 	path = skillquest/public
 	url = https://github.com/OmniSudo/skillquest.git
