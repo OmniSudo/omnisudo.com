@@ -4,6 +4,18 @@
 [submodule "skillquest/private"]
 	path = skillquest/private
 	url = https://github.com/OmniSudo/skillquest.server.git
+[submodule "runescape/private"]
+    path = runescape/private
+	url = git@github.com:OmniSudo/runesharp.server.git
+[submodule "runescape/public"]
+    path = runescape/public
+	url = git@github.com:OmniSudo/runesharp.git
+[submodule "minecraft/private"]
+    path = minecraft/private
+	url = git@github.com:OmniSudo/minesharp.server.git
+[submodule "minecraft/public"]
+    path = minecraft/public
+	url = git@github.com:OmniSudo/minesharp.git
 [submodule "www"]
 	path = www
 	url = https://github.com/OmniSudo/www.git
