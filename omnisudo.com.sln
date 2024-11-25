@@ -80,7 +80,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Shared.Engine", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Server.Engine", "skillquest\private\SkillQuest.Server.Engine\SkillQuest.Server.Engine.csproj", "{DD33C39E-DF25-42E5-BE74-3EC40124D963}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Client.Engine", "SkillQuest.Client.Engine\SkillQuest.Client.Engine.csproj", "{82ED07DE-2908-4306-9B0F-DC975DE63D87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Client.Engine", "skillquest\public\SkillQuest.Client.Engine\SkillQuest.Client.Engine.csproj", "{82ED07DE-2908-4306-9B0F-DC975DE63D87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
