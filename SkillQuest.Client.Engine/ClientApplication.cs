@@ -1,4 +1,5 @@
 using Silk.NET.Input;
+using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.OpenGL.Extensions.ImGui;
 using Silk.NET.Windowing;
@@ -10,7 +11,9 @@ using static State;
 
 public class ClientApplication : Application{
     public override void Loop(){
-        window = Window.Create(WindowOptions.Default);
+        var options = WindowOptions.Default;
+        options.Size = new Vector2D<int>(1280, 720);
+        window = Window.Create(options);
 
         window.Load += () => {
             imgui = new ImGuiController(
