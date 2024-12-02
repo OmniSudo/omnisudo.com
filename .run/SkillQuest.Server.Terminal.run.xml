@@ -2,7 +2,7 @@
   <configuration default="false" name="SkillQuest.Server.Terminal" type="DotNetProject" factoryName=".NET Project">
     <option name="EXE_PATH" value="$PROJECT_DIR$/skillquest/private/SkillQuest.Server.Terminal/bin/Debug/net8.0/SkillQuest.Server.Terminal" />
     <option name="PROGRAM_PARAMETERS" value="" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/skillquest/private/SkillQuest.Server.Game/data" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/skillquest/private/SkillQuest.Server.Game" />
     <option name="PASS_PARENT_ENVS" value="1" />
     <option name="USE_EXTERNAL_CONSOLE" value="0" />
     <option name="USE_MONO" value="0" />
