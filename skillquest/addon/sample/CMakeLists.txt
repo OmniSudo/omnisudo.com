@@ -1,6 +1,6 @@
 include_guard()
 
-set(ENABLE_ADDON TRUE)
+set(ENABLE_ADDON FALSE)
 
 if(ENABLE_ADDON)
     include( "${CMAKE_CURRENT_LIST_DIR}/shared/CMakeLists.txt" )
