@@ -1,4 +1,4 @@
-namespace SkillTest.Client.Engine.Graphics.OpenGL;
+namespace SkillTest.Client.Engine.Graphics.OpenGL.test;
 
 public class Tests{
     [SetUp]

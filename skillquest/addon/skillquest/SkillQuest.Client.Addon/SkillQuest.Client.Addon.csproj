@@ -4,7 +4,6 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>SkillQuest.Client.Game</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,9 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="assets\Metallurgy\Thing\" />
       <Folder Include="assets\SkillQuest\" />
       <Folder Include="src\" />
+      <Folder Include="src\SkillQuest\Doohickey\Editor\" />
     </ItemGroup>
 
 </Project>

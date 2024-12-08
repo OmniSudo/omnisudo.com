@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SkillQuest>
+    <Component
+            asm="SkillQuest.Shared.Addon"
+            type="SkillQuest.Shared.Addon.Metallurgy.Component.Material.Metallurgy.Metal"
+    >
+        <Alias>component://skill.quest/material/metallurgy/metal</Alias>
+    </Component>
+</SkillQuest>

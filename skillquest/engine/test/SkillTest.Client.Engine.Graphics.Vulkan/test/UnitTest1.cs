@@ -1,4 +1,4 @@
-namespace SkillTest.Client.Engine.Graphics.Vulkan;
+namespace SkillTest.Client.Engine.Graphics.Vulkan.test;
 
 public class Tests{
     [SetUp]

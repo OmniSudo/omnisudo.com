@@ -4,17 +4,13 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>SkillQuest.Server.Game</RootNamespace>
-        <PackageId>SkillQuest.Server.Game</PackageId>
+        <RootNamespace>SkillQuest.Server.Addon</RootNamespace>
+        <PackageId>SkillQuest.Server.Addon</PackageId>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="$(SolutionDir)\skillquest\engine\src\SkillQuest.Server.Engine\SkillQuest.Server.Engine.csproj" />
         <ProjectReference Include="$(SolutionDir)\skillquest\addon\skillquest\SkillQuest.Shared.Addon\SkillQuest.Shared.Addon.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="src\" />
     </ItemGroup>
 
 </Project>

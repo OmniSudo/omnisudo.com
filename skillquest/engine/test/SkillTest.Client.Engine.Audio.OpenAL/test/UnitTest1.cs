@@ -1,4 +1,4 @@
-namespace SkillTest.Client.Engine.Audio.OpenAL;
+namespace SkillTest.Client.Engine.Audio.OpenAL.test;
 
 public class Tests{
     [SetUp]

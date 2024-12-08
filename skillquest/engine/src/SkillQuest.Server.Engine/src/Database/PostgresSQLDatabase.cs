@@ -3,7 +3,7 @@ using System.Text;
 using Npgsql;
 using SkillQuest.API.Database;
 
-namespace SkillQuest.Server.Game.Database;
+namespace SkillQuest.Server.Engine.Database;
 
 public class PostgresSQLDatabase : IDatabaseConnection {
     readonly NpgsqlConnection _connection;

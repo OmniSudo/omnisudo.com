@@ -1,8 +1,7 @@
 ﻿using SkillQuest.API.Database;
 using SkillQuest.API.Network;
-using SkillQuest.Server.Game.Database;
 
-namespace SkillQuest.Server.Game;
+namespace SkillQuest.Server.Engine;
 
 public class State{
     public static State SV { get; } = new State();

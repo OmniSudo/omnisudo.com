@@ -1,4 +1,4 @@
-namespace SkillTest.Client.Addon;
+namespace SkillTest.Client.Addon.test;
 
 public class Tests{
     [SetUp]

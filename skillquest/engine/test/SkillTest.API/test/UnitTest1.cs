@@ -1,4 +1,4 @@
-namespace SkillTest.API;
+namespace SkillTest.API.test;
 
 public class Tests{
     [SetUp]

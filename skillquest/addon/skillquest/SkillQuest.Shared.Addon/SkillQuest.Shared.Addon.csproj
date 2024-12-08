@@ -4,7 +4,6 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>SkillQuest.Shared.Game</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,6 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="assets\" />
       <Folder Include="src\" />
     </ItemGroup>
 
