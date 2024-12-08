@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="$(SolutionDir)\skillquest\engine\src\SkillQuest.API\SkillQuest.API.csproj" />
+      <ProjectReference Include="$(SolutionDir)\skillquest\engine\src\SkillQuest.Client.Engine.Audio.API\SkillQuest.Client.Engine.Audio.API.csproj" />
+      <ProjectReference Include="$(SolutionDir)\skillquest\engine\src\SkillQuest.Client.Engine.Audio.OpenAL\SkillQuest.Client.Engine.Audio.OpenAL.csproj" />
+      <ProjectReference Include="$(SolutionDir)\skillquest\engine\src\SkillQuest.Client.Engine.Graphics.API\SkillQuest.Client.Engine.Graphics.API.csproj" />
+      <ProjectReference Include="$(SolutionDir)\skillquest\engine\src\SkillQuest.Client.Engine.Graphics.OpenGL\SkillQuest.Client.Engine.Graphics.OpenGL.csproj" />
+      <ProjectReference Include="$(SolutionDir)\skillquest\engine\src\SkillQuest.Shared.Engine\SkillQuest.Shared.Engine.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,8 @@
+**/build
+**/bin
+**/.idea
+**/obj
+**/imgui.ini
+.aider*
+.env
+*.db

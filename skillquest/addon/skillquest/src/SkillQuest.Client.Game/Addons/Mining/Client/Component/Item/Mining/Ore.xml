@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SkillQuest>
+    <Component
+            asm="SkillQuest.Client.Game"
+            type="SkillQuest.Client.Game.Addons.Mining.Client.Component.Item.Mining.Ore"
+    >
+        <Alias>component://skill.quest/mining/ore</Alias>
+    </Component>
+</SkillQuest>
