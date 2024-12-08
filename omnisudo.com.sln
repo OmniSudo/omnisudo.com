@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Client.Engine.Au
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Client.Engine.Audio.OpenAL", "skillquest\engine\test\SkillTest.Client.Engine.Audio.OpenAL\SkillTest.Client.Engine.Audio.OpenAL.csproj", "{CAE17C1C-AE1D-4514-B187-3A0BE5A1E117}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SkillQuest", "SkillQuest", "{545D0A81-BC4B-4969-A077-21714013AAED}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{545D0A81-BC4B-4969-A077-21714013AAED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Launcher", "Launcher", "{B3BA68F5-44FF-4F4F-9FCA-DC8B9E82CFA0}"
 EndProject
@@ -62,17 +62,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{8721D9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{312D0B9A-3259-4131-B76B-FE75AFDC732B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Client.Addon", "skillquest\addon\skillquest\SkillQuest.Client.Addon\SkillQuest.Client.Addon.csproj", "{7C725BBF-268E-41D9-8574-95D798D1D7C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Addon.Base.Client", "skillquest\addon\skillquest\SkillQuest.Addon.Base.Client\SkillQuest.Addon.Base.Client.csproj", "{7C725BBF-268E-41D9-8574-95D798D1D7C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Client.Addon", "skillquest\addon\skillquest\SkillTest.Client.Addon\SkillTest.Client.Addon.csproj", "{F878C2DA-F054-4332-B665-4EBC12E5F90E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Addon.Base.Client", "skillquest\addon\skillquest\SkillTest.Addon.Base.Client\SkillTest.Addon.Base.Client.csproj", "{F878C2DA-F054-4332-B665-4EBC12E5F90E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Server.Addon", "skillquest\addon\skillquest\SkillTest.Server.Addon\SkillTest.Server.Addon.csproj", "{BB12A479-C4F4-43EC-AB46-8AC1A08BCE80}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Addon.Base.Server", "skillquest\addon\skillquest\SkillTest.Addon.Base.Server\SkillTest.Addon.Base.Server.csproj", "{BB12A479-C4F4-43EC-AB46-8AC1A08BCE80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Server.Addon", "skillquest\addon\skillquest\SkillQuest.Server.Addon\SkillQuest.Server.Addon.csproj", "{6D9863E5-2411-426D-AD49-81FB5AC5765C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Addon.Base.Server", "skillquest\addon\skillquest\SkillQuest.Addon.Base.Server\SkillQuest.Addon.Base.Server.csproj", "{6D9863E5-2411-426D-AD49-81FB5AC5765C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Shared.Addon", "skillquest\addon\skillquest\SkillQuest.Shared.Addon\SkillQuest.Shared.Addon.csproj", "{3B41102E-51FC-4C32-9430-3988F31B0D77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Addon.Base.Shared", "skillquest\addon\skillquest\SkillQuest.Addon.Base.Shared\SkillQuest.Addon.Base.Shared.csproj", "{3B41102E-51FC-4C32-9430-3988F31B0D77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Shared.Addon", "skillquest\addon\skillquest\SkillTest.Shared.Addon\SkillTest.Shared.Addon.csproj", "{227BB579-CF6E-4195-BD21-572ACA0621D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Addon.Base.Shared", "skillquest\addon\skillquest\SkillTest.Addon.Base.Shared\SkillTest.Addon.Base.Shared.csproj", "{227BB579-CF6E-4195-BD21-572ACA0621D0}"
 EndProject
 Global
 GlobalSection(SolutionConfigurationPlatforms) = preSolution

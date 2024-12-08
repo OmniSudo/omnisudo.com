@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<SkillQuest>
-    <Component
-            asm="SkillQuest.Shared.Addon"
-            type="SkillQuest.Shared.Addon.Mining.Component.Item.Mining.Ore"
-    >
-        <Alias>component://skill.quest/mining/ore</Alias>
-    </Component>
-</SkillQuest>
