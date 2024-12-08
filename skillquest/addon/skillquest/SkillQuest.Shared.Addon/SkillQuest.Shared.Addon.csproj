@@ -4,7 +4,12 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>SkillQuest.Shared.Game</RootNamespace>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Silk.NET.Maths" Version="2.22.0" />
+    </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="$(SolutionDir)\skillquest\engine\src\SkillQuest.API\SkillQuest.API.csproj" />
@@ -12,7 +17,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Npgsql" Version="9.0.2" />
+      <Reference Include="Microsoft.Data.Sqlite">
+        <HintPath>..\..\..\..\..\.nuget\packages\microsoft.data.sqlite.core\9.0.0-rc.2.24474.1\lib\net8.0\Microsoft.Data.Sqlite.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="src\" />
     </ItemGroup>
 
 </Project>

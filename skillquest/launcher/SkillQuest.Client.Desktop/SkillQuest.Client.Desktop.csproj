@@ -8,17 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="$(SolutionDir)\skillquest\engine\src\SkillQuest.Client.Engine.Audio.API\SkillQuest.Client.Engine.Audio.API.csproj" />
-      <ProjectReference Include="$(SolutionDir)\skillquest\engine\src\SkillQuest.Client.Engine.Audio.OpenAL\SkillQuest.Client.Engine.Audio.OpenAL.csproj" />
-      <ProjectReference Include="$(SolutionDir)\skillquest\engine\src\SkillQuest.Client.Engine.Graphics.API\SkillQuest.Client.Engine.Graphics.API.csproj" />
-      <ProjectReference Include="$(SolutionDir)\skillquest\engine\src\SkillQuest.Client.Engine.Graphics.Vulkan\SkillQuest.Client.Engine.Graphics.Vulkan.csproj" />
-      <ProjectReference Include="$(SolutionDir)\skillquest\addon\skillquest\src\SkillQuest.Client.Game\SkillQuest.Client.Game.csproj" />
-      <ProjectReference Include="$(SolutionDir)\skillquest\addon\skillquest\src\SkillQuest.Shared.Game\SkillQuest.Shared.Game.csproj" />
+        <ProjectReference Include="$(SolutionDir)\skillquest\addon\skillquest\SkillQuest.Shared.Addon\SkillQuest.Shared.Addon.csproj"/>
+        <ProjectReference Include="$(SolutionDir)\skillquest\addon\skillquest\SkillQuest.Client.Addon\SkillQuest.Client.Addon.csproj"/>
     </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Silk.NET.Assimp" Version="2.22.0" />
-      <PackageReference Include="Silk.NET.GLFW" Version="2.22.0" />
-    </ItemGroup>
-
+    
 </Project>

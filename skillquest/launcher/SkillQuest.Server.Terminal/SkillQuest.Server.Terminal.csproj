@@ -8,7 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="$(SolutionDir)\skillquest\addon\skillquest\src\SkillQuest.Server.Game\SkillQuest.Server.Game.csproj" />
+    <ProjectReference Include="$(SolutionDir)\skillquest\addon\skillquest\SkillQuest.Shared.Addon\SkillQuest.Shared.Addon.csproj" />
+    <ProjectReference Include="$(SolutionDir)\skillquest\addon\skillquest\SkillQuest.Server.Addon\SkillQuest.Server.Addon.csproj" />
   </ItemGroup>
 
 </Project>

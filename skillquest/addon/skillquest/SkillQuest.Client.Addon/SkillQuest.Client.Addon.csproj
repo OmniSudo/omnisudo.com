@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>SkillQuest.Client.Game</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="$(SolutionDir)\skillquest\engine\src\SkillQuest.Client.Engine\SkillQuest.Client.Engine.csproj" />
+      <ProjectReference Include="$(SolutionDir)\skillquest\addon\skillquest\SkillQuest.Shared.Addon\SkillQuest.Shared.Addon.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="assets\Metallurgy\Thing\" />
+      <Folder Include="assets\SkillQuest\" />
+      <Folder Include="src\" />
+    </ItemGroup>
+
+</Project>
