@@ -15,9 +15,9 @@ public class CharacterSelectPlayer(
 
     public string Name { get; set; } = name;
 
-    public Uri World { get; set; } = world;
+    public IClientConnection? Connection { get; set; }
 
-    public IClientConnection? Connection { get; set; } = connection;
+    public Uri World { get; set; } = world;
 
     public static explicit operator CharacterInfo(CharacterSelectPlayer cp){
         return new CharacterInfo() {
