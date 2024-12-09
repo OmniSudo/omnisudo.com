@@ -13,8 +13,8 @@ public class AddonMiningCL : global::SkillQuest.Shared.Engine.Addon{
     }
 
     void OnMounted(IAddon addon, IApplication? application){
-        SH.Ledger.Components.LoadFromXmlFile( "addon/skillquest/SkillQuest.Addon.Base.Shared/assets/Mining/Component/Item/Mining/Ore.xml" );
-        SH.Ledger.Items.LoadFromXmlFile( "addon/skillquest/SkillQuest.Addon.Base.Shared/assets/Mining/Thing/Item/Mining/Coal.xml" );
+        SH.Ledger.Components.LoadFromXmlFile( "addon/base/SkillQuest.Addon.Base.Shared/assets/Component/Item/Mining/Ore.xml" );
+        SH.Ledger.Items.LoadFromXmlFile( "addon/base/SkillQuest.Addon.Base.Shared/assets/Thing/Item/Mining/Coal.xml" );
     }
 
     void OnUnmounted(IAddon addon, IApplication? application){

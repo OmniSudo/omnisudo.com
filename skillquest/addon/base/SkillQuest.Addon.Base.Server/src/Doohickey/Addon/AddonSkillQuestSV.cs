@@ -23,7 +23,7 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
     }
 
     async void OnMounted(IAddon addon, IApplication? application){
-        SV.Database = new SqliteDatabase("addon/skillquest/SkillQuest.Addon.Base.Server/assets/database/skillquest.db");
+        SV.Database = new SqliteDatabase("addon/base/SkillQuest.Addon.Base.Server/assets/database/skillquest.db");
         SV.Connection = SH.Net.Host(3698);
 
         Authenticator = SH.Stuff.Add(new Authenticator(SV.Connection));

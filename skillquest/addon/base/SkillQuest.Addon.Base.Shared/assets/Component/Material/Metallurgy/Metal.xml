@@ -2,7 +2,7 @@
 <SkillQuest>
     <Component
             asm="SkillQuest.Addon.Base.Shared"
-            type="SkillQuest.Addon.Base.Shared.Metallurgy.Component.Material.Metallurgy.Metal"
+            type="SkillQuest.Addon.Base.Shared.Component.Material.Metallurgy.Metal"
     >
         <Alias>component://skill.quest/material/metallurgy/metal</Alias>
     </Component>

@@ -2,7 +2,7 @@
 <SkillQuest>
     <Component
             asm="SkillQuest.Addon.Base.Shared"
-            type="SkillQuest.Addon.Base.Shared.Mining.Component.Item.Mining.Ore"
+            type="SkillQuest.Addon.Base.Shared.Component.Item.Mining.Ore"
     >
         <Alias>component://skill.quest/mining/ore</Alias>
     </Component>
