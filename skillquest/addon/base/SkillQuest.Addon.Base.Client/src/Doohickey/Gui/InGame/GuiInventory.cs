@@ -10,7 +10,9 @@ public class GuiInventory: global::SkillQuest.Shared.Engine.ECS.Doohickey, IDraw
     /// <summary>
     /// This gui is a child of GuiInGame (ui://skill.quest/ingame)
     /// </summary>
-    public GuiInventory(){
+    /// <param name="guiInGame"></param>
+    public GuiInventory(GuiInGame guiInGame){
+        Parent = guiInGame;
     }
 
     public void Draw(DateTime now, TimeSpan delta){

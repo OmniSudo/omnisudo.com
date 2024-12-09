@@ -35,6 +35,7 @@ public class Stuff : IStuff {
         if (old != thing ) return null;
 
         Remove(thing.Uri!);
+        thing.Parent = null;
 
         return thing;
     }

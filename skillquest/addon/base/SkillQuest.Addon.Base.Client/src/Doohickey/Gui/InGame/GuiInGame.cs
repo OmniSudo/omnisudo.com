@@ -45,6 +45,12 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawab
                 Stuff.Add(new GuiMainMenu());
                 Stuff?.Remove(this);
             }
+            
+            foreach ( var child in Children ) {
+                if ( child.Value is IDrawable drawable ) {
+                    drawable.Draw(now, delta);
+                }
+            }
 
             ImGui.End();
         }
@@ -58,12 +64,29 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawab
         DisconnectInput();
     }
 
+    GuiInventory _inventory;
+    
     void KeyboardOnKeyDown(IKeyboard arg1, Key key, int arg3){
-        if (key == Key.Escape) {
-            DisconnectInput();
-            Stuff.Add(new GuiPause(_localhost)).Unstuffed += (stuff, thing) => {
-                if ( Stuff is not null ) ConnectInput();
-            };
+        switch (key) {
+            case Key.Escape: {
+                DisconnectInput();
+
+                Stuff.Add(new GuiPause(_localhost)).Unstuffed += (stuff, thing) => {
+                    if (Stuff is not null) ConnectInput();
+                };
+                break;
+            }
+            case Key.I: {
+                if (_inventory is null) {
+                    _inventory = new GuiInventory(this);
+                    Stuff?.Add(_inventory);
+                }
+                else {
+                    Stuff?.Remove(_inventory);
+                    _inventory = null;
+                }
+                break;
+            }
         }
     }
 
