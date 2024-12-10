@@ -3,13 +3,13 @@ using System.Security.Cryptography;
 using System.Text;
 using SkillQuest.API.Network;
 using SkillQuest.Server.Engine;
-using ECS_Doohickey = SkillQuest.Shared.Engine.ECS.Doohickey;
+using SkillQuest.Shared.Engine.ECS;
 
 namespace SkillQuest.Addon.Base.Server.Database.Users;
 
 using static State;
 
-public class AuthenticationDatabase : ECS_Doohickey{
+public class AuthenticationDatabase : SkillQuest.Shared.Engine.ECS.System{
     public override Uri? Uri { get; set; } = new Uri("db://skill.quest/user/auth");
 
     public bool Auth(IClientConnection connection){

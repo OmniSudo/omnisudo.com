@@ -5,7 +5,7 @@ namespace SkillQuest.Addon.Base.Server.Database.Character;
 
 using static State;
 
-public class CharacterDatabase : global::SkillQuest.Shared.Engine.ECS.Doohickey{
+public class CharacterDatabase : global::SkillQuest.Shared.Engine.ECS.System{
     public static CharacterDatabase Instance {
         get {
             if (_instance is null) {

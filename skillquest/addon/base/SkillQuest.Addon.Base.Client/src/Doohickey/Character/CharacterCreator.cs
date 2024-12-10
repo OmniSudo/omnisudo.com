@@ -1,13 +1,13 @@
 using SkillQuest.Addon.Base.Shared.Packet.Character;
 using SkillQuest.Addon.Base.Shared.Packet.Character.Create;
 using SkillQuest.API.Network;
-using ECS_Doohickey = SkillQuest.Shared.Engine.ECS.Doohickey;
+using SkillQuest.Shared.Engine.ECS;
 
 namespace SkillQuest.Addon.Base.Client.Doohickey.Character;
 
 using static global::SkillQuest.Shared.Engine.State;
 
-public class CharacterCreator : ECS_Doohickey{
+public class CharacterCreator : SkillQuest.Shared.Engine.ECS.System{
     public override Uri? Uri { get; set; } = new Uri("cl://control.skill.quest/character/create");
 
     IClientConnection _connection;

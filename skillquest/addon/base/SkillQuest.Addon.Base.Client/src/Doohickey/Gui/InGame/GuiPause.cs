@@ -9,13 +9,13 @@ using SkillQuest.Client.Engine.Input;
 
 namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.InGame;
 
-public class GuiPause : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawable, IHasControls{
+public class GuiPause : global::SkillQuest.Shared.Engine.ECS.System, IDrawable, IHasControls{
     public override Uri? Uri { get; set; } = new Uri("ui://skill.quest/ingame/pause");
 
     public GuiPause(IPlayerCharacter player){
-        this.Player = player;
-        this.Stuffed += OnStuffed;
-        this.Unstuffed += OnUnstuffed;
+        Player = player;
+        Tracked += OnTracked;
+        Untracked += OnUntracked;
     }
 
     public IPlayerCharacter Player { get; set; }
@@ -33,27 +33,27 @@ public class GuiPause : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawabl
         ) {
             if (ImGui.Button($"Editor")) {
                 Task.Run(() => {
-                    foreach (var gui in Stuff.Things.Where(g => g.Key.Scheme == "ui")) {
+                    foreach (var gui in Entities.Things.Where(g => g.Key.Scheme == "ui")) {
                         if (gui.Value == this) continue;
 
-                        Stuff.Remove(gui.Value);
+                        Entities.Remove(gui.Value);
                     }
-                    Stuff.Add(new GuiEditor(Player));
-                    Stuff.Remove(this);
+                    Entities.Add(new GuiEditor(Player));
+                    Entities.Remove(this);
                 });
             }
 
             if (ImGui.Button($"Logout")) {
                 Task.Run(() => {
-                    foreach (var gui in Stuff.Things.Where(g => g.Key.Scheme == "ui")) {
+                    foreach (var gui in Entities.Things.Where(g => g.Key.Scheme == "ui")) {
                         if (gui.Value == this) continue;
 
-                        Stuff.Remove(gui.Value);
+                        Entities.Remove(gui.Value);
                     }
                     Player.Connection.Disconnect();
 
-                    Stuff.Add(new GuiMainMenu());
-                    Stuff.Remove(this);
+                    Entities.Add(new GuiMainMenu());
+                    Entities.Remove(this);
                 });
             }
 
@@ -61,18 +61,18 @@ public class GuiPause : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawabl
         }
     }
 
-    void OnStuffed(IStuff stuff, IThing thing){
+    void OnTracked(IEntityLedger Entities, IEntity iEntity){
         ConnectInput();
     }
 
-    void OnUnstuffed(IStuff stuff, IThing thing){
+    void OnUntracked(IEntityLedger Entities, IEntity iEntity){
         DisconnectInput();
     }
 
     void KeyboardOnKeyDown(IKeyboard arg1, Key key, int arg3){
         if (key == Key.Escape) {
             DisconnectInput();
-            Stuff.Remove(this);
+            Entities.Remove(this);
         }
     }
 

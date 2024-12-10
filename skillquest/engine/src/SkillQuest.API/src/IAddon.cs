@@ -2,7 +2,7 @@ using SkillQuest.API.ECS;
 
 namespace SkillQuest.API;
 
-public interface IAddon : IDoohickey {
+public interface IAddon : ISystem {
     public string Name { get; }
     
     public string Description { get; }

@@ -11,7 +11,7 @@ using SkillQuest.Shared.Engine.Thing.Universe;
 
 namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.InGame;
 
-public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawable, IHasControls {
+public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable, IHasControls {
     public override Uri? Uri { get; set; } = new Uri("ui://skill.quest/ingame");
 
     private WorldPlayer _localhost;
@@ -21,8 +21,8 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawab
     public GuiInGame(WorldPlayer localhost){
         _localhost = localhost;
         World = new World(_localhost);
-        this.Stuffed += OnStuffed;
-        this.Unstuffed += OnUnstuffed;
+        this.Tracked += OnTracked;
+        this.Untracked += OnUntracked;
     }
 
     public void Draw(DateTime now, TimeSpan delta){
@@ -51,7 +51,7 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawab
         }
     }
 
-    void OnStuffed(IStuff stuff, IThing thing){
+    void OnTracked(IEntityLedger Entities, IEntity iEntity){
         ConnectInput();
 
         _localhost.Inventory = new Inventory(new Uri( "inventory://skill.quest/" + _localhost.CharacterId));
@@ -66,7 +66,7 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawab
         );
     }
 
-    void OnUnstuffed(IStuff stuff, IThing thing){
+    void OnUntracked(IEntityLedger Entities, IEntity iEntity){
         DisconnectInput();
     }
 
@@ -77,18 +77,18 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawab
             case Key.Escape: {
                 DisconnectInput();
 
-                Stuff.Add(new GuiPause(_localhost)).Unstuffed += (stuff, thing) => {
-                    if (Stuff is not null) ConnectInput();
+                Entities.Add(new GuiPause(_localhost)).Untracked += (stuff, thing) => {
+                    if (Entities is not null) ConnectInput();
                 };
                 break;
             }
             case Key.I: {
                 if (_inventory is null) {
                     _inventory = new GuiInventory(this, _localhost.Inventory);
-                    Stuff?.Add(_inventory);
+                    Entities?.Add(_inventory);
                 }
                 else {
-                    Stuff?.Remove(_inventory);
+                    Entities?.Remove(_inventory);
                     _inventory = null;
                 }
                 break;

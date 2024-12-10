@@ -2,11 +2,11 @@ using SkillQuest.API.ECS;
 
 namespace SkillQuest.Shared.Engine.Thing;
 
-public interface IItem : IThing{
+public interface IItem : IEntity{
     string Name { get; }
 }
 
-public class Item : Engine.ECS.Thing, IItem{
+public class Item : Engine.ECS.Entity, IItem{
     public string Name => Uri.ToString();
     
 }

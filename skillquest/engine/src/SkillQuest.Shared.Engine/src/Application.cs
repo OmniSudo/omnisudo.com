@@ -26,7 +26,7 @@ public class Application : IApplication{
         }
     }
 
-    public IStuff Stuff { get; set; }
+    public IEntityLedger Entities { get; set; }
 
     public virtual uint TicksPerSecond => 100;
 
@@ -39,11 +39,11 @@ public class Application : IApplication{
     }
 
     public Application(){
-        Stuff = new Stuff();
+        Entities = new EntityLedger();
     }
 
     public IApplication Mount(IAddon addon){
-        _addons[ addon.Uri ] = SH.Stuff.Add(addon);
+        _addons[ addon.Uri ] = SH.IEntityLedger.Add(addon);
         addon.Application = this;
         return this;
     }
@@ -54,10 +54,10 @@ public class Application : IApplication{
         if (addon is null) {
             foreach ( var pair in Addons) {
                 pair.Value.Application = null;
-                SH.Stuff.Remove(pair.Value);
+                SH.IEntityLedger.Remove(pair.Value);
             }
-        } else if (SH.Stuff.Things.ContainsKey(addon.Uri!)) {
-            SH.Stuff.Remove(addon);
+        } else if (SH.IEntityLedger.Things.ContainsKey(addon.Uri!)) {
+            SH.IEntityLedger.Remove(addon);
             addon.Application = null;
         }
         return this;
@@ -101,7 +101,7 @@ public class Application : IApplication{
     
     public event IApplication.DoStop? Stop;
 
-    public ImmutableDictionary<Uri, IAddon> Addons => SH.Stuff.Things
+    public ImmutableDictionary<Uri, IAddon> Addons => SH.IEntityLedger.Things
         .Where(
             (pair) => pair.Value is IAddon
             )
@@ -115,15 +115,15 @@ public class Application : IApplication{
         }
         set {
             if (value == null) {
-                SH.Stuff.Remove(uri);
+                SH.IEntityLedger.Remove(uri);
             } else {
                 var old = Addons.GetValueOrDefault(uri);
 
                 if (old is not null) {
-                    SH.Stuff.Remove(old);
+                    SH.IEntityLedger.Remove(old);
                     old.Application = null;
                 }
-                SH.Stuff.Add( value );
+                SH.IEntityLedger.Add( value );
                 value.Application = this;
             }
         }

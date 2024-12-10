@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 
 namespace SkillQuest.Shared.Engine.Thing;
 
-public class Inventory(Uri uri) : Engine.ECS.Thing(uri){
+public class Inventory(Uri uri) : Engine.ECS.Entity(uri){
     public ImmutableDictionary< Uri, ItemStack > Stacks => _stacks.ToImmutableDictionary();
     
     private readonly ConcurrentDictionary< Uri, ItemStack > _stacks = new();

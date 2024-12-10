@@ -29,7 +29,7 @@ public class ComponentLedger : IDisposable{
 
     private ConcurrentDictionary<Uri, Type> _components = new();
 
-    public void AttachTo(IThing thing, Uri uri, XElement xml){
+    public void AttachTo(IEntity iEntity, Uri uri, XElement xml){
         var type = this[uri];
         if (type is null) return;
 
@@ -37,7 +37,7 @@ public class ComponentLedger : IDisposable{
             var serializer = new XmlSerializer(type);
             var c = serializer.Deserialize(xml.CreateReader()) as IComponent;
 
-            thing.Connect(c, type);
+            iEntity.Connect(c, type);
         } catch (Exception e) {
             Console.WriteLine(e);
         }

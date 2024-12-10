@@ -2,13 +2,12 @@ using SkillQuest.Addon.Base.Client.Thing.Character;
 using SkillQuest.Addon.Base.Shared.Packet.Character.Select;
 using SkillQuest.API.Network;
 using SkillQuest.API.Thing.Character;
-using ECS_Doohickey = SkillQuest.Shared.Engine.ECS.Doohickey;
 
 namespace SkillQuest.Addon.Base.Client.Doohickey.Character;
 
 using static global::SkillQuest.Shared.Engine.State;
 
-public class CharacterSelect : ECS_Doohickey{
+public class CharacterSelect : SkillQuest.Shared.Engine.ECS.System{
     public override Uri? Uri { get; set; } = new Uri("cl://control.skill.quest/character/select");
 
     IClientConnection _connection;

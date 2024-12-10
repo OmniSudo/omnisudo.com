@@ -51,8 +51,8 @@ public class GlGraphicsInstance : IGraphicsInstance {
         Application.Render += Render;
         Quit += ( application ) => application.Running = false;
         Window.Closing += OnClose;
-        Application.Stuff.ThingAdded += OnStuffThingAdded;
-        Application.Stuff.ThingRemoved += OnStuffThingRemoved;
+        Application.Entities.ThingAdded += OnEntitiesThingAdded;
+        Application.Entities.ThingRemoved += OnEntitiesThingRemoved;
     }
 
     GlTextureFactory _textureFactory = new();
@@ -96,20 +96,20 @@ public class GlGraphicsInstance : IGraphicsInstance {
         return _surfaceFactory.Build( Gl, gltfPath );
     }
     
-    private ConcurrentDictionary< Uri, IThing > _renderables = new();
+    private ConcurrentDictionary< Uri, IEntity > _renderables = new();
 
-    void OnStuffThingAdded(IThing thing){
+    void OnEntitiesThingAdded(IEntity iEntity){
         // ReSharper disable once SuspiciousTypeConversion.Global
-        if (thing is IDrawable) {
-            _renderables.TryAdd(thing.Uri, thing);
+        if (iEntity is IDrawable) {
+            _renderables.TryAdd(iEntity.Uri, iEntity);
         }
     }
 
-    void OnStuffThingRemoved(IThing thing){
+    void OnEntitiesThingRemoved(IEntity iEntity){
         // ReSharper disable once SuspiciousTypeConversion.Global
-        if (thing is IDrawable) {
-            if (_renderables.TryGetValue(thing.Uri, out var old) && old == thing) {
-                _renderables.TryRemove(thing.Uri, out _);
+        if (iEntity is IDrawable) {
+            if (_renderables.TryGetValue(iEntity.Uri, out var old) && old == iEntity) {
+                _renderables.TryRemove(iEntity.Uri, out _);
             }
         }
     }

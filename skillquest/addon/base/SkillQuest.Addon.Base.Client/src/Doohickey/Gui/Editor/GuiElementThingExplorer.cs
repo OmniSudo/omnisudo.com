@@ -6,22 +6,22 @@ using SkillQuest.Client.Engine.Graphics.API;
 
 namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.Editor;
 
-public class GuiElementThingExplorer : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawable {
+public class GuiElementThingExplorer : global::SkillQuest.Shared.Engine.ECS.System, IDrawable {
     public override Uri? Uri { get; set; } = new Uri("ui://skill.quest/editor/explorer");
 
     public GuiElementThingExplorer(){
-        Stuffed += (stuff, thing) => {
-            Stuff.ThingAdded += StuffOnThingAdded;
-            Stuff.ThingRemoved += StuffOnThingRemoved;
-            foreach (var t in Stuff.Things) {
+        Tracked += (stuff, thing) => {
+            Entities.ThingAdded += StuffOnThingAdded;
+            Entities.ThingRemoved += StuffOnThingRemoved;
+            foreach (var t in Entities.Things) {
                 StuffOnThingAdded(t.Value);
             }
         };
 
-        Unstuffed += (stuff, thing) => {
+        Untracked += (stuff, thing) => {
             Tree.Clear();
-            Stuff.ThingAdded -= StuffOnThingAdded;
-            Stuff.ThingRemoved -= StuffOnThingRemoved;
+            Entities.ThingAdded -= StuffOnThingAdded;
+            Entities.ThingRemoved -= StuffOnThingRemoved;
         };
     }
 
@@ -30,17 +30,17 @@ public class GuiElementThingExplorer : global::SkillQuest.Shared.Engine.ECS.Dooh
         public string Name;
         public ConcurrentDictionary<string, DirNode> Children;
         public bool Opened = false;
-        public IThing? Thing;
+        public IEntity? Thing;
     }
     
     ConcurrentDictionary<string, DirNode> Tree = new ConcurrentDictionary<string, DirNode>();
     
-    void StuffOnThingAdded(IThing thing){
-        var root = thing.Uri.Scheme + "://" + thing.Uri.Host;
+    void StuffOnThingAdded(IEntity iEntity){
+        var root = iEntity.Uri.Scheme + "://" + iEntity.Uri.Host;
         if (!Tree.ContainsKey(root)) Tree[root] = new DirNode() { Name = root };
         var tree = Tree[root];
 
-        foreach (var path in thing.Uri.Segments) {
+        foreach (var path in iEntity.Uri.Segments) {
             string p = path.Trim('/');
             if (p.Length == 0) continue;
             if (tree.Children is null) tree.Children = new();
@@ -48,22 +48,22 @@ public class GuiElementThingExplorer : global::SkillQuest.Shared.Engine.ECS.Dooh
             tree = tree.Children[p];
             
         }
-        tree.Thing = thing;
+        tree.Thing = iEntity;
     }
 
-    void StuffOnThingRemoved(IThing thing){
-        var root = thing.Uri.Scheme + "://" + thing.Uri.Host;
+    void StuffOnThingRemoved(IEntity iEntity){
+        var root = iEntity.Uri.Scheme + "://" + iEntity.Uri.Host;
         if (!Tree.ContainsKey(root)) return;
         var tree = Tree[root];
 
-        foreach (var path in thing.Uri.Segments.Reverse().Skip(1).Reverse()) {
+        foreach (var path in iEntity.Uri.Segments.Reverse().Skip(1).Reverse()) {
             string p = path.Trim('/');
             if (p.Length == 0) continue;
             if (tree.Children is null) return;
             if (!tree.Children.ContainsKey(p)) return;
             tree = tree.Children[p];
         }
-        tree.Children.Remove(thing.Uri.Segments.Last(), out _);
+        tree.Children.Remove(iEntity.Uri.Segments.Last(), out _);
 
         while ( (tree?.Children?.Count ??-1)== 0 ) {
             var prev = tree;

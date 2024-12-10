@@ -3,11 +3,11 @@ using ImGuiNET;
 using SkillQuest.Addon.Base.Client.Doohickey.Character;
 using SkillQuest.API.Network;
 using SkillQuest.Client.Engine.Graphics.API;
-using ECS_Doohickey = SkillQuest.Shared.Engine.ECS.Doohickey;
+using SkillQuest.Shared.Engine.ECS;
 
 namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.Character;
 
-public class GuiCharacterCreation : ECS_Doohickey, IDrawable{
+public class GuiCharacterCreation : SkillQuest.Shared.Engine.ECS.System, IDrawable{
     public override Uri? Uri { get; set; } = new Uri("gui://skill.quest/character/create");
 
     private CharacterCreator _creator;
@@ -54,11 +54,11 @@ public class GuiCharacterCreation : ECS_Doohickey, IDrawable{
 
                     Console.WriteLine("\nCharacter Created: " + character.CharacterId + " (" + character.Name + ")");
 
-                    Stuff?.Add(new GuiCharacterSelection(_connection));
+                    Entities?.Add(new GuiCharacterSelection(_connection));
 
-                    Stuff?.Remove(_creator);
+                    Entities?.Remove(_creator);
                     _creator.Reset();
-                    Stuff?.Remove(this);
+                    Entities?.Remove(this);
                     
                     return true;
                 });
@@ -67,11 +67,11 @@ public class GuiCharacterCreation : ECS_Doohickey, IDrawable{
             if (
                 ImGui.Button("Cancel")
             ) {
-                Stuff?.Add(new GuiCharacterSelection(_connection));
+                Entities?.Add(new GuiCharacterSelection(_connection));
 
-                Stuff?.Remove(_creator);
+                Entities?.Remove(_creator);
                 _creator.Reset();
-                Stuff?.Remove(this);
+                Entities?.Remove(this);
             }
             ImGui.End();
         }

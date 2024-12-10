@@ -5,31 +5,31 @@ using SkillQuest.Shared.Engine.Thing;
 
 namespace SkillQuest.Shared.Engine.Doohickey;
 
-public abstract class Ledger<TTracked> : IDisposable where TTracked : class, IThing, new(){
-    IStuff _stuff => Engine.State.SH.Stuff;
+public abstract class Ledger<TTracked> : IDisposable where TTracked : class, IEntity, new(){
+    IEntityLedger Entities => Engine.State.SH.IEntityLedger;
 
     public TTracked? this[Uri uri] {
         get {
-            if (_stuff.Things.TryGetValue(uri, out var thing)) {
+            if (Entities.Things.TryGetValue(uri, out var thing)) {
                 return thing as TTracked;
             } else {
                 var item = new TTracked() {
                     Uri = uri,
                 };
-                _stuff.Add(item);
+                Entities.Add(item);
                 return item;
             }
         }
         set {
             if (value is null) {
-                var old = _stuff.Things.GetValueOrDefault(uri);
+                var old = Entities.Things.GetValueOrDefault(uri);
 
                 if (old is not TTracked thing)
                     return;
-                _stuff.Remove(uri);
+                Entities.Remove(uri);
                 Removed?.Invoke(this, thing);
             } else {
-                _stuff.Things.TryGetValue(uri, out var thing);
+                Entities.Things.TryGetValue(uri, out var thing);
                 var old = thing as TTracked;
 
                 if (old != value) {
@@ -38,7 +38,7 @@ public abstract class Ledger<TTracked> : IDisposable where TTracked : class, ITh
                     if (old is not null) {
                         Removed?.Invoke(this, old);
                     }
-                    var tracked = _stuff.Add(value) as TTracked;
+                    var tracked = Entities.Add(value) as TTracked;
                     Added?.Invoke(this, tracked);
                 }
             }
@@ -54,7 +54,7 @@ public abstract class Ledger<TTracked> : IDisposable where TTracked : class, ITh
     public event DoRemoved Removed;
 
     public void Dispose(){
-        foreach (var item in _stuff.Things.Where(thing => thing is IItem)) {
+        foreach (var item in Entities.Things.Where(thing => thing is IItem)) {
             item.Value.Dispose();
         }
     }

@@ -4,7 +4,7 @@ using SkillQuest.API.Network;
 
 namespace SkillQuest.Addon.Base.Server.Doohickey.Users;
 
-public class Authenticator : global::SkillQuest.Shared.Engine.ECS.Doohickey {
+public class Authenticator : global::SkillQuest.Shared.Engine.ECS.System {
     public override Uri Uri { get; set; } = new Uri("sv://control.skill.quest/users/authenticator");
 
     public Authenticator(IServerConnection? server){

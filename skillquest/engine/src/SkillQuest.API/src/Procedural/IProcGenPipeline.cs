@@ -5,9 +5,9 @@ using SkillQuest.API.Procedural.Node;
 namespace SkillQuest.API.Procedural;
 
 public interface IProcGenPipeline{
-    public IStuff Stuff { get; }
+    public IEntityLedger Nodes { get; }
     
-    public IThing this [ Uri uri ] {
+    public IEntity this [ Uri uri ] {
         get;
         set;
     }

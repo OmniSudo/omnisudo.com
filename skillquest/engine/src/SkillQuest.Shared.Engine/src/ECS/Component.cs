@@ -7,7 +7,7 @@ namespace SkillQuest.Shared.Engine.ECS;
 
 public class Component<TAttached> : IComponent, IXmlSerializable where TAttached : class, IComponent{
     [XmlIgnore]
-    public IThing? Thing {
+    public IEntity? Thing {
         get {
             return _thing;
         }
@@ -36,7 +36,7 @@ public class Component<TAttached> : IComponent, IXmlSerializable where TAttached
     
     public string Name => GetType().Name;
     
-    IThing? _thing;
+    IEntity? _thing;
     
     public virtual XmlSchema? GetSchema(){
         return null;

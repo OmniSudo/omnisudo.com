@@ -8,7 +8,7 @@ using static SkillQuest.Shared.Engine.State;
 
 namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.LoginSignup;
 
-public class GuiMainMenu : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawable{
+public class GuiMainMenu : SkillQuest.Shared.Engine.ECS.System, IDrawable{
     public override Uri? Uri { get; set; } = new Uri("ui://skill.quest/mainmenu");
 
     string address = "127.0.0.1:3698";
@@ -18,16 +18,16 @@ public class GuiMainMenu : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDraw
     IClientConnection? connection;
 
     public GuiMainMenu(){
-        Stuffed += (_, _) => { Authenticator.Instance.LoginSuccess += OpenCharacterSelect; };
+        Tracked += (_, _) => { Authenticator.Instance.LoginSuccess += OpenCharacterSelect; };
 
-        Unstuffed += (_, _) => { Authenticator.Instance.LoginSuccess -= OpenCharacterSelect; };
+        Untracked += (_, _) => { Authenticator.Instance.LoginSuccess -= OpenCharacterSelect; };
     }
 
     void OpenCharacterSelect(IClientConnection clientConnection){
         if (connection is null) return;
 
-        Stuff?.Add(new GuiCharacterSelection(connection));
-        Stuff?.Remove(this);
+        Entities?.Add(new GuiCharacterSelection(connection));
+        Entities?.Remove(this);
     }
 
     Task? _connect = null;

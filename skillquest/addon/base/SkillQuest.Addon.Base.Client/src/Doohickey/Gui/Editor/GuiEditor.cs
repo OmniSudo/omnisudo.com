@@ -5,9 +5,9 @@ using SkillQuest.Client.Engine.Graphics.API;
 
 namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.Editor;
 
-public class GuiEditor : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawable {
+public class GuiEditor : global::SkillQuest.Shared.Engine.ECS.System, IDrawable {
     public GuiEditor(IPlayerCharacter player) : base( new Uri("ui://skill.quest/editor") ) {
-        Stuffed += (stuff, thing) => {
+        Tracked += (stuff, thing) => {
             var explorer = new GuiElementThingExplorer();
             explorer.Parent = this;
             stuff.Add( explorer );

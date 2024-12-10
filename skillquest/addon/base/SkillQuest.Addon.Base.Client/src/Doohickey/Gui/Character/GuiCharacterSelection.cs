@@ -3,15 +3,16 @@ using SkillQuest.Addon.Base.Client.Doohickey.Character;
 using SkillQuest.Addon.Base.Client.Doohickey.Gui.InGame;
 using SkillQuest.Addon.Base.Client.Doohickey.Gui.LoginSignup;
 using SkillQuest.Addon.Base.Client.Doohickey.Users;
+using SkillQuest.API.ECS;
 using SkillQuest.API.Network;
 using SkillQuest.API.Thing.Character;
 using SkillQuest.Client.Engine.Graphics.API;
+using SkillQuest.Shared.Engine.ECS;
 using SkillQuest.Shared.Engine.Thing.Character;
-using ECS_Doohickey = SkillQuest.Shared.Engine.ECS.Doohickey;
 
 namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.Character;
 
-public class GuiCharacterSelection : ECS_Doohickey, IDrawable{
+public class GuiCharacterSelection : SkillQuest.Shared.Engine.ECS.System, IDrawable{
     public override Uri? Uri { get; set; } = new Uri("gui://skill.quest/character/select");
 
     readonly IClientConnection _connection;
@@ -31,9 +32,9 @@ public class GuiCharacterSelection : ECS_Doohickey, IDrawable{
             Console.WriteLine("Unable to download character list...");
             // TODO: Recover from this
 
-            Stuff!.Remove(this);
-            Stuff!.Remove(_characterSelect);
-            var login = Stuff.Add( new GuiMainMenu() );
+            Entities!.Remove(this);
+            Entities!.Remove(_characterSelect);
+            var login = Entities.Add( new GuiMainMenu() );
             Authenticator.Instance.Logout(_connection);
 
             return;
@@ -46,10 +47,10 @@ public class GuiCharacterSelection : ECS_Doohickey, IDrawable{
 
         if (ImGui.Button("Create")) {
             _characterSelect.Reset();
-            Stuff.Add( new GuiCharacterCreation(_connection) );
+            Entities.Add( new GuiCharacterCreation(_connection) );
             
-            Stuff!.Remove(_characterSelect);
-            Stuff!.Remove(this);
+            Entities!.Remove(_characterSelect);
+            Entities!.Remove(this);
 
             return;
         }
@@ -67,11 +68,11 @@ public class GuiCharacterSelection : ECS_Doohickey, IDrawable{
                     Name = selected?.Name ?? "ERROR"
                 };
                 
-                Stuff!.Add(new GuiInGame(character!));
+                Entities!.Add(new GuiInGame(character!));
                 
                 _characterSelect.Reset();
-                Stuff!.Remove(_characterSelect);
-                Stuff!.Remove(this);
+                Entities!.Remove(_characterSelect);
+                Entities!.Remove(this);
             });
         }
     }

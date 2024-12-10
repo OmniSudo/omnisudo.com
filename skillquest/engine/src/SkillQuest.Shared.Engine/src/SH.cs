@@ -14,7 +14,7 @@ public class State{
 
     public IApplication Application { get; set; }
 
-    public IStuff Stuff => Application.Stuff;
+    public IEntityLedger IEntityLedger => Application.Entities;
 
     public INetworker Net { get; }
 

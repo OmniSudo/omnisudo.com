@@ -26,13 +26,13 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
         SV.Database = new SqliteDatabase("addon/base/SkillQuest.Addon.Base.Server/assets/database/skillquest.db");
         SV.Connection = SH.Net.Host(3698);
 
-        Authenticator = SH.Stuff.Add(new Authenticator(SV.Connection));
+        Authenticator = SH.IEntityLedger.Add(new Authenticator(SV.Connection));
         Authenticator.LoggedIn += AuthenticatorOnLoggedIn;
 
-        CharacterSelect = SH.Stuff.Add(new CharacterSelect());
+        CharacterSelect = SH.IEntityLedger.Add(new CharacterSelect());
         CharacterSelect.CharacterSelected += CharacterSelectOnSelected;
 
-        CharacterCreator = SH.Stuff.Add(new CharacterCreator());
+        CharacterCreator = SH.IEntityLedger.Add(new CharacterCreator());
         CharacterCreator.CharacterCreated += CharacterCreatorOnCreated;
     }
 

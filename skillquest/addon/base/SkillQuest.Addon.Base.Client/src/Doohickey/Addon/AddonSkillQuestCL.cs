@@ -19,7 +19,7 @@ public class AddonSkillQuestCL : AddonSkillQuestSH {
             .Mount(new AddonMetallurgyCL())
             .Mount(new AddonMiningCL());
         
-        Stuff.Add(new GuiMainMenu());
+        Entities.Add(new GuiMainMenu());
     }
 
 

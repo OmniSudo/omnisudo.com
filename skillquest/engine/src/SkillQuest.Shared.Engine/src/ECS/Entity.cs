@@ -6,29 +6,29 @@ namespace SkillQuest.Shared.Engine.ECS;
 
 using static State;
 
-public class Thing : IThing{
+public class Entity : IEntity{
 
-    public Thing(Uri? uri = null){
+    public Entity(Uri? uri = null){
         Uri = uri ?? Uri;
     }
 
-    public IStuff? Stuff {
+    public IEntityLedger? Entities {
         get {
-            return _stuff;
+            return _entities;
         }
         set {
-            if (value == _stuff)
+            if (value == _entities)
                 return;
 
-            if (_stuff is not null) {
-                Unstuffed?.Invoke(_stuff, this);
-                _stuff.Remove(this);
+            if (_entities is not null) {
+                Untracked?.Invoke(_entities, this);
+                _entities.Remove(this);
             }
-            _stuff = value;
+            _entities = value;
 
-            if (_stuff is not null) {
-                _stuff.Add(this);
-                Stuffed?.Invoke(_stuff, this);
+            if (_entities is not null) {
+                _entities.Add(this);
+                Tracked?.Invoke(_entities, this);
             }
         }
     }
@@ -52,27 +52,27 @@ public class Thing : IThing{
         }
     }
 
-    public event IThing.DoStuffed Stuffed;
+    public event IEntity.DoTracked Tracked;
 
-    public event IThing.DoUnstuffed Unstuffed;
+    public event IEntity.DoUntracked Untracked;
 
-    public event IThing.DoConnectComponent ConnectComponent;
+    public event IEntity.DoConnectComponent ConnectComponent;
 
-    public event IThing.DoDisconnectComponent DisconnectComponent;
+    public event IEntity.DoDisconnectComponent DisconnectComponent;
 
-    public event IThing.DoParented Parented;
+    public event IEntity.DoParented Parented;
 
-    public event IThing.DoUnparented Unparented;
+    public event IEntity.DoUnparented Unparented;
 
-    public event IThing.DoAddChild AddChild;
+    public event IEntity.DoAddChild AddChild;
 
-    public event IThing.DoRemoveChild RemoveChild;
+    public event IEntity.DoRemoveChild RemoveChild;
 
-    public IThing Connect<TComponent>(TComponent? component) where TComponent : class, IComponent{
+    public IEntity Connect<TComponent>(TComponent? component) where TComponent : class, IComponent{
         return Connect(component, typeof(TComponent));
     }
 
-    public IThing Connect(IComponent? component, Type? type = null){
+    public IEntity Connect(IComponent? component, Type? type = null){
         type ??= component?.GetType();
 
         if (type is null)
@@ -112,7 +112,7 @@ public class Thing : IThing{
 
     ConcurrentDictionary<Type, IComponent> _components = new();
 
-    public IThing? Parent {
+    public IEntity? Parent {
         get {
             return _parent;
         }
@@ -143,16 +143,16 @@ public class Thing : IThing{
         }
     }
 
-    public ImmutableDictionary<Uri, IThing> Children => _children.ToImmutableDictionary();
+    public ImmutableDictionary<Uri, IEntity> Children => _children.ToImmutableDictionary();
 
-    private ConcurrentDictionary<Uri, IThing> _children = new();
+    private ConcurrentDictionary<Uri, IEntity> _children = new();
 
-    public IThing this[Uri uri] {
+    public IEntity this[Uri uri] {
         get {
             return Children.GetValueOrDefault(uri);
         }
         set {
-            IThing old = _children.GetValueOrDefault(uri);
+            IEntity old = _children.GetValueOrDefault(uri);
             if (old == value) return;
 
             if (value is null && old is not null) {
@@ -171,26 +171,26 @@ public class Thing : IThing{
         }
     }
 
-    public bool this[IThing thing] {
+    public bool this[IEntity iEntity] {
         get {
-            return this[thing.Uri] == thing;
+            return this[iEntity.Uri] == iEntity;
         }
         set {
             if (value) {
-                this[thing.Uri] = thing;
+                this[iEntity.Uri] = iEntity;
             } else {
-                if (_children.TryGetValue(thing.Uri, out var current) && current == thing) {
-                    this[thing.Uri] = null;
+                if (_children.TryGetValue(iEntity.Uri, out var current) && current == iEntity) {
+                    this[iEntity.Uri] = null;
                 }
             }
         }
     }
 
-    IStuff? _stuff;
+    IEntityLedger? _entities;
 
-    IThing? _parent = null;
+    IEntity? _parent = null;
     public void Dispose(){
-        Stuff.Remove(this);
+        Entities.Remove(this);
         
         foreach (var child in _children) {
             child.Value.Dispose();

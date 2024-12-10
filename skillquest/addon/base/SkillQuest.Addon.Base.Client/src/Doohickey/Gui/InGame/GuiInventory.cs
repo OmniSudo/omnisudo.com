@@ -5,7 +5,7 @@ using SkillQuest.Shared.Engine.Thing;
 
 namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.InGame;
 
-public class GuiInventory: global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawable, IHasControls {
+public class GuiInventory: global::SkillQuest.Shared.Engine.ECS.System, IDrawable, IHasControls {
     readonly Inventory _inventory;
 
     public override Uri? Uri { get; set; } = new Uri("ui://skill.quest/inventory");

@@ -3,7 +3,7 @@ using SkillQuest.Shared.Engine.ECS;
 
 namespace SkillQuest.Shared.Engine;
 
-public class Addon : ECS.Doohickey, IAddon{
+public class Addon : ECS.System, IAddon{
 
     public Addon(){ }
 

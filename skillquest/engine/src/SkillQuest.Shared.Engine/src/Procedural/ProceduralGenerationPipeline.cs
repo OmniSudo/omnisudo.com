@@ -7,18 +7,18 @@ using SkillQuest.Shared.Engine.ECS;
 
 namespace SkillQuest.Shared.Engine.Procedural;
 
-public class ProceduralGenerationPipeline : ECS.Doohickey, IProcGenPipeline{
-    public IStuff Stuff {
+public class ProceduralGenerationPipeline : ECS.System, IProcGenPipeline{
+    public IEntityLedger Nodes {
         get;
-    } = new Stuff();
+    } = new EntityLedger();
 
-    public IThing this[Uri uri] {
-        get => Stuff[uri];
+    public IEntity this[Uri uri] {
+        get => Nodes[uri];
         set {
-            if (value is null) Stuff.Remove(uri);
+            if (value is null) Nodes.Remove(uri);
             else {
                 value.Uri = uri;
-                Stuff.Add(value);
+                Nodes.Add(value);
             }
         }
     }
@@ -28,25 +28,25 @@ public class ProceduralGenerationPipeline : ECS.Doohickey, IProcGenPipeline{
     public ImmutableDictionary<Uri, IEntryPointNode> EntryPoints => _entryPoints.ToImmutableDictionary();
     
     public ProceduralGenerationPipeline(){
-        Stuff.ThingAdded += StuffOnThingAdded;
-        Stuff.ThingRemoved += StuffOnThingRemoved;
+        Nodes.ThingAdded += EntitiesOnThingAdded;
+        Nodes.ThingRemoved += EntitiesOnThingRemoved;
     }
 
-    void StuffOnThingAdded(IThing thing){
-        if (thing is IEntryPointNode node && thing.Uri is not null) {
-            _entryPoints.TryAdd(thing.Uri, node);
+    void EntitiesOnThingAdded(IEntity iEntity){
+        if (iEntity is IEntryPointNode node && iEntity.Uri is not null) {
+            _entryPoints.TryAdd(iEntity.Uri, node);
         }
     }
 
-    void StuffOnThingRemoved(IThing thing){
-        if (thing is IEntryPointNode node && thing.Uri is not null) {
-            if (_entryPoints.TryGetValue(thing.Uri, out var old) && old == node ) {
-                _entryPoints.TryRemove(thing.Uri, out var _);
+    void EntitiesOnThingRemoved(IEntity iEntity){
+        if (iEntity is IEntryPointNode node && iEntity.Uri is not null) {
+            if (_entryPoints.TryGetValue(iEntity.Uri, out var old) && old == node ) {
+                _entryPoints.TryRemove(iEntity.Uri, out var _);
             }
         }
     }
     
     public void Add(INode node){
-        Stuff.Add(node);
+        Nodes.Add(node);
     }
 }
