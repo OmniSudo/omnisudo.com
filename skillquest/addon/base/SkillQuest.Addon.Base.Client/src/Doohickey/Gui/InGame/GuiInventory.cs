@@ -30,7 +30,7 @@ public class GuiInventory: global::SkillQuest.Shared.Engine.ECS.Doohickey, IDraw
                 ImGuiWindowFlags.NoSavedSettings
             )
         ) {
-            foreach (var slot in _inventory.Stacks) {
+            foreach (var slot in _inventory.Stacks.OrderBy( pair => pair.Key )) {
                 if (slot.Value.Count > 0) {
                     ImGui.Text(slot.Value.Count.ToString());
                     ImGui.SameLine();
