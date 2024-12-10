@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<SkillQuest>
-    <Component
-            asm="SkillQuest.Addon.Base.Shared"
-            type="SkillQuest.Addon.Base.Shared.Component.Material.Metallurgy.Fuel"
-    >
-        <Alias>component://skill.quest/material/metallurgy/fuel</Alias>
-    </Component>
-</SkillQuest>

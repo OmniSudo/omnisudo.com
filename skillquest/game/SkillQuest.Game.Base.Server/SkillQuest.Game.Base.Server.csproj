@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PackageId>SkillQuest.Game.Base.Server</PackageId>
+        <RootNamespace>SkillQuest.Addon.Base.Server</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(SolutionDir)\skillquest\engine\src\SkillQuest.Server.Engine\SkillQuest.Server.Engine.csproj" />
+        <ProjectReference Include="..\SkillQuest.Game.Base.Shared\SkillQuest.Game.Base.Shared.csproj" />
+    </ItemGroup>
+
+</Project>

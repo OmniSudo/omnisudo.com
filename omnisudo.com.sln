@@ -30,11 +30,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Client.Engine.Au
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Client.Engine.Audio.OpenAL", "skillquest\engine\test\SkillTest.Client.Engine.Audio.OpenAL\SkillTest.Client.Engine.Audio.OpenAL.csproj", "{CAE17C1C-AE1D-4514-B187-3A0BE5A1E117}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{545D0A81-BC4B-4969-A077-21714013AAED}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Game", "Game", "{545D0A81-BC4B-4969-A077-21714013AAED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Launcher", "Launcher", "{B3BA68F5-44FF-4F4F-9FCA-DC8B9E82CFA0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Addon", "Addon", "{9A3E5B93-0DD4-4CFF-A1BE-D31626536369}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{9870372D-6219-4E82-8930-914616E35D40}"
 EndProject
@@ -62,17 +60,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{8721D9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{312D0B9A-3259-4131-B76B-FE75AFDC732B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Addon.Base.Client", "skillquest\addon\base\SkillQuest.Addon.Base.Client\SkillQuest.Addon.Base.Client.csproj", "{0C9EB046-7C6E-4991-A3D0-D7DD899306F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Game.Base.Client", "skillquest\game\SkillQuest.Game.Base.Client\SkillQuest.Game.Base.Client.csproj", "{0C9EB046-7C6E-4991-A3D0-D7DD899306F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Addon.Base.Client", "skillquest\addon\base\SkillTest.Addon.Base.Client\SkillTest.Addon.Base.Client.csproj", "{5467F3FA-F867-4726-81C6-60A3930DC8CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Game.Base.Client", "skillquest\game\SkillTest.Game.Base.Client\SkillTest.Game.Base.Client.csproj", "{5467F3FA-F867-4726-81C6-60A3930DC8CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Addon.Base.Server", "skillquest\addon\base\SkillQuest.Addon.Base.Server\SkillQuest.Addon.Base.Server.csproj", "{CEA34503-20B8-4B59-A61B-0F9A19053158}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Game.Base.Server", "skillquest\game\SkillQuest.Game.Base.Server\SkillQuest.Game.Base.Server.csproj", "{CEA34503-20B8-4B59-A61B-0F9A19053158}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Addon.Base.Server", "skillquest\addon\base\SkillTest.Addon.Base.Server\SkillTest.Addon.Base.Server.csproj", "{741A1400-20C2-40AB-9B87-E43CDFD25DD9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Game.Base.Server", "skillquest\game\SkillTest.Game.Base.Server\SkillTest.Game.Base.Server.csproj", "{741A1400-20C2-40AB-9B87-E43CDFD25DD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Addon.Base.Shared", "skillquest\addon\base\SkillQuest.Addon.Base.Shared\SkillQuest.Addon.Base.Shared.csproj", "{972276F3-D19E-40F7-81F6-AD46D9E8169B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Game.Base.Shared", "skillquest\game\SkillQuest.Game.Base.Shared\SkillQuest.Game.Base.Shared.csproj", "{972276F3-D19E-40F7-81F6-AD46D9E8169B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Addon.Base.Shared", "skillquest\addon\base\SkillTest.Addon.Base.Shared\SkillTest.Addon.Base.Shared.csproj", "{C11F7078-CB39-4D52-A287-6E7AA7F4D7A2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Game.Base.Shared", "skillquest\game\SkillTest.Game.Base.Shared\SkillTest.Game.Base.Shared.csproj", "{C11F7078-CB39-4D52-A287-6E7AA7F4D7A2}"
 EndProject
 Global
 GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -236,8 +234,6 @@ EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B3BA68F5-44FF-4F4F-9FCA-DC8B9E82CFA0} = {AEECB6DB-7050-4BEB-8949-ACE95D8652D9}
 		{9870372D-6219-4E82-8930-914616E35D40} = {AEECB6DB-7050-4BEB-8949-ACE95D8652D9}
-		{9A3E5B93-0DD4-4CFF-A1BE-D31626536369} = {AEECB6DB-7050-4BEB-8949-ACE95D8652D9}
-		{545D0A81-BC4B-4969-A077-21714013AAED} = {9A3E5B93-0DD4-4CFF-A1BE-D31626536369}
 		{0B25AE24-F5F0-4EC7-80CC-AD94110E249A} = {AAF38EED-82E2-458D-AE54-6F9D0364CD7F}
 		{2A6A1B26-9B90-4287-A842-4AB83523F21A} = {AAF38EED-82E2-458D-AE54-6F9D0364CD7F}
 		{CAE17C1C-AE1D-4514-B187-3A0BE5A1E117} = {AAF38EED-82E2-458D-AE54-6F9D0364CD7F}
@@ -270,5 +266,6 @@ EndGlobalSection
 		{741A1400-20C2-40AB-9B87-E43CDFD25DD9} = {C512F71A-4641-45BC-8206-5DA1162A1498}
 		{972276F3-D19E-40F7-81F6-AD46D9E8169B} = {9D207954-9631-4FF7-9CB6-8DB855A08956}
 		{C11F7078-CB39-4D52-A287-6E7AA7F4D7A2} = {9D207954-9631-4FF7-9CB6-8DB855A08956}
+		{545D0A81-BC4B-4969-A077-21714013AAED} = {AEECB6DB-7050-4BEB-8949-ACE95D8652D9}
 	EndGlobalSection
 EndGlobal
