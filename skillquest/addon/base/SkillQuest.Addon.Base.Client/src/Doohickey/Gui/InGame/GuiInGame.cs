@@ -5,6 +5,7 @@ using SkillQuest.Addon.Base.Client.Doohickey.Gui.LoginSignup;
 using SkillQuest.API.ECS;
 using SkillQuest.Client.Engine.Graphics.API;
 using SkillQuest.Client.Engine.Input;
+using SkillQuest.Shared.Engine.Thing;
 using SkillQuest.Shared.Engine.Thing.Character;
 using SkillQuest.Shared.Engine.Thing.Universe;
 
@@ -38,26 +39,31 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawab
                 ImGuiWindowFlags.NoMove
             )
         ) {
-
-            if (ImGui.Button($"WIN @ {_localhost.Name}")) {
-                Console.WriteLine($"YOU WON {_localhost.Name}");
-                _localhost.Connection.Disconnect();
-                Stuff.Add(new GuiMainMenu());
-                Stuff?.Remove(this);
-            }
             
-            foreach ( var child in Children ) {
-                if ( child.Value is IDrawable drawable ) {
-                    drawable.Draw(now, delta);
-                }
-            }
 
             ImGui.End();
+        }
+        
+        foreach ( var child in Children ) {
+            if ( child.Value is IDrawable drawable ) {
+                drawable.Draw(now, delta);
+            }
         }
     }
 
     void OnStuffed(IStuff stuff, IThing thing){
         ConnectInput();
+
+        _localhost.Inventory = new Inventory(new Uri( "inventory://skill.quest/" + _localhost.CharacterId));
+
+        _localhost.Inventory[new Uri("stack://skill.quest/0")] = new ItemStack(
+            SkillQuest.Shared.Engine.State.SH.Ledger.Items[
+                new Uri("item://skill.quest/mining/ore/iron")
+            ] ?? throw new InvalidOperationException(),
+            10,
+            null,
+            _localhost
+        );
     }
 
     void OnUnstuffed(IStuff stuff, IThing thing){
@@ -78,7 +84,7 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.Doohickey, IDrawab
             }
             case Key.I: {
                 if (_inventory is null) {
-                    _inventory = new GuiInventory(this);
+                    _inventory = new GuiInventory(this, _localhost.Inventory);
                     Stuff?.Add(_inventory);
                 }
                 else {

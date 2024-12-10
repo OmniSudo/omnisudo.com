@@ -18,4 +18,7 @@ public class WorldPlayer : IPlayerCharacter {
         get;
         set;
     }
+    
+    public Inventory Inventory { get; set; }
+
 }
