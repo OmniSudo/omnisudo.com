@@ -1,11 +1,12 @@
 using System.Runtime.CompilerServices;
 using SkillQuest.API;
+using SkillQuest.API.Asset;
 using SkillQuest.API.ECS;
 using SkillQuest.API.Network;
 using SkillQuest.API.Procedural.World;
-using SkillQuest.Shared.Engine.Doohickey.State.Ledger;
 using SkillQuest.Shared.Engine.Network;
 using SkillQuest.Shared.Engine.Procedural.World;
+using SkillQuest.Shared.Engine.System.State.Ledger;
 
 namespace SkillQuest.Shared.Engine;
 
@@ -14,11 +15,13 @@ public class State{
 
     public IApplication Application { get; set; }
 
-    public IEntityLedger IEntityLedger => Application.Entities;
+    public IEntityLedger Entities => Application.Entities;
 
     public INetworker Net { get; }
 
-    public GlobalLedger Ledger {
+    public IAssetRepository Assets { get; set; }
+
+public GlobalLedger Ledger {
         get;
     } = new GlobalLedger();
 

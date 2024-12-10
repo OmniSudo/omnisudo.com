@@ -1,4 +1,4 @@
-namespace SkillQuest.Addon.Base.Shared.Packet.Character;
+namespace SkillQuest.Addon.Base.Shared.Packet.System.Character;
 
 public class CharacterInfo {
     public Guid? UserId { get; set; }

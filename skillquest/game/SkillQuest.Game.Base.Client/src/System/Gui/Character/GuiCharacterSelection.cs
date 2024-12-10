@@ -1,16 +1,14 @@
 using ImGuiNET;
-using SkillQuest.Addon.Base.Client.Doohickey.Character;
-using SkillQuest.Addon.Base.Client.Doohickey.Gui.InGame;
-using SkillQuest.Addon.Base.Client.Doohickey.Gui.LoginSignup;
-using SkillQuest.Addon.Base.Client.Doohickey.Users;
-using SkillQuest.API.ECS;
+using SkillQuest.Addon.Base.Client.System.Character;
+using SkillQuest.Addon.Base.Client.System.Gui.InGame;
+using SkillQuest.Addon.Base.Client.System.Gui.LoginSignup;
+using SkillQuest.Addon.Base.Client.System.Users;
 using SkillQuest.API.Network;
 using SkillQuest.API.Thing.Character;
 using SkillQuest.Client.Engine.Graphics.API;
-using SkillQuest.Shared.Engine.ECS;
-using SkillQuest.Shared.Engine.Thing.Character;
+using SkillQuest.Shared.Engine.Entity.Character;
 
-namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.Character;
+namespace SkillQuest.Addon.Base.Client.System.Gui.Character;
 
 public class GuiCharacterSelection : SkillQuest.Shared.Engine.ECS.System, IDrawable{
     public override Uri? Uri { get; set; } = new Uri("gui://skill.quest/character/select");

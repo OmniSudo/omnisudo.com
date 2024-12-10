@@ -1,12 +1,11 @@
 using System.Xml.Linq;
 using SkillQuest.API.ECS;
-using SkillQuest.Shared.Engine.ECS;
-using SkillQuest.Shared.Engine.Thing;
+using SkillQuest.Shared.Engine.Entity;
 
-namespace SkillQuest.Shared.Engine.Doohickey;
+namespace SkillQuest.Shared.Engine.System;
 
 public abstract class Ledger<TTracked> : IDisposable where TTracked : class, IEntity, new(){
-    IEntityLedger Entities => Engine.State.SH.IEntityLedger;
+    IEntityLedger Entities => Engine.State.SH.Entities;
 
     public TTracked? this[Uri uri] {
         get {

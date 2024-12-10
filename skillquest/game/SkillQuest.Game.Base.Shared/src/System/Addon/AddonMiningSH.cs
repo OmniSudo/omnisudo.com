@@ -1,4 +1,4 @@
-namespace SkillQuest.Addon.Base.Shared.Doohickey.Addon;
+namespace SkillQuest.Addon.Base.Shared.System.Addon;
 
 public class AddonMiningSH : global::SkillQuest.Shared.Engine.Addon{
     public override string Name { get; } = "Mining";

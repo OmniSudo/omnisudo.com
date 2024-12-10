@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using SkillQuest.API.ECS;
 
-namespace SkillQuest.Shared.Engine.Doohickey.State.Ledger;
+namespace SkillQuest.Shared.Engine.System.State.Ledger;
 
 public class ComponentLedger : IDisposable{
     public Type this[Uri uri] {

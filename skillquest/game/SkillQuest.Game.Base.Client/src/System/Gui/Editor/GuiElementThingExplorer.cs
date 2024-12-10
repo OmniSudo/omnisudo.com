@@ -4,7 +4,7 @@ using ImGuiNET;
 using SkillQuest.API.ECS;
 using SkillQuest.Client.Engine.Graphics.API;
 
-namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.Editor;
+namespace SkillQuest.Addon.Base.Client.System.Gui.Editor;
 
 public class GuiElementThingExplorer : global::SkillQuest.Shared.Engine.ECS.System, IDrawable {
     public override Uri? Uri { get; set; } = new Uri("ui://skill.quest/editor/explorer");

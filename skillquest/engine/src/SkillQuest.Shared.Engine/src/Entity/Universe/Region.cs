@@ -1,7 +1,7 @@
 using Silk.NET.Maths;
 using SkillQuest.API.Thing.Universe;
 
-namespace SkillQuest.Shared.Engine.Thing.Universe;
+namespace SkillQuest.Shared.Engine.Entity.Universe;
 
 public class Region(
     IWorld world,

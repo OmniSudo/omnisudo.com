@@ -1,10 +1,9 @@
 using SkillQuest.Addon.Base.Server.Database.Character;
-using SkillQuest.Addon.Base.Shared.Packet.Character;
-using SkillQuest.Addon.Base.Shared.Packet.Character.Create;
+using SkillQuest.Addon.Base.Shared.Packet.System.Character;
+using SkillQuest.Addon.Base.Shared.Packet.System.Character.Create;
 using SkillQuest.API.Network;
-using SkillQuest.Shared.Engine.ECS;
 
-namespace SkillQuest.Addon.Base.Server.Doohickey.Character;
+namespace SkillQuest.Addon.Base.Server.System.Character;
 
 using static global::SkillQuest.Shared.Engine.State;
 

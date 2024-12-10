@@ -1,9 +1,10 @@
 using System.Xml.Linq;
+using SkillQuest.Shared.Engine.Entity;
 using static SkillQuest.Shared.Engine.State;
 
-namespace SkillQuest.Shared.Engine.Doohickey.State.Ledger;
+namespace SkillQuest.Shared.Engine.System.State.Ledger;
 
-public class ItemLedger : Ledger<Engine.Thing.Item> {
+public class ItemLedger : Ledger<Item> {
     public override void LoadFromXml(XElement skillquest_root){
         if (!skillquest_root.HasElements) return;
         if (skillquest_root.Name != "SkillQuest") return;

@@ -1,4 +1,4 @@
-using SkillQuest.Addon.Base.Shared.Packet.Character;
+using SkillQuest.Addon.Base.Shared.Packet.System.Character;
 using SkillQuest.Server.Engine;
 
 namespace SkillQuest.Addon.Base.Server.Database.Character;

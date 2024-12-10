@@ -1,10 +1,10 @@
 using Silk.NET.Maths;
 using SkillQuest.API.Procedural.World;
 using SkillQuest.API.Thing.Universe;
-using SkillQuest.Shared.Engine.Thing.Character;
+using SkillQuest.Shared.Engine.Entity.Character;
 using static SkillQuest.Shared.Engine.State;
 
-namespace SkillQuest.Shared.Engine.Thing.Universe;
+namespace SkillQuest.Shared.Engine.Entity.Universe;
 
 public class World : IWorld {
     readonly WorldPlayer _localhost;

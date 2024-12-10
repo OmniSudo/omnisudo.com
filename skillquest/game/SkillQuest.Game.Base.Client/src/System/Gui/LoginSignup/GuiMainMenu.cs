@@ -1,12 +1,13 @@
 using System.Net;
+using System.Text;
 using ImGuiNET;
-using SkillQuest.Addon.Base.Client.Doohickey.Gui.Character;
-using SkillQuest.Addon.Base.Client.Doohickey.Users;
+using SkillQuest.Addon.Base.Client.System.Gui.Character;
+using SkillQuest.Addon.Base.Client.System.Users;
 using SkillQuest.API.Network;
 using SkillQuest.Client.Engine.Graphics.API;
 using static SkillQuest.Shared.Engine.State;
 
-namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.LoginSignup;
+namespace SkillQuest.Addon.Base.Client.System.Gui.LoginSignup;
 
 public class GuiMainMenu : SkillQuest.Shared.Engine.ECS.System, IDrawable{
     public override Uri? Uri { get; set; } = new Uri("ui://skill.quest/mainmenu");
@@ -23,15 +24,20 @@ public class GuiMainMenu : SkillQuest.Shared.Engine.ECS.System, IDrawable{
         Untracked += (_, _) => { Authenticator.Instance.LoginSuccess -= OpenCharacterSelect; };
     }
 
-    void OpenCharacterSelect(IClientConnection clientConnection){
+    void OpenCharacterSelect(IClientConnection connection){
         if (connection is null) return;
+
+        SH.Assets.Open(connection, "./game/SkillQuest.Game.Base.Shared/assets/Component/Item/Mining/Ore.xml")
+            .ContinueWith(
+                task => { Console.WriteLine(Encoding.UTF8.GetString(task.Result)); }
+            );
 
         Entities?.Add(new GuiCharacterSelection(connection));
         Entities?.Remove(this);
     }
 
     Task? _connect = null;
-    
+
     public void Draw(DateTime now, TimeSpan delta){
         if (
             ImGui.Begin(
@@ -61,7 +67,7 @@ public class GuiMainMenu : SkillQuest.Shared.Engine.ECS.System, IDrawable{
                     }
 
                     try {
-                        var addr = new System.Net.Mail.MailAddress(trimmed);
+                        var addr = new global::System.Net.Mail.MailAddress(trimmed);
 
                         if (addr.Address != trimmed) {
                             Console.WriteLine("Invalid Email");

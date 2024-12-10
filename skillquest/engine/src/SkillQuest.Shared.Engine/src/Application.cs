@@ -43,7 +43,7 @@ public class Application : IApplication{
     }
 
     public IApplication Mount(IAddon addon){
-        _addons[ addon.Uri ] = SH.IEntityLedger.Add(addon);
+        _addons[ addon.Uri ] = SH.Entities.Add(addon);
         addon.Application = this;
         return this;
     }
@@ -54,10 +54,10 @@ public class Application : IApplication{
         if (addon is null) {
             foreach ( var pair in Addons) {
                 pair.Value.Application = null;
-                SH.IEntityLedger.Remove(pair.Value);
+                SH.Entities.Remove(pair.Value);
             }
-        } else if (SH.IEntityLedger.Things.ContainsKey(addon.Uri!)) {
-            SH.IEntityLedger.Remove(addon);
+        } else if (SH.Entities.Things.ContainsKey(addon.Uri!)) {
+            SH.Entities.Remove(addon);
             addon.Application = null;
         }
         return this;
@@ -101,7 +101,7 @@ public class Application : IApplication{
     
     public event IApplication.DoStop? Stop;
 
-    public ImmutableDictionary<Uri, IAddon> Addons => SH.IEntityLedger.Things
+    public ImmutableDictionary<Uri, IAddon> Addons => SH.Entities.Things
         .Where(
             (pair) => pair.Value is IAddon
             )
@@ -115,15 +115,15 @@ public class Application : IApplication{
         }
         set {
             if (value == null) {
-                SH.IEntityLedger.Remove(uri);
+                SH.Entities.Remove(uri);
             } else {
                 var old = Addons.GetValueOrDefault(uri);
 
                 if (old is not null) {
-                    SH.IEntityLedger.Remove(old);
+                    SH.Entities.Remove(old);
                     old.Application = null;
                 }
-                SH.IEntityLedger.Add( value );
+                SH.Entities.Add( value );
                 value.Application = this;
             }
         }

@@ -7,7 +7,7 @@ namespace SkillQuest.Addon.Base.Shared.Component.Item.Mining;
 
 [XmlRoot( "Component" ) ]
 public class Ore : Component<Ore>{
-    public virtual SkillQuest.Shared.Engine.Thing.Material Material { get; set; } = null;
+    public virtual SkillQuest.Shared.Engine.Entity.Material Material { get; set; } = null;
 
     public virtual float XP { get; set; } = 0;
 

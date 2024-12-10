@@ -1,4 +1,4 @@
-namespace SkillQuest.Addon.Base.Shared.Packet.Character.World;
+namespace SkillQuest.Addon.Base.Shared.Packet.System.Character.World;
 
 public class CharacterJoinedWorldPacket : API.Network.Packet {
     public Guid CharacterId { get; set; }

@@ -1,8 +1,8 @@
 using SkillQuest.Addon.Base.Server.Database.Users;
-using SkillQuest.Addon.Base.Shared.Packet.Credentials;
+using SkillQuest.Addon.Base.Shared.Packet.System.Credentials;
 using SkillQuest.API.Network;
 
-namespace SkillQuest.Addon.Base.Server.Doohickey.Users;
+namespace SkillQuest.Addon.Base.Server.System.Users;
 
 public class Authenticator : global::SkillQuest.Shared.Engine.ECS.System {
     public override Uri Uri { get; set; } = new Uri("sv://control.skill.quest/users/authenticator");

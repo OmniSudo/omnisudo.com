@@ -1,8 +1,8 @@
-using SkillQuest.Addon.Base.Shared.Doohickey.Addon;
+using SkillQuest.Addon.Base.Shared.System.Addon;
 using SkillQuest.API;
 using static SkillQuest.Shared.Engine.State;
 
-namespace SkillQuest.Addon.Base.Server.Doohickey.Addon;
+namespace SkillQuest.Addon.Base.Server.System.Addon;
 
 public class AddonMetallurgySV : AddonMetallurgySH {
     public override Uri Uri { get; set; } = new Uri("sv://addon.skill.quest/metallurgy");

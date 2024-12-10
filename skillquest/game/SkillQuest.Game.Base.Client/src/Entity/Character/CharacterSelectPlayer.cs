@@ -1,9 +1,8 @@
-using SkillQuest.Addon.Base.Shared.Packet.Character;
+using SkillQuest.Addon.Base.Shared.Packet.System.Character;
 using SkillQuest.API.Network;
 using SkillQuest.API.Thing.Character;
-using SkillQuest.Shared.Engine.ECS;
 
-namespace SkillQuest.Addon.Base.Client.Thing.Character;
+namespace SkillQuest.Addon.Base.Client.Entity.Character;
 
 public class CharacterSelectPlayer(
     Guid characterId,
@@ -11,7 +10,7 @@ public class CharacterSelectPlayer(
     Uri world,
     Uri self,
     IClientConnection connection
-) : Entity(self), IPlayerCharacter{
+) : SkillQuest.Shared.Engine.ECS.Entity(self), IPlayerCharacter{
     public Guid CharacterId { get; set; } = characterId;
 
     public string Name { get; set; } = name;

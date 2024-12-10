@@ -1,11 +1,10 @@
 using System.Numerics;
 using ImGuiNET;
-using SkillQuest.Addon.Base.Client.Doohickey.Character;
+using SkillQuest.Addon.Base.Client.System.Character;
 using SkillQuest.API.Network;
 using SkillQuest.Client.Engine.Graphics.API;
-using SkillQuest.Shared.Engine.ECS;
 
-namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.Character;
+namespace SkillQuest.Addon.Base.Client.System.Gui.Character;
 
 public class GuiCharacterCreation : SkillQuest.Shared.Engine.ECS.System, IDrawable{
     public override Uri? Uri { get; set; } = new Uri("gui://skill.quest/character/create");

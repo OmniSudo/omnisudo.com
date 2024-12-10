@@ -1,13 +1,13 @@
 using ImGuiNET;
 using Silk.NET.Input;
-using SkillQuest.Addon.Base.Client.Doohickey.Gui.Editor;
-using SkillQuest.Addon.Base.Client.Doohickey.Gui.LoginSignup;
+using SkillQuest.Addon.Base.Client.System.Gui.Editor;
+using SkillQuest.Addon.Base.Client.System.Gui.LoginSignup;
 using SkillQuest.API.ECS;
 using SkillQuest.API.Thing.Character;
 using SkillQuest.Client.Engine.Graphics.API;
 using SkillQuest.Client.Engine.Input;
 
-namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.InGame;
+namespace SkillQuest.Addon.Base.Client.System.Gui.InGame;
 
 public class GuiPause : global::SkillQuest.Shared.Engine.ECS.System, IDrawable, IHasControls{
     public override Uri? Uri { get; set; } = new Uri("ui://skill.quest/ingame/pause");

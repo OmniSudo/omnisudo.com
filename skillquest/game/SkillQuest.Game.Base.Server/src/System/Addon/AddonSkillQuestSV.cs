@@ -1,13 +1,14 @@
-using SkillQuest.Addon.Base.Server.Doohickey.Character;
-using SkillQuest.Addon.Base.Server.Doohickey.Users;
-using SkillQuest.Addon.Base.Shared.Doohickey.Addon;
-using SkillQuest.Addon.Base.Shared.Packet.Character;
+using SkillQuest.Addon.Base.Server.System.Asset;
+using SkillQuest.Addon.Base.Server.System.Character;
+using SkillQuest.Addon.Base.Server.System.Users;
+using SkillQuest.Addon.Base.Shared.Packet.System.Character;
+using SkillQuest.Addon.Base.Shared.System.Addon;
 using SkillQuest.API;
 using SkillQuest.API.Network;
 using SkillQuest.Server.Engine;
 using SkillQuest.Shared.Engine.Database;
 
-namespace SkillQuest.Addon.Base.Server.Doohickey.Addon;
+namespace SkillQuest.Addon.Base.Server.System.Addon;
 
 using static global::SkillQuest.Shared.Engine.State;
 using static State;
@@ -26,13 +27,15 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
         SV.Database = new SqliteDatabase("addon/base/SkillQuest.Game.Base.Server/assets/database/skillquest.db");
         SV.Connection = SH.Net.Host(3698);
 
-        Authenticator = SH.IEntityLedger.Add(new Authenticator(SV.Connection));
+        SH.Assets = SH.Entities.Add(new AssetRepositorySV());
+        
+        Authenticator = SH.Entities.Add(new Authenticator(SV.Connection));
         Authenticator.LoggedIn += AuthenticatorOnLoggedIn;
 
-        CharacterSelect = SH.IEntityLedger.Add(new CharacterSelect());
+        CharacterSelect = SH.Entities.Add(new CharacterSelect());
         CharacterSelect.CharacterSelected += CharacterSelectOnSelected;
 
-        CharacterCreator = SH.IEntityLedger.Add(new CharacterCreator());
+        CharacterCreator = SH.Entities.Add(new CharacterCreator());
         CharacterCreator.CharacterCreated += CharacterCreatorOnCreated;
     }
 
