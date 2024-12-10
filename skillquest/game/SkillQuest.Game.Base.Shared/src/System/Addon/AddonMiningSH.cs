@@ -1,3 +1,6 @@
+using SkillQuest.API;
+using static SkillQuest.Shared.Engine.State;
+
 namespace SkillQuest.Addon.Base.Shared.Doohickey.Addon;
 
 public class AddonMiningSH : global::SkillQuest.Shared.Engine.Addon{

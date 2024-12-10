@@ -15,7 +15,7 @@ public class AddonMetallurgySH : AddonMiningSH {
     void OnMounted(IAddon addon, IApplication? application){
         SH.Ledger.Components.LoadFromXmlFile( "game/SkillQuest.Game.Base.Shared/assets/Component/Material/Metallurgy/Metal.xml" );
         SH.Ledger.Components.LoadFromXmlFile( "game/SkillQuest.Game.Base.Shared/assets/Component/Material/Metallurgy/Fuel.xml" );
-        SH.Ledger.Materials.LoadFromXmlFile( "game/SkillQuest.Game.Base.Shared/assets/Thing/Material/Metallurgy/Metals.xml" );
+        SH.Ledger.Materials.LoadFromXmlFile( "game/SkillQuest.Game.Base.Shared/assets/Entity/Material/Metallurgy/Metals.xml" );
     }
 
     void OnUnmounted(IAddon addon, IApplication? application){

@@ -1,3 +1,4 @@
+using SkillQuest.Addon.Base.Shared.Doohickey.Addon;
 using SkillQuest.API;
 
 namespace SkillQuest.Addon.Base.Client.Doohickey.Addon;
