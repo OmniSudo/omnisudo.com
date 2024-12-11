@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 
-namespace SkillQuest.Shared.Engine.Thing;
+namespace SkillQuest.Shared.Engine.Entity;
 
 public class Inventory(Uri uri) : Engine.ECS.Entity(uri){
     public ImmutableDictionary< Uri, ItemStack > Stacks => _stacks.ToImmutableDictionary();

@@ -1,15 +1,15 @@
 using System.Numerics;
 using ImGuiNET;
 using Silk.NET.Input;
-using SkillQuest.Addon.Base.Client.Doohickey.Gui.LoginSignup;
 using SkillQuest.API.ECS;
 using SkillQuest.Client.Engine.Graphics.API;
 using SkillQuest.Client.Engine.Input;
-using SkillQuest.Shared.Engine.Thing;
-using SkillQuest.Shared.Engine.Thing.Character;
-using SkillQuest.Shared.Engine.Thing.Universe;
+using SkillQuest.Shared.Engine.Entity;
+using SkillQuest.Shared.Engine.Entity.Character;
+using SkillQuest.Shared.Engine.Entity.Universe;
+using static SkillQuest.Shared.Engine.State;
 
-namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.InGame;
+namespace SkillQuest.Game.Base.Client.System.Gui.InGame;
 
 public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable, IHasControls {
     public override Uri? Uri { get; set; } = new Uri("ui://skill.quest/ingame");
@@ -53,17 +53,23 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
 
     void OnTracked(IEntityLedger Entities, IEntity iEntity){
         ConnectInput();
-
+        
+        SH.Ledger.Components.LoadFromXmlFile( "game/SkillQuest.Game.Base.Shared/assets/Component/Item/Mining/Ore.xml" );
+        
         _localhost.Inventory = new Inventory(new Uri( "inventory://skill.quest/" + _localhost.CharacterId));
 
-        _localhost.Inventory[new Uri("stack://skill.quest/0")] = new ItemStack(
-            SkillQuest.Shared.Engine.State.SH.Ledger.Items[
-                new Uri("item://skill.quest/mining/ore/iron")
-            ] ?? throw new InvalidOperationException(),
-            10,
-            null,
-            _localhost
-        );
+        Task.Run(() => {
+            SH.Assets.Open(_localhost.Connection, "item://skill.quest/mining/ore/coal").Wait(); 
+
+            _localhost.Inventory[new Uri("stack://skill.quest/0")] = new ItemStack(
+                SH.Ledger.Items[
+                    new Uri("item://skill.quest/mining/ore/coal")
+                ] ?? throw new InvalidOperationException(),
+                10,
+                null,
+                _localhost
+            );
+        });
     }
 
     void OnUntracked(IEntityLedger Entities, IEntity iEntity){

@@ -1,8 +1,8 @@
-using SkillQuest.Addon.Base.Shared.Doohickey.Addon;
 using SkillQuest.API;
+using SkillQuest.Game.Base.Shared.System.Addon;
 using static SkillQuest.Shared.Engine.State;
 
-namespace SkillQuest.Addon.Base.Server.Doohickey.Addon;
+namespace SkillQuest.Game.Base.Server.System.Addon;
 
 public class AddonMiningSV : AddonMiningSH {
     public override Uri Uri { get; set; } = new Uri("sv://addon.skill.quest/mining");

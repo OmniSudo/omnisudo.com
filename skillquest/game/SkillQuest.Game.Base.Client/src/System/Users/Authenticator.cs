@@ -1,17 +1,17 @@
 using System.Security.Cryptography;
 using System.Text;
-using SkillQuest.Addon.Base.Shared.Packet.Credentials;
 using SkillQuest.API.Network;
+using SkillQuest.Game.Base.Shared.Packet.System.Credentials;
 
-namespace SkillQuest.Addon.Base.Client.Doohickey.Users;
+namespace SkillQuest.Game.Base.Client.System.Users;
 
 using static global::SkillQuest.Shared.Engine.State;
 
 public class Authenticator : SkillQuest.Shared.Engine.ECS.System{
     public static Uri InstanceUri => new Uri("cl://control.skill.quest/users/authenticator");
 
-    public static Authenticator Instance => SH.IEntityLedger.Things.GetValueOrDefault(InstanceUri) as Authenticator ?? 
-                                             SH.IEntityLedger.Add( new Authenticator() );
+    public static Authenticator Instance => SH.Entities.Things.GetValueOrDefault(InstanceUri) as Authenticator ?? 
+                                             SH.Entities.Add( new Authenticator() );
     
     public override Uri Uri => InstanceUri;
     

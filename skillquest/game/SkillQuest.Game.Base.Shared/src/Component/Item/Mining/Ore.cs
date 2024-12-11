@@ -1,13 +1,14 @@
 using System.Xml;
 using System.Xml.Serialization;
+using SkillQuest.API.Component;
 using SkillQuest.Shared.Engine.ECS;
 using static SkillQuest.Shared.Engine.State;
 
-namespace SkillQuest.Addon.Base.Shared.Component.Item.Mining;
+namespace SkillQuest.Game.Base.Shared.Component.Item.Mining;
 
 [XmlRoot( "Component" ) ]
-public class Ore : Component<Ore>{
-    public virtual SkillQuest.Shared.Engine.Thing.Material Material { get; set; } = null;
+public class Ore : Component<Ore>, INetworkedComponent {
+    public virtual SkillQuest.Shared.Engine.Entity.Material Material { get; set; } = null;
 
     public virtual float XP { get; set; } = 0;
 

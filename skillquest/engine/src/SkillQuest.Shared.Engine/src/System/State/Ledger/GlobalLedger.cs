@@ -1,4 +1,4 @@
-namespace SkillQuest.Shared.Engine.Doohickey.State.Ledger;
+namespace SkillQuest.Shared.Engine.System.State.Ledger;
 
 public class GlobalLedger{
     public ItemLedger Items { get; } = new ItemLedger();

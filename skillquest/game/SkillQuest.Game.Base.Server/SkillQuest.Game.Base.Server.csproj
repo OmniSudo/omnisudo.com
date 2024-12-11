@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageId>SkillQuest.Game.Base.Server</PackageId>
-        <RootNamespace>SkillQuest.Addon.Base.Server</RootNamespace>
+        <RootNamespace>SkillQuest.Game.Base.Server</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

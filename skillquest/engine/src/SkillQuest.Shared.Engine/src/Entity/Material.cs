@@ -1,4 +1,4 @@
-namespace SkillQuest.Shared.Engine.Thing;
+namespace SkillQuest.Shared.Engine.Entity;
 
 public class Material : ECS.Entity {
     public virtual string Name { get; set; }

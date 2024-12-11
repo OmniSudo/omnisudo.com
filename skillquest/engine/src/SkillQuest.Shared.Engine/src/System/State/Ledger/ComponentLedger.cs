@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using SkillQuest.API.ECS;
 
-namespace SkillQuest.Shared.Engine.Doohickey.State.Ledger;
+namespace SkillQuest.Shared.Engine.System.State.Ledger;
 
 public class ComponentLedger : IDisposable{
     public Type this[Uri uri] {
@@ -26,8 +26,14 @@ public class ComponentLedger : IDisposable{
             }
         }
     }
+    public Uri? this[Type type] {
+        get {
+            return _types.GetValueOrDefault(type);
+        }
+    }
 
     private ConcurrentDictionary<Uri, Type> _components = new();
+    ConcurrentDictionary<Type, Uri> _types = new();
 
     public void AttachTo(IEntity iEntity, Uri uri, XElement xml){
         var type = this[uri];
@@ -59,13 +65,13 @@ public class ComponentLedger : IDisposable{
             if (type is null) continue;
             if (!typeof(IComponent).IsAssignableFrom(type)) continue;
 
-            foreach (var alias in component.Elements("Alias")) {
-                var aliasName = alias.Value;
-                var aliasUri = new Uri(aliasName);
-                this[aliasUri] = type;
+            var alias = component.Element("Alias");
+            var aliasName = alias.Value;
+            var aliasUri = new Uri(aliasName);
+            this[aliasUri] = type;
+            _types[type] = aliasUri;
 
-                Console.WriteLine($"Added component {type.Name} alias {aliasName}");
-            }
+            Console.WriteLine($"Added component {type.Name} alias {aliasName}");
         }
     }
 

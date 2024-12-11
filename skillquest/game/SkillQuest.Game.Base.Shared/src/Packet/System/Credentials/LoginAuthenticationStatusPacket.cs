@@ -1,4 +1,4 @@
-namespace SkillQuest.Addon.Base.Shared.Packet.Credentials;
+namespace SkillQuest.Game.Base.Shared.Packet.System.Credentials;
 
 public class LoginAuthenticationStatusPacket : API.Network.Packet{
     public bool Success { get; set; }

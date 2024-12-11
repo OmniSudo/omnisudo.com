@@ -1,4 +1,4 @@
-﻿using SkillQuest.Addon.Base.Server.Doohickey.Addon;
+﻿using SkillQuest.Game.Base.Server.System.Addon;
 using SkillQuest.Shared.Engine;
 
 namespace SkillQuest.Server.Terminal;

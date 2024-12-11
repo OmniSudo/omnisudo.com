@@ -1,4 +1,4 @@
-namespace SkillTest.Addon.Base.Shared.test;
+namespace SkillTest.Game.Base.Shared.test;
 
 public class Tests{
     [SetUp]

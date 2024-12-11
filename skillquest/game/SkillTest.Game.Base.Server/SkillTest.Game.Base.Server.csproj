@@ -7,7 +7,7 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>SkillTest.Addon.Base.Server</RootNamespace>
+        <RootNamespace>SkillTest.Game.Base.Server</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

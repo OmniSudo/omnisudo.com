@@ -1,6 +1,6 @@
 using SkillQuest.API.Thing.Character;
 
-namespace SkillQuest.Shared.Engine.Thing;
+namespace SkillQuest.Shared.Engine.Entity;
 
 public class ItemStack : Engine.ECS.Entity {
     public IItem Item {

@@ -1,12 +1,12 @@
 using System.Net;
 using ImGuiNET;
-using SkillQuest.Addon.Base.Client.Doohickey.Gui.Character;
-using SkillQuest.Addon.Base.Client.Doohickey.Users;
 using SkillQuest.API.Network;
 using SkillQuest.Client.Engine.Graphics.API;
+using SkillQuest.Game.Base.Client.System.Gui.Character;
+using SkillQuest.Game.Base.Client.System.Users;
 using static SkillQuest.Shared.Engine.State;
 
-namespace SkillQuest.Addon.Base.Client.Doohickey.Gui.LoginSignup;
+namespace SkillQuest.Game.Base.Client.System.Gui.LoginSignup;
 
 public class GuiMainMenu : SkillQuest.Shared.Engine.ECS.System, IDrawable{
     public override Uri? Uri { get; set; } = new Uri("ui://skill.quest/mainmenu");
@@ -23,7 +23,7 @@ public class GuiMainMenu : SkillQuest.Shared.Engine.ECS.System, IDrawable{
         Untracked += (_, _) => { Authenticator.Instance.LoginSuccess -= OpenCharacterSelect; };
     }
 
-    void OpenCharacterSelect(IClientConnection clientConnection){
+    void OpenCharacterSelect(IClientConnection connection){
         if (connection is null) return;
 
         Entities?.Add(new GuiCharacterSelection(connection));
@@ -31,7 +31,7 @@ public class GuiMainMenu : SkillQuest.Shared.Engine.ECS.System, IDrawable{
     }
 
     Task? _connect = null;
-    
+
     public void Draw(DateTime now, TimeSpan delta){
         if (
             ImGui.Begin(
@@ -61,7 +61,7 @@ public class GuiMainMenu : SkillQuest.Shared.Engine.ECS.System, IDrawable{
                     }
 
                     try {
-                        var addr = new System.Net.Mail.MailAddress(trimmed);
+                        var addr = new global::System.Net.Mail.MailAddress(trimmed);
 
                         if (addr.Address != trimmed) {
                             Console.WriteLine("Invalid Email");

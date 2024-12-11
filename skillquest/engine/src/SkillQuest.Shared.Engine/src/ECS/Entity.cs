@@ -1,13 +1,19 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Schema;
+using System.Xml.Serialization;
+using SkillQuest.API.Component;
 using SkillQuest.API.ECS;
 
 namespace SkillQuest.Shared.Engine.ECS;
 
 using static State;
 
-public class Entity : IEntity{
-
+[XmlRoot("Entity")]
+public class Entity : IEntity, IXmlSerializable{
+    
     public Entity(Uri? uri = null){
         Uri = uri ?? Uri;
     }
@@ -194,6 +200,53 @@ public class Entity : IEntity{
         
         foreach (var child in _children) {
             child.Value.Dispose();
+        }
+    }
+
+    public XmlSchema? GetSchema(){
+        return null;
+    }
+
+    public void ReadXml(XmlReader reader){
+        reader.MoveToContent();
+
+        var rawUri = reader.GetAttribute("uri");
+
+        if (Uri.TryCreate(rawUri, UriKind.Absolute, out var uri)) {
+            Uri = uri;
+        }
+
+        while ( reader.Read() ) {
+            if (reader.Name.Equals("Component") && (reader.NodeType == XmlNodeType.Element)) {
+                string rawComponentUri = reader.GetAttribute("uri");
+                if (Uri.TryCreate(rawComponentUri, UriKind.Absolute, out var componentUri)) {
+                    SH.Ledger.Components.AttachTo( this, componentUri, XElement.Load( reader.ReadSubtree() ) );
+                }
+            }
+        }
+    }
+
+    public void WriteXml(XmlWriter writer){
+        writer.WriteStartAttribute("uri");
+        writer.WriteValue(Uri!.ToString());
+        writer.WriteEndAttribute();
+
+        foreach (var compoenent in Components) {
+            if (compoenent.Value is INetworkedComponent) {
+                writer.WriteStartElement( "Component" );
+                
+                writer.WriteStartAttribute( "uri" );
+                var uri = SH.Ledger.Components[compoenent.Value.GetType()]?.ToString();
+                if (uri is null) {
+                    writer.WriteEndAttribute();
+                    writer.WriteEndElement();
+                    continue;
+                }
+                writer.WriteValue( uri );
+                writer.WriteEndAttribute();
+                compoenent.Value.WriteXml(writer);
+                writer.WriteEndElement();
+            }
         }
     }
 }
