@@ -59,11 +59,7 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
         Task.Run(() => {
             var item = SH.Ledger.Load("item://skill.quest/mining/ore/coal", _localhost.Connection!).Result as Item;
 
-            _localhost.Inventory = new();
-
-            _localhost.Inventory[new Uri("slot://skill.quest/inventory/main/hand/left")] = new ItemStack(
-                item, 1, null, _localhost
-            );
+            _localhost.Inventory = SH.Ledger.Load( $"inventory://skill.quest/{_localhost.CharacterId}/main", _localhost.Connection!).Result as Inventory;
         });
     }
 

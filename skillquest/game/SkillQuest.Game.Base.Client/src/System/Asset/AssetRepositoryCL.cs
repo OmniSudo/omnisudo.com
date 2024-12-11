@@ -87,4 +87,12 @@ public class AssetRepositoryCL : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
             tcs?.SetResult(File.ReadAllBytes(AssetPath.Sanitize(packet.File)));
         }
     }
+
+    public void Update(Uri uri, IClientConnection connection){
+        throw new NotImplementedException();
+    }
+
+    public void Delete(Uri uri, IClientConnection connection){
+        throw new NotImplementedException();
+    }
 }

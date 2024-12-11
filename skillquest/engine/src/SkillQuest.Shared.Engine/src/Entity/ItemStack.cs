@@ -6,7 +6,7 @@ using static SkillQuest.Shared.Engine.State;
 
 namespace SkillQuest.Shared.Engine.Entity;
 
-[XmlRoot("ItemStack")]
+[XmlRoot("Stack")]
 public class ItemStack : Engine.ECS.Entity{
     public IItem Item {
         get {
@@ -38,7 +38,7 @@ public class ItemStack : Engine.ECS.Entity{
 
     long? _count;
 
-    public ICharacter? Owner {
+    public Guid? Owner {
         get {
             return _owner;
         }
@@ -51,7 +51,7 @@ public class ItemStack : Engine.ECS.Entity{
         }
     }
 
-    ICharacter? _owner;
+    Guid? _owner;
 
     public delegate void DoStackCreated(ItemStack stack);
 
@@ -65,7 +65,7 @@ public class ItemStack : Engine.ECS.Entity{
 
     public event DoCountChanged CountChanged;
 
-    public delegate void DoOwnerChanged(ItemStack stack, ICharacter previous, ICharacter current);
+    public delegate void DoOwnerChanged(ItemStack stack, Guid? previous, Guid? current);
 
     public event DoOwnerChanged OwnerChanged;
 
@@ -81,11 +81,9 @@ public class ItemStack : Engine.ECS.Entity{
         var rawUri = reader.GetAttribute("uri");
 
         if (Uri.TryCreate(rawUri, UriKind.Absolute, out var uri)) {
-            Guid.TryParse( uri.Segments[0].TrimEnd('/'), out _id );
+            Guid.TryParse( uri.Segments[1].TrimEnd('/'), out _id );
         }
         
-        
-
         while ( reader.Read() ) {
             if (reader.Name.Equals("Component") && (reader.NodeType == XmlNodeType.Element)) {
                 string rawComponentUri = reader.GetAttribute("uri");
@@ -94,19 +92,35 @@ public class ItemStack : Engine.ECS.Entity{
                     Ledger?.Components.AttachTo(this, componentUri, XElement.Load(reader.ReadSubtree()));
                 }
             } else if (reader.Name.Equals("Count") && (reader.NodeType == XmlNodeType.Element)) {
-                long.TryParse(reader.ReadContentAsString(), out var count);
-                Count = count;
+                Count = reader.ReadElementContentAsLong();
             } else if (reader.Name.Equals("Owner") && (reader.NodeType == XmlNodeType.Element)) {
-                
+                string character = reader.ReadElementContentAsString();
+                Owner = Guid.Parse(character);
+            } else if (reader.Name.Equals("Item") && (reader.NodeType == XmlNodeType.Element)) {
+                var rawItemUri = reader.ReadElementContentAsString();
+
+                if (Uri.TryCreate(rawItemUri, UriKind.Absolute, out var itemUri)) {
+                    Item = SH.Ledger?.Things.GetValueOrDefault( itemUri ) as IItem ?? throw new ArgumentException( "Stack does not have an item associated with it");
+                }
             }
         }
     }
 
     public override void WriteXml(XmlWriter writer){
         base.WriteXml(writer);
+        
+        writer.WriteStartElement("Count");
+        writer.WriteValue(Count);
+        writer.WriteEndElement();
+        writer.WriteStartElement("Owner");
+        writer.WriteValue(Owner?.ToString() ?? "");
+        writer.WriteEndElement();
+        writer.WriteStartElement("Item");
+        writer.WriteValue(Item.Uri.ToString());
+        writer.WriteEndElement();
     }
 
-    public ItemStack(IItem item, long count = 0, Guid? id = null, ICharacter? owner = null){
+    public ItemStack(IItem item, long count = 0, Guid? id = null, Guid? owner = null){
         this._item = item;
         this._count = count;
         this._owner = owner;
@@ -119,6 +133,6 @@ public class ItemStack : Engine.ECS.Entity{
     public static bool operator ==(ItemStack left, ItemStack right) => left._id.Equals(right._id);
     public static bool operator !=(ItemStack left, ItemStack right) => !(left == right);
 
-    public static bool operator ==(ItemStack left, IItem right) => left.Item.Uri.Equals(right.Uri);
+    public static bool operator ==(ItemStack left, IItem right) => left.Item.Uri?.Equals(right.Uri) ?? right.Uri is null;
     public static bool operator !=(ItemStack left, IItem right) => !(left == right);
 }

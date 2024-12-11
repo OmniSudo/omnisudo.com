@@ -19,6 +19,6 @@ public class WorldPlayer : IPlayerCharacter {
         set;
     }
     
-    public Inventory Inventory { get; set; }
+    public Inventory? Inventory { get; set; }
 
 }

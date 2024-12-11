@@ -23,12 +23,18 @@ public class AssetRepositorySV : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
         _channel.Subscribe<AssetRepositoryFileRequestPacket>(OnAssetRepositoryFileRequestPacket);
 
         Permissions.PermissionCheck += permissions => {
-            var rank = (
-                Ledger[new Uri("sv://addon.skill.quest/skillquest")] as AddonSkillQuestSV)
+            // TODO: No longer allow all inventories to be viewed
+            if (permissions.Uri.Scheme == "inventory" || permissions.Uri.Scheme == "stack") {
+                permissions.CanView = true;
+                return;
+            }
+
+            var rank = (Ledger?[new Uri("sv://addon.skill.quest/skillquest")] as AddonSkillQuestSV)
                 ?.Authenticator
                 .Rank(permissions.Connection);
-            
+
             permissions.CanView = true;
+
             if (rank == Rank.Admin)
                 permissions.CanEdit = true;
         };
@@ -43,39 +49,52 @@ public class AssetRepositorySV : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
         return Array.Empty<byte>(); // TODO: Upload client file to server
     }
 
+    public void Update(Uri uri, IClientConnection client){
+        Permissions.Check(client, uri, out var canview, out var canedit);
+
+        if (!canview) {
+            _channel.Send(client, new AssetRepositoryFileResponsePacket() {
+                    File = uri.ToString(),
+                    Data = null,
+                    Entity = null
+                }
+            );
+            return;
+        }
+
+        try {
+            var ent = SH.Ledger!.Things.GetValueOrDefault(uri);
+            var serializer = new XmlSerializer(ent?.GetType() ?? null);
+
+            using (var sw = new StringWriter()) {
+                using (var writer = new XmlTextWriter(sw) { Formatting = Formatting.Indented }) {
+                    writer.WriteStartElement("SkillQuest");
+                    serializer.Serialize(writer, ent);
+                    writer.WriteEndElement();
+
+                    // Send file because the file is already on the server
+                    _channel.Send(client, new AssetRepositoryFileResponsePacket() {
+                        File = uri.ToString(),
+                        Data = Convert.ToBase64String(Encoding.UTF8.GetBytes(sw.ToString())),
+                        Entity = ent!.GetType().AssemblyQualifiedName
+                    });
+                }
+            }
+        } catch (Exception e) {
+            Console.WriteLine(e);
+        }
+    }
+
+    public void Delete(Uri uri, IClientConnection connection){
+        throw new NotImplementedException();
+    }
+
     void OnAssetRepositoryFileRequestPacket(IClientConnection connection, AssetRepositoryFileRequestPacket packet){
         if (Uri.TryCreate(packet.File, UriKind.Absolute, out var uri)) {
             if (Ledger.Things.TryGetValue(uri, out var thing)) {
-                Permissions.Check(connection, uri, out var canview, out var canedit);
-
-                if (!canview) {
-                    _channel.Send(connection, new AssetRepositoryFileResponsePacket() {
-                        File = packet.File,
-                        Data = null,
-                        Entity = null
-                    }
-                    );
-                    return;
-                };
-
-                var serializer = new XmlSerializer(thing.GetType());
-
-                using (var sw = new StringWriter()) {
-                    using (var writer = new XmlTextWriter(sw) { Formatting = Formatting.Indented }) {
-                        writer.WriteStartElement("SkillQuest");
-                        serializer.Serialize(writer, thing);
-                        writer.WriteEndElement();
-                        
-                        // Send file because the file is already on the server
-                        _channel.Send(connection, new AssetRepositoryFileResponsePacket() {
-                            File = packet.File,
-                            Data = Convert.ToBase64String( Encoding.UTF8.GetBytes( sw.ToString() ) ),
-                            Entity = thing.GetType().AssemblyQualifiedName
-                        });
-                    }
-                }
+                Update(uri, connection);
             } else {
-                Console.WriteLine( $"{connection.EMail} tried to request '{packet.File}'; It doesn't exist!");
+                Console.WriteLine($"{connection.EMail} tried to request '{packet.File}'; It doesn't exist!");
             }
         } else {
             try {
@@ -98,7 +117,7 @@ public class AssetRepositorySV : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
                         }
                     }
                 }
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 _channel.Send(connection, new AssetRepositoryFileResponsePacket() {
                     File = packet.File,
                     Data = null

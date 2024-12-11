@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using SkillQuest.API;
 using SkillQuest.API.Network;
 using SkillQuest.Game.Base.Server.System.Asset;
@@ -7,6 +8,7 @@ using SkillQuest.Game.Base.Shared.Packet.System.Character;
 using SkillQuest.Game.Base.Shared.System.Addon;
 using SkillQuest.Server.Engine;
 using SkillQuest.Shared.Engine.Database;
+using SkillQuest.Shared.Engine.Entity;
 
 namespace SkillQuest.Game.Base.Server.System.Addon;
 
@@ -28,7 +30,7 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
         SV.Connection = SH.Net.Host(3698);
 
         SH.Assets = SH.Ledger.Add(new AssetRepositorySV());
-        
+
         Authenticator = SH.Ledger.Add(new Authenticator(SV.Connection));
         Authenticator.LoggedIn += AuthenticatorOnLoggedIn;
 
@@ -37,8 +39,8 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
 
         CharacterCreator = SH.Ledger.Add(new CharacterCreator());
         CharacterCreator.CharacterCreated += CharacterCreatorOnCreated;
-        
-        
+
+
         application?
             .Mount(new AddonMetallurgySV())
             .Mount(new AddonMiningSV());
@@ -54,8 +56,32 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
 
     void CharacterSelectOnSelected(IClientConnection client, CharacterInfo character){
         Console.WriteLine(client.EMail + ": " + character.Name);
+
+        ItemStack test;
+
+        Ledger.Add(new Inventory() {
+            Uri = new Uri($"inventory://skill.quest/{character.CharacterId}/main"),
+            Ledger = Ledger,
+            Stacks = new Dictionary<Uri, ItemStack>() {
+                {
+                    new Uri("slot://skill.quest/hand"),
+                    test = new ItemStack(
+                        Ledger["item://skill.quest/mining/ore/coal"] as IItem,
+                        1
+                    )
+                }
+            }
+        });
+
+        test.CountChanged += (stack, previous, current) => {
+            
+        };
+        
+        testTimer = new Timer((state) => { test.Count++; }, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
     }
 
+    Timer testTimer;
+    
     public CharacterSelect CharacterSelect { get; set; }
 
     private CharacterCreator CharacterCreator { get; set; }

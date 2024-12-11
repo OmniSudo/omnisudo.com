@@ -26,15 +26,28 @@ public class AssetRepositoryFileResponsePacket : API.Network.Packet{
                 type.IsAssignableTo(typeof(IEntity)) &&
                 type.IsAssignableTo(typeof(IXmlSerializable))
             ) {
-                var xml = XElement.Parse(Encoding.UTF8.GetString(Convert.FromBase64String(Data)))
-                    .Element(
-                        (type.GetCustomAttributes(typeof(XmlRootAttribute), true)[0] as XmlRootAttribute)?.ElementName ?? "Entity"
-                    );
-                var ser = new XmlSerializer(type);
-                var ent = ser.Deserialize(xml.CreateReader()) as IEntity;
+                var ent = SH.Ledger.Things.GetValueOrDefault(uri);
 
-                if (ent is not null) {
-                    SH.Ledger.Add(ent);
+                if (ent is null) {
+
+                    var xml = XElement.Parse(Encoding.UTF8.GetString(Convert.FromBase64String(Data)))
+                        .Element(
+                            (type.GetCustomAttributes(typeof(XmlRootAttribute), true)[0] as XmlRootAttribute)
+                            ?.ElementName ?? "Entity"
+                        );
+                    var ser = new XmlSerializer(type);
+                    ent = ser.Deserialize(xml.CreateReader()) as IEntity;
+
+                    if (ent is not null) {
+                        SH.Ledger.Add(ent);
+                    }
+                } else {
+                    var xml = XElement.Parse(Encoding.UTF8.GetString(Convert.FromBase64String(Data)))
+                        .Element(
+                            (type.GetCustomAttributes(typeof(XmlRootAttribute), true)[0] as XmlRootAttribute)
+                            ?.ElementName ?? "Entity"
+                        );
+                    ent.ReadXml(xml.CreateReader());
                 }
             }
         } else {

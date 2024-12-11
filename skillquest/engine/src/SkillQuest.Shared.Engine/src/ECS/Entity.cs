@@ -12,7 +12,7 @@ namespace SkillQuest.Shared.Engine.ECS;
 using static State;
 
 [XmlRoot("Entity")]
-public class Entity : IEntity, IXmlSerializable{
+public class Entity : IEntity{
     
     public Entity(Uri? uri){
         Uri = uri ?? Uri;

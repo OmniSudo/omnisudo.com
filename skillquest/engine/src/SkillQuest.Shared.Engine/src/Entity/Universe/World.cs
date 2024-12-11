@@ -1,5 +1,6 @@
 using Silk.NET.Maths;
 using SkillQuest.API.Procedural.World;
+using SkillQuest.API.Thing.Character;
 using SkillQuest.API.Thing.Universe;
 using SkillQuest.Shared.Engine.Entity.Character;
 using static SkillQuest.Shared.Engine.State;
@@ -9,8 +10,17 @@ namespace SkillQuest.Shared.Engine.Entity.Universe;
 public class World : IWorld {
     readonly WorldPlayer _localhost;
 
-    public World(WorldPlayer localhost){
-        _localhost = localhost;
+    public World(WorldPlayer? localhost = null){
+        if (localhost is not null) {
+            _localhost = localhost;
+            Add(localhost);
+        }
+    }
+
+    public Dictionary<Guid, IPlayerCharacter> Players { get; } = new();
+    
+    public void Add(IPlayerCharacter player){
+        Players[player.CharacterId] = player;
     }
 
     public Task< IRegion? > Generate(Vector3D<long> position){

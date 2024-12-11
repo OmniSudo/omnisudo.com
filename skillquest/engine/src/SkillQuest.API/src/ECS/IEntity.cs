@@ -1,8 +1,9 @@
 using System.Collections.Immutable;
+using System.Xml.Serialization;
 
 namespace SkillQuest.API.ECS;
 
-public interface IEntity : IDisposable {
+public interface IEntity : IXmlSerializable, IDisposable {
     public Uri? Uri { get; set; }
 
     delegate void DoTracked(IEntityLedger Entities, IEntity iEntity );
