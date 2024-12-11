@@ -4,6 +4,8 @@ using System.Xml;
 using System.Xml.Serialization;
 using SkillQuest.API.Asset;
 using SkillQuest.API.Network;
+using SkillQuest.Game.Base.Server.Database.Users;
+using SkillQuest.Game.Base.Server.System.Addon;
 using SkillQuest.Game.Base.Server.System.Asset.Permission;
 using SkillQuest.Game.Base.Shared.Packet.System.Asset;
 using static SkillQuest.Shared.Engine.State;
@@ -19,11 +21,22 @@ public class AssetRepositorySV : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
         _channel = SH.Net.CreateChannel(Uri);
 
         _channel.Subscribe<AssetRepositoryFileRequestPacket>(OnAssetRepositoryFileRequestPacket);
+
+        Permissions.PermissionCheck += permissions => {
+            var rank = (
+                Ledger[new Uri("sv://addon.skill.quest/skillquest")] as AddonSkillQuestSV)
+                ?.Authenticator
+                .Rank(permissions.Connection);
+            
+            permissions.CanView = true;
+            if (rank == Rank.Admin)
+                permissions.CanEdit = true;
+        };
     }
 
     public IPermissionChecker? Permissions { get; set; } = new AssetPremissionChecker();
 
-    public async Task<byte[]> Open(IClientConnection? connection, string file){
+    public async Task<byte[]> Open(string file, IClientConnection? connection = null){
         if (connection is null) {
             return File.ReadAllBytes(AssetPath.Sanitize(file));
         }
@@ -32,12 +45,18 @@ public class AssetRepositorySV : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
 
     void OnAssetRepositoryFileRequestPacket(IClientConnection connection, AssetRepositoryFileRequestPacket packet){
         if (Uri.TryCreate(packet.File, UriKind.Absolute, out var uri)) {
-            if (Entities.Things.TryGetValue(uri, out var thing)) {
-                //Permissions.Check(uri, out var canview, out var canedit);
+            if (Ledger.Things.TryGetValue(uri, out var thing)) {
+                Permissions.Check(connection, uri, out var canview, out var canedit);
 
-                bool canview = true;
-
-                if (!canview) return;
+                if (!canview) {
+                    _channel.Send(connection, new AssetRepositoryFileResponsePacket() {
+                        File = packet.File,
+                        Data = null,
+                        Entity = null
+                    }
+                    );
+                    return;
+                };
 
                 var serializer = new XmlSerializer(thing.GetType());
 

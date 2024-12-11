@@ -51,8 +51,8 @@ public class GlGraphicsInstance : IGraphicsInstance {
         Application.Render += Render;
         Quit += ( application ) => application.Running = false;
         Window.Closing += OnClose;
-        Application.Entities.ThingAdded += OnEntitiesThingAdded;
-        Application.Entities.ThingRemoved += OnEntitiesThingRemoved;
+        Application.Ledger.ThingAdded += OnLedgerThingAdded;
+        Application.Ledger.ThingRemoved += OnLedgerThingRemoved;
     }
 
     GlTextureFactory _textureFactory = new();
@@ -98,14 +98,14 @@ public class GlGraphicsInstance : IGraphicsInstance {
     
     private ConcurrentDictionary< Uri, IEntity > _renderables = new();
 
-    void OnEntitiesThingAdded(IEntity iEntity){
+    void OnLedgerThingAdded(IEntity iEntity){
         // ReSharper disable once SuspiciousTypeConversion.Global
         if (iEntity is IDrawable) {
             _renderables.TryAdd(iEntity.Uri, iEntity);
         }
     }
 
-    void OnEntitiesThingRemoved(IEntity iEntity){
+    void OnLedgerThingRemoved(IEntity iEntity){
         // ReSharper disable once SuspiciousTypeConversion.Global
         if (iEntity is IDrawable) {
             if (_renderables.TryGetValue(iEntity.Uri, out var old) && old == iEntity) {

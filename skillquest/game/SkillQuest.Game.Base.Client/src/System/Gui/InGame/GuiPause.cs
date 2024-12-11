@@ -33,27 +33,27 @@ public class GuiPause : global::SkillQuest.Shared.Engine.ECS.System, IDrawable, 
         ) {
             if (ImGui.Button($"Editor")) {
                 Task.Run(() => {
-                    foreach (var gui in Entities.Things.Where(g => g.Key.Scheme == "ui")) {
+                    foreach (var gui in Ledger.Things.Where(g => g.Key.Scheme == "ui")) {
                         if (gui.Value == this) continue;
 
-                        Entities.Remove(gui.Value);
+                        Ledger.Remove(gui.Value);
                     }
-                    Entities.Add(new GuiEditor(Player));
-                    Entities.Remove(this);
+                    Ledger.Add(new GuiEditor(Player));
+                    Ledger.Remove(this);
                 });
             }
 
             if (ImGui.Button($"Logout")) {
                 Task.Run(() => {
-                    foreach (var gui in Entities.Things.Where(g => g.Key.Scheme == "ui")) {
+                    foreach (var gui in Ledger.Things.Where(g => g.Key.Scheme == "ui")) {
                         if (gui.Value == this) continue;
 
-                        Entities.Remove(gui.Value);
+                        Ledger.Remove(gui.Value);
                     }
                     Player.Connection.Disconnect();
 
-                    Entities.Add(new GuiMainMenu());
-                    Entities.Remove(this);
+                    Ledger.Add(new GuiMainMenu());
+                    Ledger.Remove(this);
                 });
             }
 
@@ -72,7 +72,7 @@ public class GuiPause : global::SkillQuest.Shared.Engine.ECS.System, IDrawable, 
     void KeyboardOnKeyDown(IKeyboard arg1, Key key, int arg3){
         if (key == Key.Escape) {
             DisconnectInput();
-            Entities.Remove(this);
+            Ledger.Remove(this);
         }
     }
 

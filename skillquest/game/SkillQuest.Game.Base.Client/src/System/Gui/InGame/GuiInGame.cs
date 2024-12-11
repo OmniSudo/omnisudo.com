@@ -11,7 +11,7 @@ using static SkillQuest.Shared.Engine.State;
 
 namespace SkillQuest.Game.Base.Client.System.Gui.InGame;
 
-public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable, IHasControls {
+public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable, IHasControls{
     public override Uri? Uri { get; set; } = new Uri("ui://skill.quest/ingame");
 
     private WorldPlayer _localhost;
@@ -39,13 +39,13 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
                 ImGuiWindowFlags.NoMove
             )
         ) {
-            
+
 
             ImGui.End();
         }
-        
-        foreach ( var child in Children ) {
-            if ( child.Value is IDrawable drawable ) {
+
+        foreach (var child in Children) {
+            if (child.Value is IDrawable drawable) {
                 drawable.Draw(now, delta);
             }
         }
@@ -53,21 +53,16 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
 
     void OnTracked(IEntityLedger Entities, IEntity iEntity){
         ConnectInput();
-        
-        SH.Ledger.Components.LoadFromXmlFile( "game/SkillQuest.Game.Base.Shared/assets/Component/Item/Mining/Ore.xml" );
-        
-        _localhost.Inventory = new Inventory(new Uri( "inventory://skill.quest/" + _localhost.CharacterId));
+
+        Ledger.Components.LoadFromXmlFile("game/SkillQuest.Game.Base.Shared/assets/Component/Item/Mining/Ore.xml");
 
         Task.Run(() => {
-            SH.Assets.Open(_localhost.Connection, "item://skill.quest/mining/ore/coal").Wait(); 
+            var item = SH.Ledger.Load("item://skill.quest/mining/ore/coal", _localhost.Connection!).Result as Item;
 
-            _localhost.Inventory[new Uri("stack://skill.quest/0")] = new ItemStack(
-                SH.Ledger.Items[
-                    new Uri("item://skill.quest/mining/ore/coal")
-                ] ?? throw new InvalidOperationException(),
-                10,
-                null,
-                _localhost
+            _localhost.Inventory = new();
+
+            _localhost.Inventory[new Uri("slot://skill.quest/inventory/main/hand/left")] = new ItemStack(
+                item, 1, null, _localhost
             );
         });
     }
@@ -77,24 +72,23 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
     }
 
     GuiInventory _inventory;
-    
+
     void KeyboardOnKeyDown(IKeyboard arg1, Key key, int arg3){
         switch (key) {
             case Key.Escape: {
                 DisconnectInput();
 
-                Entities.Add(new GuiPause(_localhost)).Untracked += (stuff, thing) => {
-                    if (Entities is not null) ConnectInput();
+                Ledger.Add(new GuiPause(_localhost)).Untracked += (stuff, thing) => {
+                    if (Ledger is not null) ConnectInput();
                 };
                 break;
             }
             case Key.I: {
                 if (_inventory is null) {
                     _inventory = new GuiInventory(this, _localhost.Inventory);
-                    Entities?.Add(_inventory);
-                }
-                else {
-                    Entities?.Remove(_inventory);
+                    Ledger?.Add(_inventory);
+                } else {
+                    Ledger?.Remove(_inventory);
                     _inventory = null;
                 }
                 break;

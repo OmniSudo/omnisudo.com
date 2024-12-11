@@ -97,4 +97,12 @@ public class Authenticator : global::SkillQuest.Shared.Engine.ECS.System {
             if ( connection.Session == Guid.Empty ) LoggedOut?.Invoke(connection);
         }
     }
+    
+    public Rank Rank(IClientConnection connection){
+        return _database.Rank(connection.Id);
+    }
+
+    public void Rank(IClientConnection connection, Rank rank){
+        _database.Rank(connection.Id, rank);
+    }
 }

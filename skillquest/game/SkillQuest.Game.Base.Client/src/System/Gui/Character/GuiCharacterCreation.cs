@@ -53,11 +53,11 @@ public class GuiCharacterCreation : SkillQuest.Shared.Engine.ECS.System, IDrawab
 
                     Console.WriteLine("\nCharacter Created: " + character.CharacterId + " (" + character.Name + ")");
 
-                    Entities?.Add(new GuiCharacterSelection(_connection));
+                    Ledger?.Add(new GuiCharacterSelection(_connection));
 
-                    Entities?.Remove(_creator);
+                    Ledger?.Remove(_creator);
                     _creator.Reset();
-                    Entities?.Remove(this);
+                    Ledger?.Remove(this);
                     
                     return true;
                 });
@@ -66,11 +66,11 @@ public class GuiCharacterCreation : SkillQuest.Shared.Engine.ECS.System, IDrawab
             if (
                 ImGui.Button("Cancel")
             ) {
-                Entities?.Add(new GuiCharacterSelection(_connection));
+                Ledger?.Add(new GuiCharacterSelection(_connection));
 
-                Entities?.Remove(_creator);
+                Ledger?.Remove(_creator);
                 _creator.Reset();
-                Entities?.Remove(this);
+                Ledger?.Remove(this);
             }
             ImGui.End();
         }

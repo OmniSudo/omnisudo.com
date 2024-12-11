@@ -14,27 +14,29 @@ using static State;
 [XmlRoot("Entity")]
 public class Entity : IEntity, IXmlSerializable{
     
-    public Entity(Uri? uri = null){
+    public Entity(Uri? uri){
         Uri = uri ?? Uri;
     }
 
-    public IEntityLedger? Entities {
+    public Entity(){}
+
+    public IEntityLedger? Ledger {
         get {
-            return _entities;
+            return _ledger;
         }
         set {
-            if (value == _entities)
+            if (value == _ledger)
                 return;
 
-            if (_entities is not null) {
-                Untracked?.Invoke(_entities, this);
-                _entities.Remove(this);
+            if (_ledger is not null) {
+                Untracked?.Invoke(_ledger, this);
+                _ledger.Remove(this);
             }
-            _entities = value;
+            _ledger = value;
 
-            if (_entities is not null) {
-                _entities.Add(this);
-                Tracked?.Invoke(_entities, this);
+            if (_ledger is not null) {
+                _ledger.Add(this);
+                Tracked?.Invoke(_ledger, this);
             }
         }
     }
@@ -192,11 +194,11 @@ public class Entity : IEntity, IXmlSerializable{
         }
     }
 
-    IEntityLedger? _entities;
+    IEntityLedger? _ledger;
 
     IEntity? _parent = null;
     public void Dispose(){
-        Entities.Remove(this);
+        Ledger.Remove(this);
         
         foreach (var child in _children) {
             child.Value.Dispose();
@@ -207,7 +209,7 @@ public class Entity : IEntity, IXmlSerializable{
         return null;
     }
 
-    public void ReadXml(XmlReader reader){
+    public virtual void ReadXml(XmlReader reader){
         reader.MoveToContent();
 
         var rawUri = reader.GetAttribute("uri");
@@ -226,7 +228,7 @@ public class Entity : IEntity, IXmlSerializable{
         }
     }
 
-    public void WriteXml(XmlWriter writer){
+    public virtual void WriteXml(XmlWriter writer){
         writer.WriteStartAttribute("uri");
         writer.WriteValue(Uri!.ToString());
         writer.WriteEndAttribute();
@@ -236,7 +238,7 @@ public class Entity : IEntity, IXmlSerializable{
                 writer.WriteStartElement( "Component" );
                 
                 writer.WriteStartAttribute( "uri" );
-                var uri = SH.Ledger.Components[compoenent.Value.GetType()]?.ToString();
+                var uri = Ledger.Components[compoenent.Value.GetType()]?.ToString();
                 if (uri is null) {
                     writer.WriteEndAttribute();
                     writer.WriteEndElement();

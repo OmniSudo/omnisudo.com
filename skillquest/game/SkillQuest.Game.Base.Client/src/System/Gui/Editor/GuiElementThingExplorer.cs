@@ -11,17 +11,17 @@ public class GuiElementThingExplorer : global::SkillQuest.Shared.Engine.ECS.Syst
 
     public GuiElementThingExplorer(){
         Tracked += (stuff, thing) => {
-            Entities.ThingAdded += StuffOnThingAdded;
-            Entities.ThingRemoved += StuffOnThingRemoved;
-            foreach (var t in Entities.Things) {
+            Ledger.ThingAdded += StuffOnThingAdded;
+            Ledger.ThingRemoved += StuffOnThingRemoved;
+            foreach (var t in Ledger.Things) {
                 StuffOnThingAdded(t.Value);
             }
         };
 
         Untracked += (stuff, thing) => {
             Tree.Clear();
-            Entities.ThingAdded -= StuffOnThingAdded;
-            Entities.ThingRemoved -= StuffOnThingRemoved;
+            Ledger.ThingAdded -= StuffOnThingAdded;
+            Ledger.ThingRemoved -= StuffOnThingRemoved;
         };
     }
 

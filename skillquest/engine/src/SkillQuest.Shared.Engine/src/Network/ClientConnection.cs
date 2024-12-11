@@ -89,8 +89,8 @@ public class ClientConnection : IClientConnection{
         Console.WriteLine($"Disconnecting @ {ep}");
         OnDisconnect();
         Console.WriteLine($"Disconnected @ {ep}");
-        Connection?.Client.Disconnect( false );
-        Connection?.Client.Shutdown( SocketShutdown.Both);
+        Connection?.Client?.Disconnect( false );
+        Connection?.Client?.Shutdown( SocketShutdown.Both);
         _stream = null;
         Connection?.Dispose();
         Connection = null;

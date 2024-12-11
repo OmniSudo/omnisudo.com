@@ -43,7 +43,7 @@ public interface IEntity : IDisposable {
     
     public event DoRemoveChild RemoveChild;
     
-    public IEntityLedger? Entities { get; set; }
+    public IEntityLedger? Ledger { get; set; }
 
     IEntity Connect<TComponent>(TComponent? component) where TComponent : class, IComponent;
 

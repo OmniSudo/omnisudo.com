@@ -11,7 +11,7 @@ public class AssetRepositoryCL : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
     readonly IChannel _channel;
 
     public override Uri? Uri { get; set; } = new Uri("cl://asset.skill.quest/");
-    
+
     public AssetRepositoryCL(){
         _channel = SH.Net.CreateChannel(Uri);
 
@@ -22,15 +22,15 @@ public class AssetRepositoryCL : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
 
     public IPermissionChecker Permissions { get; set; } = null;
 
-    public async Task<byte[]> Open(IClientConnection connection, string file){
-        
+    public async Task<byte[]> Open(string file, IClientConnection connection = null){
+
         _fileRequests.TryGetValue(file, out var tcs);
-        
+
         if (tcs is null) {
             tcs = new TaskCompletionSource<byte[]>();
             _fileRequests.TryAdd(file, tcs);
         } else {
-            if ( tcs.Task.IsCompleted ) return tcs.Task.Result;
+            if (tcs.Task.IsCompleted) return tcs.Task.Result;
         }
 
         FileInfo fi = null;
@@ -43,17 +43,19 @@ public class AssetRepositoryCL : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
             }
         } catch (ArgumentException) {
             fi = null;
-        }
-        catch (PathTooLongException) { }
-        catch (NotSupportedException) { }
-        if (ReferenceEquals(fi, null))
-        {
-            _channel.Send(connection, new AssetRepositoryFileRequestPacket() {
-                    File = file,
-                    Hash = null
-                }
-            );
-        } else {
+        } catch (PathTooLongException) { } catch (NotSupportedException) { }
+
+        if (ReferenceEquals(fi, null)) {
+            if (connection is not null) {
+                _channel.Send(connection, new AssetRepositoryFileRequestPacket() {
+                        File = file,
+                        Hash = null
+                    }
+                );
+            } else {
+                tcs.SetResult([]);
+            }
+        } else if (connection is not null) {
             using var md5 = MD5.Create();
 
             await using var stream = File.OpenRead(AssetPath.Sanitize(file));
@@ -65,9 +67,10 @@ public class AssetRepositoryCL : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
                     Hash = hash
                 }
             );
-
+        } else {
+            tcs.SetResult(await File.ReadAllBytesAsync(AssetPath.Sanitize(file)));
         }
-        
+
         return await tcs.Task;
     }
 

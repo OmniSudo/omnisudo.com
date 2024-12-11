@@ -14,7 +14,7 @@ public class AddonMiningSV : AddonMiningSH {
 
     void OnMounted(IAddon addon, IApplication? application){
         SH.Ledger.Components.LoadFromXmlFile( "game/SkillQuest.Game.Base.Shared/assets/Component/Item/Mining/Ore.xml" );
-        SH.Ledger.Items.LoadFromXmlFile( "game/SkillQuest.Game.Base.Shared/assets/Entity/Item/Mining/Coal.xml" );
+        SH.Ledger.Load( "game/SkillQuest.Game.Base.Shared/assets/Entity/Item/Mining/Coal.xml" );
     }
 
     void OnUnmounted(IAddon addon, IApplication? application){
