@@ -8,9 +8,9 @@ using static SkillQuest.Shared.Engine.State;
 namespace SkillQuest.Shared.Engine.Entity.Universe;
 
 public class World : IWorld {
-    readonly WorldPlayer _localhost;
+    readonly IPlayerCharacter _localhost;
 
-    public World(WorldPlayer? localhost = null){
+    public World(IPlayerCharacter localhost = null){
         if (localhost is not null) {
             _localhost = localhost;
             Add(localhost);

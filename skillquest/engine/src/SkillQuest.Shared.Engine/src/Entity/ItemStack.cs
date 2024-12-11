@@ -1,13 +1,14 @@
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;
 using static SkillQuest.Shared.Engine.State;
 
 namespace SkillQuest.Shared.Engine.Entity;
 
 [XmlRoot("Stack")]
-public class ItemStack : Engine.ECS.Entity{
+public class ItemStack : Engine.ECS.Entity, IItemStack {
     public IItem Item {
         get {
             return _item;
@@ -52,28 +53,17 @@ public class ItemStack : Engine.ECS.Entity{
     }
 
     Guid? _owner;
+    
+    public static event IItemStack.DoStackCreated StackCreated;
+    public static event IItemStack.DoStackDestroyed StackDestroyed;
+    
+    public event IItemStack.DoCountChanged CountChanged;
+    
+    public event IItemStack.DoOwnerChanged OwnerChanged;
 
-    public delegate void DoStackCreated(ItemStack stack);
+    public Guid Id { get; set; }
 
-    public static event DoStackCreated StackCreated;
-
-    public delegate void DoStackDestroyed(ItemStack stack);
-
-    public static event DoStackDestroyed StackDestroyed;
-
-    public delegate void DoCountChanged(ItemStack stack, long previous, long current);
-
-    public event DoCountChanged CountChanged;
-
-    public delegate void DoOwnerChanged(ItemStack stack, Guid? previous, Guid? current);
-
-    public event DoOwnerChanged OwnerChanged;
-
-    Guid _id;
-
-    public Guid Id => _id;
-
-    public override Uri? Uri => new Uri($"stack://skill.quest/{_id}");
+    public override Uri? Uri => new Uri($"stack://skill.quest/{Id}");
 
     public override void ReadXml(XmlReader reader){
         reader.MoveToContent();
@@ -81,7 +71,8 @@ public class ItemStack : Engine.ECS.Entity{
         var rawUri = reader.GetAttribute("uri");
 
         if (Uri.TryCreate(rawUri, UriKind.Absolute, out var uri)) {
-            Guid.TryParse( uri.Segments[1].TrimEnd('/'), out _id );
+            Guid.TryParse( uri.Segments[1].TrimEnd('/'), out var id );
+            Id = id;
         }
         
         while ( reader.Read() ) {
@@ -100,7 +91,7 @@ public class ItemStack : Engine.ECS.Entity{
                 var rawItemUri = reader.ReadElementContentAsString();
 
                 if (Uri.TryCreate(rawItemUri, UriKind.Absolute, out var itemUri)) {
-                    Item = SH.Ledger?.Things.GetValueOrDefault( itemUri ) as IItem ?? throw new ArgumentException( "Stack does not have an item associated with it");
+                    Item = SH.Ledger?.Things.GetValueOrDefault(itemUri) as IItem ?? new Item() { Uri = itemUri };
                 }
             }
         }
@@ -124,15 +115,15 @@ public class ItemStack : Engine.ECS.Entity{
         this._item = item;
         this._count = count;
         this._owner = owner;
-        _id = id ?? Guid.NewGuid();
+        Id = id ?? Guid.NewGuid();
         StackCreated?.Invoke(this);
     }
 
     public ItemStack(){ }
 
-    public static bool operator ==(ItemStack left, ItemStack right) => left._id.Equals(right._id);
-    public static bool operator !=(ItemStack left, ItemStack right) => !(left == right);
+    public static bool operator ==(ItemStack? left, ItemStack? right) => left?.Id.Equals(right?.Id) ?? right is null;
+    public static bool operator !=(ItemStack? left, ItemStack? right) => !(left == right);
 
-    public static bool operator ==(ItemStack left, IItem right) => left.Item.Uri?.Equals(right.Uri) ?? right.Uri is null;
-    public static bool operator !=(ItemStack left, IItem right) => !(left == right);
+    public static bool operator ==(ItemStack? left, IItem? right) => left?.Item.Uri?.Equals(right?.Uri) ?? right?.Uri is null;
+    public static bool operator !=(ItemStack? left, IItem? right) => !(left == right);
 }

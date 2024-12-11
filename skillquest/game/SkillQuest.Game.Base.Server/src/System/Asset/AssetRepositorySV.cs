@@ -3,6 +3,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using SkillQuest.API.Asset;
+using SkillQuest.API.ECS;
 using SkillQuest.API.Network;
 using SkillQuest.Game.Base.Server.Database.Users;
 using SkillQuest.Game.Base.Server.System.Addon;
@@ -49,6 +50,33 @@ public class AssetRepositorySV : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
         return Array.Empty<byte>(); // TODO: Upload client file to server
     }
 
+    public void Update(IEntity entity, IClientConnection? client){
+        if (entity is null) {
+            _channel.Send(client, new AssetRepositoryFileResponsePacket() {
+                File = entity.Uri.ToString(),
+                Data = null,
+                Entity = null,
+            });
+            return;
+        }
+        var serializer = new XmlSerializer(entity?.GetType() ?? null);
+
+        using (var sw = new StringWriter()) {
+            using (var writer = new XmlTextWriter(sw) { Formatting = Formatting.Indented }) {
+                writer.WriteStartElement("SkillQuest");
+                serializer.Serialize(writer, entity);
+                writer.WriteEndElement();
+
+                // Send file because the file is already on the server
+                _channel.Send(client, new AssetRepositoryFileResponsePacket() {
+                    File = entity.Uri.ToString(),
+                    Data = Convert.ToBase64String(Encoding.UTF8.GetBytes(sw.ToString())),
+                    Entity = entity!.GetType().AssemblyQualifiedName
+                });
+            }
+        }
+    }
+    
     public void Update(Uri uri, IClientConnection client){
         Permissions.Check(client, uri, out var canview, out var canedit);
 
@@ -64,22 +92,7 @@ public class AssetRepositorySV : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
 
         try {
             var ent = SH.Ledger!.Things.GetValueOrDefault(uri);
-            var serializer = new XmlSerializer(ent?.GetType() ?? null);
-
-            using (var sw = new StringWriter()) {
-                using (var writer = new XmlTextWriter(sw) { Formatting = Formatting.Indented }) {
-                    writer.WriteStartElement("SkillQuest");
-                    serializer.Serialize(writer, ent);
-                    writer.WriteEndElement();
-
-                    // Send file because the file is already on the server
-                    _channel.Send(client, new AssetRepositoryFileResponsePacket() {
-                        File = uri.ToString(),
-                        Data = Convert.ToBase64String(Encoding.UTF8.GetBytes(sw.ToString())),
-                        Entity = ent!.GetType().AssemblyQualifiedName
-                    });
-                }
-            }
+            Update(ent, client);
         } catch (Exception e) {
             Console.WriteLine(e);
         }

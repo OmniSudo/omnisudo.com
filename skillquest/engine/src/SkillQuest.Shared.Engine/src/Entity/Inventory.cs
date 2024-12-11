@@ -3,39 +3,50 @@ using System.Collections.Immutable;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using SkillQuest.API.Thing;
 
 namespace SkillQuest.Shared.Engine.Entity;
 
 [XmlRoot("Inventory")]
-public class Inventory : Engine.ECS.Entity{
-    Dictionary<Uri, ItemStack> _stacks = new();
+public class Inventory : Engine.ECS.Entity, IInventory {
+    ConcurrentDictionary<Uri, IItemStack> _stacks = new();
 
-    public Dictionary<Uri, ItemStack> Stacks {
-        get => _stacks;
-        set {
-            _stacks = value;
-
-            foreach (var stack in _stacks) {
-                stack.Value.Ledger = Ledger;
-            }
-        }
-    }
+    public ImmutableDictionary<Uri, IItemStack> Stacks => _stacks.ToImmutableDictionary();
 
     public Inventory(){ }
 
-    public new ItemStack? this[Uri uri] {
+    public new IItemStack? this[Uri uri] {
         get => Stacks.GetValueOrDefault(uri);
         set {
             if (value is null) {
-                Stacks.Remove(uri, out var val);
+                _stacks.Remove(uri, out var val);
                 if (val is not null) val.Ledger = null;
             } else {
-                Stacks[uri] = value;
-                value.Ledger = Ledger;
+                _stacks.TryGetValue(uri, out var old);
+
+                if (old is not null && old != value) {
+                    StackRemoved?.Invoke(this, old);
+                    old.CountChanged -= OnItemStackCountChanged;
+                }
+                
+                _stacks[uri] = value;
+                if (value is null) return;
+                
+                value.Ledger = Ledger ?? Shared.Engine.State.SH.Ledger;
+                value.CountChanged += OnItemStackCountChanged;
+                StackAdded?.Invoke(this, value);
             }
         }
     }
 
+    void OnItemStackCountChanged(IItemStack stack, long previous, long current){
+        CountChanged?.Invoke(this, stack, previous, current);
+    }
+
+    public event IInventory.DoStackAdded? StackAdded;
+    public event  IInventory.DoStackRemoved? StackRemoved;
+    public event  IInventory.DoCountChanged? CountChanged;
+    
     public override void ReadXml(XmlReader reader){
         var rawUri = reader.GetAttribute("uri");
 
@@ -55,7 +66,7 @@ public class Inventory : Engine.ECS.Entity{
 
                 if (Uri.TryCreate(slot, UriKind.Absolute, out var sloturi)) {
                     var stack = new ItemStack();
-                    stack.ReadXml(reader);
+                    stack.ReadXml(reader.ReadSubtree());
                     this[sloturi] = stack;
                 }
             }
@@ -71,5 +82,9 @@ public class Inventory : Engine.ECS.Entity{
             stack.Value.WriteXml(writer);
             writer.WriteEndElement();
         }
+    }
+
+    public void Add(Uri uri, IItemStack stack){
+        this[uri] = stack;
     }
 }

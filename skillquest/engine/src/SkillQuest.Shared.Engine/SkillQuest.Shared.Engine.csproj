@@ -23,6 +23,7 @@
 
     <ItemGroup>
       <Folder Include="src\Assets\" />
+      <Folder Include="src\Component\" />
     </ItemGroup>
 
 </Project>

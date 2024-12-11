@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using SkillQuest.API;
 using SkillQuest.API.Network;
+using SkillQuest.API.Thing;
 using SkillQuest.Game.Base.Server.System.Asset;
 using SkillQuest.Game.Base.Server.System.Character;
 using SkillQuest.Game.Base.Server.System.Users;
@@ -59,29 +60,29 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
 
         ItemStack test;
 
-        Ledger.Add(new Inventory() {
+        var inventory = Ledger.Add(new Inventory() {
             Uri = new Uri($"inventory://skill.quest/{character.CharacterId}/main"),
-            Ledger = Ledger,
-            Stacks = new Dictionary<Uri, ItemStack>() {
-                {
-                    new Uri("slot://skill.quest/hand"),
-                    test = new ItemStack(
-                        Ledger["item://skill.quest/mining/ore/coal"] as IItem,
-                        1
-                    )
-                }
-            }
+            [new Uri("slot://skill.quest/hand/left")] = new ItemStack(
+                Ledger["item://skill.quest/mining/ore/coal"] as IItem,
+                1
+            ),
+            [new Uri("slot://skill.quest/hand/right")] = test = new ItemStack(
+                Ledger["item://skill.quest/mining/ore/iron"] as IItem,
+                1
+            ),
         });
 
-        test.CountChanged += (stack, previous, current) => {
-            
+        inventory.CountChanged += (inventory, stack, previous, current) => {
+            SH.Assets.Update(stack.Uri, client);
         };
         
-        testTimer = new Timer((state) => { test.Count++; }, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+        SH.Assets.Update(inventory.Uri, client);
+
+        test.Count++;
     }
 
     Timer testTimer;
-    
+
     public CharacterSelect CharacterSelect { get; set; }
 
     private CharacterCreator CharacterCreator { get; set; }

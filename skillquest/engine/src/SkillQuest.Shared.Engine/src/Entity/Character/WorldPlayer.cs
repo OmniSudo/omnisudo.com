@@ -1,4 +1,5 @@
 using SkillQuest.API.Network;
+using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;
 
 namespace SkillQuest.Shared.Engine.Entity.Character;
@@ -19,6 +20,6 @@ public class WorldPlayer : IPlayerCharacter {
         set;
     }
     
-    public Inventory? Inventory { get; set; }
+    public IInventory? Inventory { get; set; }
 
 }

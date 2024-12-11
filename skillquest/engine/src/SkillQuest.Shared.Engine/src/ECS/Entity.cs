@@ -105,7 +105,7 @@ public class Entity : IEntity{
         return this;
     }
 
-    public TComponent? Component<TComponent>(object component) where TComponent : class, IComponent =>
+    public TComponent? Component<TComponent>(object? component) where TComponent : class, IComponent =>
         Component(typeof(TComponent)) as TComponent;
 
 
@@ -233,12 +233,12 @@ public class Entity : IEntity{
         writer.WriteValue(Uri!.ToString());
         writer.WriteEndAttribute();
 
-        foreach (var compoenent in Components) {
-            if (compoenent.Value is INetworkedComponent) {
+        foreach (var component in Components) {
+            if (component.Value is INetworkedComponent) {
                 writer.WriteStartElement( "Component" );
                 
                 writer.WriteStartAttribute( "uri" );
-                var uri = Ledger.Components[compoenent.Value.GetType()]?.ToString();
+                var uri = Ledger.Components[component.Value.GetType()]?.ToString();
                 if (uri is null) {
                     writer.WriteEndAttribute();
                     writer.WriteEndElement();
@@ -246,7 +246,7 @@ public class Entity : IEntity{
                 }
                 writer.WriteValue( uri );
                 writer.WriteEndAttribute();
-                compoenent.Value.WriteXml(writer);
+                component.Value.WriteXml(writer);
                 writer.WriteEndElement();
             }
         }
