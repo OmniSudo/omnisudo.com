@@ -3,7 +3,7 @@ using ImGuiNET;
 using SkillQuest.API.Thing.Character;
 using SkillQuest.Client.Engine.Graphics.API;
 
-namespace SkillQuest.Addon.Base.Client.System.Gui.Editor;
+namespace SkillQuest.Game.Base.Client.System.Gui.Editor;
 
 public class GuiEditor : global::SkillQuest.Shared.Engine.ECS.System, IDrawable {
     public GuiEditor(IPlayerCharacter player) : base( new Uri("ui://skill.quest/editor") ) {

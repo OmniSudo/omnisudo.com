@@ -1,72 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SkillQuest>
     <Material uri="material://skill.quest/metallurgy/metal/tin">
-        <Component uri="component://skill.quest/metallurgy/metal">
+        <Component uri="component://skill.quest/material/metallurgy/metal">
             
         </Component>
     </Material>
     <Material uri="material://skill.quest/metallurgy/metal/copper">
-        <Component uri="component://skill.quest/metallurgy/metal">
+        <Component uri="component://skill.quest/material/metallurgy/metal">
             
         </Component>
     </Material>
     <Material uri="material://skill.quest/metallurgy/metal/iron">
-        <Component uri="component://skill.quest/metallurgy/metal">
+        <Component uri="component://skill.quest/material/metallurgy/metal">
             
         </Component>
     </Material>
     <Material uri="material://skill.quest/metallurgy/metal/steel">
-        <Component uri="component://skill.quest/metallurgy/metal">
+        <Component uri="component://skill.quest/material/metallurgy/metal">
             
         </Component>
     </Material>
     <Material uri="material://skill.quest/metallurgy/metal/silver">
-        <Component uri="component://skill.quest/metallurgy/metal">
+        <Component uri="component://skill.quest/material/metallurgy/metal">
             
         </Component>
     </Material>
     <Material uri="material://skill.quest/metallurgy/metal/gold">
-        <Component uri="component://skill.quest/metallurgy/metal">
+        <Component uri="component://skill.quest/material/metallurgy/metal">
             
         </Component>
     </Material>
     <Material uri="material://skill.quest/metallurgy/metal/mithril">
-        <Component uri="component://skill.quest/metallurgy/metal">
+        <Component uri="component://skill.quest/material/metallurgy/metal">
             
         </Component>
     </Material>
     <Material uri="material://skill.quest/metallurgy/metal/adamantite">
-        <Component uri="component://skill.quest/metallurgy/metal">
+        <Component uri="component://skill.quest/material/metallurgy/metal">
             
         </Component>
     </Material>
     <Material uri="material://skill.quest/metallurgy/metal/luminite">
-        <Component uri="component://skill.quest/metallurgy/metal">
+        <Component uri="component://skill.quest/material/metallurgy/metal">
             
         </Component>
     </Material>
     <Material uri="material://skill.quest/metallurgy/metal/noctium">
-        <Component uri="component://skill.quest/metallurgy/metal">
+        <Component uri="component://skill.quest/material/metallurgy/metal">
             
         </Component>
     </Material>
     <Material uri="material://skill.quest/metallurgy/metal/aetherium">
-        <Component uri="component://skill.quest/metallurgy/metal">
+        <Component uri="component://skill.quest/material/metallurgy/metal">
             
         </Component>
     </Material>
     <Material uri="material://skill.quest/metallurgy/metal/oblivionite">
-        <Component uri="component://skill.quest/metallurgy/metal">
+        <Component uri="component://skill.quest/material/metallurgy/metal">
             
         </Component>
     </Material>
     <Material uri="material://skill.quest/metallurgy/metal/deltium">
-        <Component uri="component://skill.quest/metallurgy/metal">
+        <Component uri="component://skill.quest/material/metallurgy/metal">
             
         </Component>
     </Material>
     <Material uri="material://skill.quest/metallurgy/metal/eternium">
-        <Component uri="component://skill.quest/metallurgy/metal">
+        <Component uri="component://skill.quest/material/metallurgy/metal">
             
         </Component>
     </Material>

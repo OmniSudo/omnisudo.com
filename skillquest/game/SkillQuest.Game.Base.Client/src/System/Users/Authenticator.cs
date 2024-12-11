@@ -1,9 +1,9 @@
 using System.Security.Cryptography;
 using System.Text;
-using SkillQuest.Addon.Base.Shared.Packet.System.Credentials;
 using SkillQuest.API.Network;
+using SkillQuest.Game.Base.Shared.Packet.System.Credentials;
 
-namespace SkillQuest.Addon.Base.Client.System.Users;
+namespace SkillQuest.Game.Base.Client.System.Users;
 
 using static global::SkillQuest.Shared.Engine.State;
 

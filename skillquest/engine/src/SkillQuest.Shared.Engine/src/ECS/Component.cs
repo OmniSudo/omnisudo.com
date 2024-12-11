@@ -5,7 +5,7 @@ using SkillQuest.API.ECS;
 
 namespace SkillQuest.Shared.Engine.ECS;
 
-public class Component<TAttached> : IComponent, IXmlSerializable where TAttached : class, IComponent{
+public class Component<TAttached> : IComponent where TAttached : class, IComponent{
     [XmlIgnore]
     public IEntity? Thing {
         get {
@@ -42,11 +42,9 @@ public class Component<TAttached> : IComponent, IXmlSerializable where TAttached
         return null;
     }
 
-    public virtual void ReadXml(XmlReader reader){
-        throw new NotImplementedException();
+    public virtual void ReadXml(XmlReader reader){ 
     }
 
     public virtual void WriteXml(XmlWriter writer){
-        throw new NotImplementedException();
     }
 }

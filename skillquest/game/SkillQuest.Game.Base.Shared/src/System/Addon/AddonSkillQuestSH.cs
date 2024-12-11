@@ -1,4 +1,4 @@
-namespace SkillQuest.Addon.Base.Shared.System.Addon;
+namespace SkillQuest.Game.Base.Shared.System.Addon;
 
 public class AddonSkillQuestSH : global::SkillQuest.Shared.Engine.Addon{
     public override string Name { get; } = "SkillQuest";

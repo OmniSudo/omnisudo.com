@@ -3,7 +3,7 @@ using SkillQuest.Client.Engine.Graphics.API;
 using SkillQuest.Client.Engine.Input;
 using SkillQuest.Shared.Engine.Entity;
 
-namespace SkillQuest.Addon.Base.Client.System.Gui.InGame;
+namespace SkillQuest.Game.Base.Client.System.Gui.InGame;
 
 public class GuiInventory: global::SkillQuest.Shared.Engine.ECS.System, IDrawable, IHasControls {
     readonly Inventory _inventory;

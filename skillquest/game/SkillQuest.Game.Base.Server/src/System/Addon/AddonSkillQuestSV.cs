@@ -1,14 +1,14 @@
-using SkillQuest.Addon.Base.Server.System.Asset;
-using SkillQuest.Addon.Base.Server.System.Character;
-using SkillQuest.Addon.Base.Server.System.Users;
-using SkillQuest.Addon.Base.Shared.Packet.System.Character;
-using SkillQuest.Addon.Base.Shared.System.Addon;
 using SkillQuest.API;
 using SkillQuest.API.Network;
+using SkillQuest.Game.Base.Server.System.Asset;
+using SkillQuest.Game.Base.Server.System.Character;
+using SkillQuest.Game.Base.Server.System.Users;
+using SkillQuest.Game.Base.Shared.Packet.System.Character;
+using SkillQuest.Game.Base.Shared.System.Addon;
 using SkillQuest.Server.Engine;
 using SkillQuest.Shared.Engine.Database;
 
-namespace SkillQuest.Addon.Base.Server.System.Addon;
+namespace SkillQuest.Game.Base.Server.System.Addon;
 
 using static global::SkillQuest.Shared.Engine.State;
 using static State;
@@ -37,6 +37,11 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
 
         CharacterCreator = SH.Entities.Add(new CharacterCreator());
         CharacterCreator.CharacterCreated += CharacterCreatorOnCreated;
+        
+        
+        application?
+            .Mount(new AddonMetallurgySV())
+            .Mount(new AddonMiningSV());
     }
 
     void AuthenticatorOnLoggedIn(IClientConnection connection){

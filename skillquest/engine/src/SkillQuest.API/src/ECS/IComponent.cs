@@ -1,6 +1,8 @@
+using System.Xml.Serialization;
+
 namespace SkillQuest.API.ECS;
 
-public interface IComponent{
+public interface IComponent : IXmlSerializable {
     public IEntity? Thing { get; set; }
     
     public delegate void DoConnectThing ( IEntity iEntity, IComponent component );

@@ -1,17 +1,17 @@
 using System.Collections.Concurrent;
 using System.Security.Cryptography;
-using SkillQuest.Addon.Base.Shared.Packet.System.Asset;
 using SkillQuest.API.Asset;
 using SkillQuest.API.Network;
+using SkillQuest.Game.Base.Shared.Packet.System.Asset;
 using static SkillQuest.Shared.Engine.State;
 
-namespace SkillQuest.Addon.Base.Client.System.Asset;
+namespace SkillQuest.Game.Base.Client.System.Asset;
 
 public class AssetRepositoryCL : SkillQuest.Shared.Engine.ECS.System, IAssetRepository{
     readonly IChannel _channel;
 
     public override Uri? Uri { get; set; } = new Uri("cl://asset.skill.quest/");
-
+    
     public AssetRepositoryCL(){
         _channel = SH.Net.CreateChannel(Uri);
 
@@ -19,6 +19,8 @@ public class AssetRepositoryCL : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
     }
 
     private ConcurrentDictionary<string, TaskCompletionSource<byte[]>> _fileRequests = new();
+
+    public IPermissionChecker Permissions { get; set; } = null;
 
     public async Task<byte[]> Open(IClientConnection connection, string file){
         
@@ -31,18 +33,41 @@ public class AssetRepositoryCL : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
             if ( tcs.Task.IsCompleted ) return tcs.Task.Result;
         }
 
-        using (var md5 = MD5.Create()) {
-            using (var stream = File.OpenRead(AssetPath.Sanitize(file))) {
-                var hash = Convert.ToBase64String(md5.ComputeHash(stream));
+        FileInfo fi = null;
 
-                _channel.Send(connection, new AssetRepositoryFileRequestPacket() {
-                        File = AssetPath.Sanitize(file),
-                        Hash = hash
-                    }
-                );
+        try {
+            fi = new FileInfo(file);
+
+            if (Uri.TryCreate(file, UriKind.Absolute, out var uri)) {
+                if (uri.Scheme != "file") throw new ArgumentException();
             }
+        } catch (ArgumentException) {
+            fi = null;
         }
+        catch (PathTooLongException) { }
+        catch (NotSupportedException) { }
+        if (ReferenceEquals(fi, null))
+        {
+            _channel.Send(connection, new AssetRepositoryFileRequestPacket() {
+                    File = file,
+                    Hash = null
+                }
+            );
+        } else {
+            using var md5 = MD5.Create();
 
+            await using var stream = File.OpenRead(AssetPath.Sanitize(file));
+
+            var hash = Convert.ToBase64String(md5.ComputeHash(stream));
+
+            _channel.Send(connection, new AssetRepositoryFileRequestPacket() {
+                    File = AssetPath.Sanitize(file),
+                    Hash = hash
+                }
+            );
+
+        }
+        
         return await tcs.Task;
     }
 

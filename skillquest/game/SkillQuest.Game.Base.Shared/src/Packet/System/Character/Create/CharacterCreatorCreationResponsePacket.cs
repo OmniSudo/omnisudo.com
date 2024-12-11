@@ -1,4 +1,4 @@
-namespace SkillQuest.Addon.Base.Shared.Packet.System.Character.Create;
+namespace SkillQuest.Game.Base.Shared.Packet.System.Character.Create;
 
 public class CharacterCreatorCreationResponsePacket : API.Network.Packet {
     public CharacterInfo Character { get; set; }

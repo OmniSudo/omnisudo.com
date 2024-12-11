@@ -3,9 +3,8 @@ using System.Security.Cryptography;
 using System.Text;
 using SkillQuest.API.Network;
 using SkillQuest.Server.Engine;
-using SkillQuest.Shared.Engine.ECS;
 
-namespace SkillQuest.Addon.Base.Server.Database.Users;
+namespace SkillQuest.Game.Base.Server.Database.Users;
 
 using static State;
 

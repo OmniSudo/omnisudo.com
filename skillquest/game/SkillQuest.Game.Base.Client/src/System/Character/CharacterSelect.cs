@@ -1,9 +1,9 @@
-using SkillQuest.Addon.Base.Client.Entity.Character;
-using SkillQuest.Addon.Base.Shared.Packet.System.Character.Select;
 using SkillQuest.API.Network;
 using SkillQuest.API.Thing.Character;
+using SkillQuest.Game.Base.Client.Entity.Character;
+using SkillQuest.Game.Base.Shared.Packet.System.Character.Select;
 
-namespace SkillQuest.Addon.Base.Client.System.Character;
+namespace SkillQuest.Game.Base.Client.System.Character;
 
 using static global::SkillQuest.Shared.Engine.State;
 

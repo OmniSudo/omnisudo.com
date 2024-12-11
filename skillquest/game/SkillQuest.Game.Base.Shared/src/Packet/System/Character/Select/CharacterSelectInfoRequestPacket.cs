@@ -1,4 +1,4 @@
-namespace SkillQuest.Addon.Base.Shared.Packet.System.Character.Select;
+namespace SkillQuest.Game.Base.Shared.Packet.System.Character.Select;
 
 public class CharacterSelectInfoRequestPacket : API.Network.Packet {
     

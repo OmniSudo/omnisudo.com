@@ -1,13 +1,12 @@
 using System.Net;
-using System.Text;
 using ImGuiNET;
-using SkillQuest.Addon.Base.Client.System.Gui.Character;
-using SkillQuest.Addon.Base.Client.System.Users;
 using SkillQuest.API.Network;
 using SkillQuest.Client.Engine.Graphics.API;
+using SkillQuest.Game.Base.Client.System.Gui.Character;
+using SkillQuest.Game.Base.Client.System.Users;
 using static SkillQuest.Shared.Engine.State;
 
-namespace SkillQuest.Addon.Base.Client.System.Gui.LoginSignup;
+namespace SkillQuest.Game.Base.Client.System.Gui.LoginSignup;
 
 public class GuiMainMenu : SkillQuest.Shared.Engine.ECS.System, IDrawable{
     public override Uri? Uri { get; set; } = new Uri("ui://skill.quest/mainmenu");
@@ -26,11 +25,6 @@ public class GuiMainMenu : SkillQuest.Shared.Engine.ECS.System, IDrawable{
 
     void OpenCharacterSelect(IClientConnection connection){
         if (connection is null) return;
-
-        SH.Assets.Open(connection, "./game/SkillQuest.Game.Base.Shared/assets/Component/Item/Mining/Ore.xml")
-            .ContinueWith(
-                task => { Console.WriteLine(Encoding.UTF8.GetString(task.Result)); }
-            );
 
         Entities?.Add(new GuiCharacterSelection(connection));
         Entities?.Remove(this);

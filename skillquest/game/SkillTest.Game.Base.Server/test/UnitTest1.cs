@@ -1,4 +1,4 @@
-namespace SkillTest.Addon.Base.Server.test;
+namespace SkillTest.Game.Base.Server.test;
 
 public class Tests{
     [SetUp]

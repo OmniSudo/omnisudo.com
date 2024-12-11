@@ -1,11 +1,10 @@
-using SkillQuest.Addon.Base.Client.System.Asset;
-using SkillQuest.Addon.Base.Client.System.Gui.LoginSignup;
-using SkillQuest.Addon.Base.Shared.System.Addon;
 using SkillQuest.API;
-
+using SkillQuest.Game.Base.Client.System.Asset;
+using SkillQuest.Game.Base.Client.System.Gui.LoginSignup;
+using SkillQuest.Game.Base.Shared.System.Addon;
 using static SkillQuest.Shared.Engine.State;
 
-namespace SkillQuest.Addon.Base.Client.System.Addon;
+namespace SkillQuest.Game.Base.Client.System.Addon;
 
 public class AddonSkillQuestCL : AddonSkillQuestSH {
     public override Uri? Uri { get; set; } = new Uri("cl://addon.skill.quest/skillquest");

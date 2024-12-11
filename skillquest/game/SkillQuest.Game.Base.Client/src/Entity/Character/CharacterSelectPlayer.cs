@@ -1,8 +1,8 @@
-using SkillQuest.Addon.Base.Shared.Packet.System.Character;
 using SkillQuest.API.Network;
 using SkillQuest.API.Thing.Character;
+using SkillQuest.Game.Base.Shared.Packet.System.Character;
 
-namespace SkillQuest.Addon.Base.Client.Entity.Character;
+namespace SkillQuest.Game.Base.Client.Entity.Character;
 
 public class CharacterSelectPlayer(
     Guid characterId,

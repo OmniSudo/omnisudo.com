@@ -1,7 +1,7 @@
-using SkillQuest.Addon.Base.Shared.Packet.System.Character;
+using SkillQuest.Game.Base.Shared.Packet.System.Character;
 using SkillQuest.Server.Engine;
 
-namespace SkillQuest.Addon.Base.Server.Database.Character;
+namespace SkillQuest.Game.Base.Server.Database.Character;
 
 using static State;
 
