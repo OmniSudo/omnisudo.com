@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="assets\" />
+      <Folder Include="assets\Entity\Item\Mining\Tool\" />
       <Folder Include="src\Packet\Inventory\" />
     </ItemGroup>
 
