@@ -30,9 +30,9 @@ public class GuiCharacterSelection : SkillQuest.Shared.Engine.ECS.System, IDrawa
             Console.WriteLine("Unable to download character list...");
             // TODO: Recover from this
 
-            Entities!.Remove(this);
-            Entities!.Remove(_characterSelect);
-            var login = Entities.Add( new GuiMainMenu() );
+            Ledger!.Remove(this);
+            Ledger!.Remove(_characterSelect);
+            var login = Ledger.Add( new GuiMainMenu() );
             Authenticator.Instance.Logout(_connection);
 
             return;
@@ -45,10 +45,10 @@ public class GuiCharacterSelection : SkillQuest.Shared.Engine.ECS.System, IDrawa
 
         if (ImGui.Button("Create")) {
             _characterSelect.Reset();
-            Entities.Add( new GuiCharacterCreation(_connection) );
+            Ledger.Add( new GuiCharacterCreation(_connection) );
             
-            Entities!.Remove(_characterSelect);
-            Entities!.Remove(this);
+            Ledger!.Remove(_characterSelect);
+            Ledger!.Remove(this);
 
             return;
         }
@@ -66,11 +66,11 @@ public class GuiCharacterSelection : SkillQuest.Shared.Engine.ECS.System, IDrawa
                     Name = selected?.Name ?? "ERROR"
                 };
                 
-                Entities!.Add(new GuiInGame(character!));
+                Ledger!.Add(new GuiInGame(character!));
                 
                 _characterSelect.Reset();
-                Entities!.Remove(_characterSelect);
-                Entities!.Remove(this);
+                Ledger!.Remove(_characterSelect);
+                Ledger!.Remove(this);
             });
         }
     }

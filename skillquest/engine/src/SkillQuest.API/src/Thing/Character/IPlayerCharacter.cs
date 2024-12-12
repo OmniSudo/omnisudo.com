@@ -6,5 +6,7 @@ public interface IPlayerCharacter : ICharacter {
     public string Name { get; set; }
 
     public IClientConnection? Connection { get; set; }
+    
+    public IInventory? Inventory { get; set; }
 
 }

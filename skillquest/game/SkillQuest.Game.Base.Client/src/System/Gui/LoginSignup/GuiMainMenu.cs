@@ -26,8 +26,8 @@ public class GuiMainMenu : SkillQuest.Shared.Engine.ECS.System, IDrawable{
     void OpenCharacterSelect(IClientConnection connection){
         if (connection is null) return;
 
-        Entities?.Add(new GuiCharacterSelection(connection));
-        Entities?.Remove(this);
+        Ledger?.Add(new GuiCharacterSelection(connection));
+        Ledger?.Remove(this);
     }
 
     Task? _connect = null;

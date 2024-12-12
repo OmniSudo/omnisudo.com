@@ -1,4 +1,5 @@
 using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using SkillQuest.API.Asset;
@@ -24,17 +25,29 @@ public class AssetRepositoryFileResponsePacket : API.Network.Packet{
                 Uri.TryCreate(File, UriKind.Absolute, out var uri) &&
                 type.IsAssignableTo(typeof(IEntity)) &&
                 type.IsAssignableTo(typeof(IXmlSerializable))
-               ) {
-                var xml = XElement.Parse(Encoding.UTF8.GetString(Convert.FromBase64String(Data)));
+            ) {
+                var ent = SH.Ledger.Things.GetValueOrDefault(uri);
 
-                // TODO: Modularize
-                switch (uri.Scheme) {
-                    case "item":
-                        SH.Ledger.Items.LoadFromXml( xml );
-                        break;
-                    case "material":
-                        SH.Ledger.Materials.LoadFromXml( xml );
-                        break;
+                if (ent is null) {
+
+                    var xml = XElement.Parse(Encoding.UTF8.GetString(Convert.FromBase64String(Data)))
+                        .Element(
+                            (type.GetCustomAttributes(typeof(XmlRootAttribute), true)[0] as XmlRootAttribute)
+                            ?.ElementName ?? "Entity"
+                        );
+                    var ser = new XmlSerializer(type);
+                    ent = ser.Deserialize(xml.CreateReader()) as IEntity;
+
+                    if (ent is not null) {
+                        SH.Ledger.Add(ent);
+                    }
+                } else {
+                    var xml = XElement.Parse(Encoding.UTF8.GetString(Convert.FromBase64String(Data)))
+                        .Element(
+                            (type.GetCustomAttributes(typeof(XmlRootAttribute), true)[0] as XmlRootAttribute)
+                            ?.ElementName ?? "Entity"
+                        );
+                    ent.ReadXml(xml.CreateReader());
                 }
             }
         } else {

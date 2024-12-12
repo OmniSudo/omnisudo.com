@@ -6,7 +6,7 @@ using SkillQuest.API.ECS;
 
 namespace SkillQuest.Shared.Engine.System.State.Ledger;
 
-public class ComponentLedger : IDisposable{
+public class ComponentLedger : IComponentLedger, IDisposable {
     public Type this[Uri uri] {
         get {
             _components.TryGetValue(uri, out var component);
@@ -26,6 +26,7 @@ public class ComponentLedger : IDisposable{
             }
         }
     }
+    
     public Uri? this[Type type] {
         get {
             return _types.GetValueOrDefault(type);

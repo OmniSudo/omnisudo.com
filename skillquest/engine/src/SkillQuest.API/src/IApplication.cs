@@ -6,7 +6,7 @@ namespace SkillQuest.API;
 public interface IApplication{
     public bool Running { get; set; }
     
-    public IEntityLedger Entities { get; set; }
+    public IEntityLedger Ledger { get; set; }
 
     public IApplication Mount(IAddon addon);
 

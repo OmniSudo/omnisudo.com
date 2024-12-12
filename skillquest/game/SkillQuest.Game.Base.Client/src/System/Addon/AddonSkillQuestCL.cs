@@ -21,9 +21,9 @@ public class AddonSkillQuestCL : AddonSkillQuestSH {
             .Mount(new AddonMetallurgyCL())
             .Mount(new AddonMiningCL());
 
-        SH.Assets = SH.Entities.Add(new AssetRepositoryCL());
+        SH.Assets = SH.Ledger.Add(new AssetRepositoryCL());
         
-        Entities.Add(new GuiMainMenu());
+        Ledger.Add(new GuiMainMenu());
     }
 
 

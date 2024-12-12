@@ -15,15 +15,11 @@ public class State{
 
     public IApplication Application { get; set; }
 
-    public IEntityLedger Entities => Application.Entities;
+    public IEntityLedger Ledger => Application.Ledger;
 
     public INetworker Net { get; }
 
     public IAssetRepository Assets { get; set; }
-
-public GlobalLedger Ledger {
-        get;
-    } = new GlobalLedger();
 
     public IWorldGenPipeline WorldGenerationPipeline {
         get;

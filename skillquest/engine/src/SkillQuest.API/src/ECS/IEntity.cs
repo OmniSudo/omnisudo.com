@@ -1,8 +1,9 @@
 using System.Collections.Immutable;
+using System.Xml.Serialization;
 
 namespace SkillQuest.API.ECS;
 
-public interface IEntity : IDisposable {
+public interface IEntity : IXmlSerializable, IDisposable {
     public Uri? Uri { get; set; }
 
     delegate void DoTracked(IEntityLedger Entities, IEntity iEntity );
@@ -43,7 +44,7 @@ public interface IEntity : IDisposable {
     
     public event DoRemoveChild RemoveChild;
     
-    public IEntityLedger? Entities { get; set; }
+    public IEntityLedger? Ledger { get; set; }
 
     IEntity Connect<TComponent>(TComponent? component) where TComponent : class, IComponent;
 

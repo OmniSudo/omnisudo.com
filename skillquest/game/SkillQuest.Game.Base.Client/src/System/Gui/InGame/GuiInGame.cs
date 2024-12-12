@@ -2,6 +2,7 @@ using System.Numerics;
 using ImGuiNET;
 using Silk.NET.Input;
 using SkillQuest.API.ECS;
+using SkillQuest.API.Thing.Character;
 using SkillQuest.Client.Engine.Graphics.API;
 using SkillQuest.Client.Engine.Input;
 using SkillQuest.Shared.Engine.Entity;
@@ -11,16 +12,16 @@ using static SkillQuest.Shared.Engine.State;
 
 namespace SkillQuest.Game.Base.Client.System.Gui.InGame;
 
-public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable, IHasControls {
+public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable, IHasControls{
     public override Uri? Uri { get; set; } = new Uri("ui://skill.quest/ingame");
 
-    private WorldPlayer _localhost;
+    public IPlayerCharacter LocalHost;
 
     public World World;
 
-    public GuiInGame(WorldPlayer localhost){
-        _localhost = localhost;
-        World = new World(_localhost);
+    public GuiInGame(IPlayerCharacter localHost){
+        LocalHost = localHost;
+        World = new World(LocalHost);
         this.Tracked += OnTracked;
         this.Untracked += OnUntracked;
     }
@@ -39,13 +40,13 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
                 ImGuiWindowFlags.NoMove
             )
         ) {
-            
+
 
             ImGui.End();
         }
-        
-        foreach ( var child in Children ) {
-            if ( child.Value is IDrawable drawable ) {
+
+        foreach (var child in Children) {
+            if (child.Value is IDrawable drawable) {
                 drawable.Draw(now, delta);
             }
         }
@@ -53,22 +54,15 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
 
     void OnTracked(IEntityLedger Entities, IEntity iEntity){
         ConnectInput();
-        
-        SH.Ledger.Components.LoadFromXmlFile( "game/SkillQuest.Game.Base.Shared/assets/Component/Item/Mining/Ore.xml" );
-        
-        _localhost.Inventory = new Inventory(new Uri( "inventory://skill.quest/" + _localhost.CharacterId));
+
+        Ledger.Components.LoadFromXmlFile("game/SkillQuest.Game.Base.Shared/assets/Component/Item/Mining/Ore.xml");
 
         Task.Run(() => {
-            SH.Assets.Open(_localhost.Connection, "item://skill.quest/mining/ore/coal").Wait(); 
+            LocalHost.Inventory = SH.Ledger.Load( $"inventory://skill.quest/{LocalHost.CharacterId}/main", LocalHost.Connection!).Result as Inventory;
 
-            _localhost.Inventory[new Uri("stack://skill.quest/0")] = new ItemStack(
-                SH.Ledger.Items[
-                    new Uri("item://skill.quest/mining/ore/coal")
-                ] ?? throw new InvalidOperationException(),
-                10,
-                null,
-                _localhost
-            );
+            foreach (var pair in LocalHost.Inventory.Stacks) {
+                SH.Ledger.Load(pair.Key, LocalHost.Connection!);
+            }
         });
     }
 
@@ -77,24 +71,23 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
     }
 
     GuiInventory _inventory;
-    
+
     void KeyboardOnKeyDown(IKeyboard arg1, Key key, int arg3){
         switch (key) {
             case Key.Escape: {
                 DisconnectInput();
 
-                Entities.Add(new GuiPause(_localhost)).Untracked += (stuff, thing) => {
-                    if (Entities is not null) ConnectInput();
+                Ledger.Add(new GuiPause(LocalHost)).Untracked += (stuff, thing) => {
+                    if (Ledger is not null) ConnectInput();
                 };
                 break;
             }
             case Key.I: {
                 if (_inventory is null) {
-                    _inventory = new GuiInventory(this, _localhost.Inventory);
-                    Entities?.Add(_inventory);
-                }
-                else {
-                    Entities?.Remove(_inventory);
+                    _inventory = new GuiInventory(this, LocalHost.Inventory);
+                    Ledger?.Add(_inventory);
+                } else {
+                    Ledger?.Remove(_inventory);
                     _inventory = null;
                 }
                 break;

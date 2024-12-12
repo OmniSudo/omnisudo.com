@@ -219,7 +219,7 @@ public class AuthenticationDatabase : SkillQuest.Shared.Engine.ECS.System{
     public Rank Rank(Guid userId){
         var ranks = SV.Database.Query(
             $"""
-             SELECT rank FROM ranks WHERE user_id=$uid;
+             SELECT rank FROM ranks WHERE uid=$uid;
              """,
             new Dictionary<string, object>() {
                 { "$uid", userId }
@@ -237,7 +237,7 @@ public class AuthenticationDatabase : SkillQuest.Shared.Engine.ECS.System{
     public void Rank(Guid userId, Rank rank){
         SV.Database.Query(
             $"""
-             INSERT OR REPLACE INTO rank ( user_id, rank ) VALUES ( $uid, $rank );
+             INSERT OR REPLACE INTO rank ( uid, rank ) VALUES ( $uid, $rank );
              """,
             new Dictionary<string, object>() {
                 { "$uid", userId },

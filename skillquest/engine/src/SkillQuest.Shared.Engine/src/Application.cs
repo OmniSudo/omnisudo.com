@@ -26,7 +26,7 @@ public class Application : IApplication{
         }
     }
 
-    public IEntityLedger Entities { get; set; }
+    public IEntityLedger Ledger { get; set; }
 
     public virtual uint TicksPerSecond => 100;
 
@@ -39,11 +39,11 @@ public class Application : IApplication{
     }
 
     public Application(){
-        Entities = new EntityLedger();
+        Ledger = new EntityLedger();
     }
 
     public IApplication Mount(IAddon addon){
-        _addons[ addon.Uri ] = SH.Entities.Add(addon);
+        _addons[ addon.Uri ] = SH.Ledger.Add(addon);
         addon.Application = this;
         return this;
     }
@@ -54,10 +54,10 @@ public class Application : IApplication{
         if (addon is null) {
             foreach ( var pair in Addons) {
                 pair.Value.Application = null;
-                SH.Entities.Remove(pair.Value);
+                SH.Ledger.Remove(pair.Value);
             }
-        } else if (SH.Entities.Things.ContainsKey(addon.Uri!)) {
-            SH.Entities.Remove(addon);
+        } else if (SH.Ledger.Things.ContainsKey(addon.Uri!)) {
+            SH.Ledger.Remove(addon);
             addon.Application = null;
         }
         return this;
@@ -101,7 +101,7 @@ public class Application : IApplication{
     
     public event IApplication.DoStop? Stop;
 
-    public ImmutableDictionary<Uri, IAddon> Addons => SH.Entities.Things
+    public ImmutableDictionary<Uri, IAddon> Addons => SH.Ledger.Things
         .Where(
             (pair) => pair.Value is IAddon
             )
@@ -115,15 +115,15 @@ public class Application : IApplication{
         }
         set {
             if (value == null) {
-                SH.Entities.Remove(uri);
+                SH.Ledger.Remove(uri);
             } else {
                 var old = Addons.GetValueOrDefault(uri);
 
                 if (old is not null) {
-                    SH.Entities.Remove(old);
+                    SH.Ledger.Remove(old);
                     old.Application = null;
                 }
-                SH.Entities.Add( value );
+                SH.Ledger.Add( value );
                 value.Application = this;
             }
         }
