@@ -5,12 +5,13 @@ using SkillQuest.Shared.Engine.Component;
 
 namespace SkillQuest.Shared.Engine.Entity;
 
-[XmlRoot("Item")]
 public class Item : Engine.ECS.Entity, IItem{
-    public string Name => Uri.ToString();
-
-    public ItemProperties? Properties {
-        get => Components[typeof(ItemProperties)] as ItemProperties;
-        set => Component<ItemProperties>(value);
+    string? _name;
+    
+    public virtual string Name {
+        get => _name ?? Uri?.ToString() ?? "Null";
+        protected set => _name = value;
     }
+    
+    public virtual string? Description { get; set; }
 }

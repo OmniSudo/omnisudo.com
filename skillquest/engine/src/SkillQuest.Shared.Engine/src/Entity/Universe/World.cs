@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Silk.NET.Maths;
 using SkillQuest.API.Procedural.World;
 using SkillQuest.API.Thing.Character;
@@ -17,10 +18,18 @@ public class World : IWorld {
         }
     }
 
-    public Dictionary<Guid, IPlayerCharacter> Players { get; } = new();
+    public ConcurrentDictionary<Guid, IPlayerCharacter> Players { get; } = new();
+
+    public ConcurrentDictionary<Uri, Prop> Props { get; } = new();
     
-    public void Add(IPlayerCharacter player){
+    public IPlayerCharacter Add(IPlayerCharacter player){
         Players[player.CharacterId] = player;
+        return player;
+    }
+
+    public Prop Add(Prop prop){
+        Props[prop.Uri] = prop;
+        return prop;
     }
 
     public Task< IRegion? > Generate(Vector3D<long> position){

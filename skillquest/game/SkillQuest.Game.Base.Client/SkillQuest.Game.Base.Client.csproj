@@ -14,7 +14,6 @@
     <ItemGroup>
       <Folder Include="assets\SkillQuest\" />
       <Folder Include="src\" />
-      <Folder Include="src\System\Inventory\" />
     </ItemGroup>
 
 </Project>

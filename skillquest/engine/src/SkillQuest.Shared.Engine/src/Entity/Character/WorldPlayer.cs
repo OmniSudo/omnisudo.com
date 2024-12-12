@@ -4,7 +4,7 @@ using SkillQuest.API.Thing.Character;
 
 namespace SkillQuest.Shared.Engine.Entity.Character;
 
-public class WorldPlayer : IPlayerCharacter {
+public class WorldPlayer : ECS.Entity, IPlayerCharacter {
     public Guid CharacterId {
         get;
         set;

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<SkillQuest>
-    <Component
-            asm="SkillQuest.Game.Base.Shared"
-            type="SkillQuest.Game.Base.Shared.Component.Material.Metallurgy.Metal"
-    >
-        <Alias>component://skill.quest/material/metallurgy/metal</Alias>
-    </Component>
-</SkillQuest>

@@ -19,9 +19,6 @@ public class GuiInventory: global::SkillQuest.Shared.Engine.ECS.System, IDrawabl
     public GuiInventory(GuiInGame guiInGame, IInventory? inventory){
         _inventory = inventory;
         Parent = guiInGame;
-        _inventory.StackAdded += (i, s) => {
-            SkillQuest.Shared.Engine.State.SH.Ledger.Load(s.Uri, guiInGame.LocalHost.Connection);
-        };
     }
 
     public void Draw(DateTime now, TimeSpan delta){
@@ -39,7 +36,7 @@ public class GuiInventory: global::SkillQuest.Shared.Engine.ECS.System, IDrawabl
                     if (slot.Value.Count > 0) {
                         ImGui.Text(slot.Value.Count.ToString());
                         ImGui.SameLine();
-                        ImGui.Text(slot.Value.Item.Name);
+                        ImGui.Text(slot.Value.Item?.Name ?? "NULL");
                     }
                 }
             }

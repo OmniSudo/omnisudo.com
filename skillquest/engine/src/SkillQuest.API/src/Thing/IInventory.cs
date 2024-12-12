@@ -25,4 +25,5 @@ public interface IInventory : IEntity {
     public event DoCountChanged? CountChanged;
 
     public void Add(Uri uri, IItemStack stack);
+    
 }

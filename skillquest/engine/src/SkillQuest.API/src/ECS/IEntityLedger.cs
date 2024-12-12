@@ -4,8 +4,6 @@ using SkillQuest.API.Network;
 namespace SkillQuest.API.ECS;
 
 public interface IEntityLedger : IDisposable{
-    public IComponentLedger Components { get; }
-
     public delegate void DoThingAdded(IEntity iEntity);
 
     public event DoThingAdded ThingAdded;
@@ -27,14 +25,6 @@ public interface IEntityLedger : IDisposable{
     }
 
     public TThing Add<TThing>(TThing thing) where TThing : IEntity;
-
-    public Task<IEntity?> Load(string file, IClientConnection connection = null);
-
-    public Task<IEntity?> Load(Uri uri, IClientConnection connection = null);
-
-    public Type Tag(string name);
-
-    public void Tag(string name, Type type);
 
     public IEntity? Remove(IEntity iEntity);
 

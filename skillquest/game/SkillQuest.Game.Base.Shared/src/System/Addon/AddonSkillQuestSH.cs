@@ -14,9 +14,7 @@ public class AddonSkillQuestSH : global::SkillQuest.Shared.Engine.Addon{
         Unmounted += OnUnmounted;
     }
 
-    async void OnMounted(IAddon addon, IApplication? application){
-        Ledger.Tag("Item", typeof(Item));
-        Ledger.Tag("Material", typeof(Material));
+    void OnMounted(IAddon addon, IApplication? application){
     }
 
 

@@ -57,28 +57,6 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
 
     void CharacterSelectOnSelected(IClientConnection client, CharacterInfo character){
         Console.WriteLine(client.EMail + ": " + character.Name);
-
-        ItemStack test;
-
-        var inventory = Ledger.Add(new Inventory() {
-            Uri = new Uri($"inventory://skill.quest/{character.CharacterId}/main"),
-            [new Uri("slot://skill.quest/hand/left")] = new ItemStack(
-                Ledger["item://skill.quest/mining/ore/coal"] as IItem,
-                1
-            ),
-            [new Uri("slot://skill.quest/hand/right")] = test = new ItemStack(
-                Ledger["item://skill.quest/mining/ore/iron"] as IItem,
-                1
-            ),
-        });
-
-        inventory.CountChanged += (inventory, stack, previous, current) => {
-            SH.Assets.Update(stack.Uri, client);
-        };
-        
-        SH.Assets.Update(inventory.Uri, client);
-
-        test.Count++;
     }
 
     Timer testTimer;

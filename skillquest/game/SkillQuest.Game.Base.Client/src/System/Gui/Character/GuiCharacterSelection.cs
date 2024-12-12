@@ -6,6 +6,7 @@ using SkillQuest.Game.Base.Client.System.Character;
 using SkillQuest.Game.Base.Client.System.Gui.InGame;
 using SkillQuest.Game.Base.Client.System.Gui.LoginSignup;
 using SkillQuest.Game.Base.Client.System.Users;
+using SkillQuest.Shared.Engine.Entity;
 using SkillQuest.Shared.Engine.Entity.Character;
 
 namespace SkillQuest.Game.Base.Client.System.Gui.Character;
@@ -63,7 +64,8 @@ public class GuiCharacterSelection : SkillQuest.Shared.Engine.ECS.System, IDrawa
                 var character = new WorldPlayer() {
                     CharacterId = selected?.CharacterId ?? Guid.Empty,
                     Connection = _connection,
-                    Name = selected?.Name ?? "ERROR"
+                    Name = selected?.Name ?? "ERROR",
+                    Inventory = new Inventory(),
                 };
                 
                 Ledger!.Add(new GuiInGame(character!));

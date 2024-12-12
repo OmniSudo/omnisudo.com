@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<SkillQuest>
-    <Item uri="item://skill.quest/mining/ore/copper">
-        <Component uri="component://skill.quest/mining/ore">
-            <Material>material://skill.quest/metallurgy/metal/copper</Material>
-            <XP>15</XP>
-        </Component>
-    </Item>
-</SkillQuest>

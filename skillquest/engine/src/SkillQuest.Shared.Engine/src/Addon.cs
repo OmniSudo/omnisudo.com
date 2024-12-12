@@ -28,7 +28,8 @@ public class Addon : ECS.System, IAddon{
         set {
             if (value == _application)
                 return;
-            Unmounted?.Invoke(this, _application);
+            if ( _application is not null )
+                Unmounted?.Invoke(this, _application);
             _application = value;
             Mounted?.Invoke(this, _application);
         }

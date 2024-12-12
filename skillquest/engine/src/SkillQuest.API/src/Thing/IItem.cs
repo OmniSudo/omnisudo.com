@@ -5,6 +5,5 @@ namespace SkillQuest.API.Thing;
 
 public interface IItem : IEntity{
     string Name { get; }
-
-    ItemProperties? Properties { get; set; }
+    
 }

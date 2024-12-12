@@ -39,7 +39,7 @@ public class ItemStack : Engine.ECS.Entity, IItemStack {
 
     long? _count;
 
-    public Guid? Owner {
+    public ICharacter? Owner {
         get {
             return _owner;
         }
@@ -52,7 +52,7 @@ public class ItemStack : Engine.ECS.Entity, IItemStack {
         }
     }
 
-    Guid? _owner;
+    ICharacter? _owner;
     
     public static event IItemStack.DoStackCreated StackCreated;
     public static event IItemStack.DoStackDestroyed StackDestroyed;
@@ -65,61 +65,12 @@ public class ItemStack : Engine.ECS.Entity, IItemStack {
 
     public override Uri? Uri => new Uri($"stack://skill.quest/{Id}");
 
-    public override void ReadXml(XmlReader reader){
-        reader.MoveToContent();
-
-        var rawUri = reader.GetAttribute("uri");
-
-        if (Uri.TryCreate(rawUri, UriKind.Absolute, out var uri)) {
-            Guid.TryParse( uri.Segments[1].TrimEnd('/'), out var id );
-            Id = id;
-        }
-        
-        while ( reader.Read() ) {
-            if (reader.Name.Equals("Component") && (reader.NodeType == XmlNodeType.Element)) {
-                string rawComponentUri = reader.GetAttribute("uri");
-
-                if (Uri.TryCreate(rawComponentUri, UriKind.Absolute, out var componentUri)) {
-                    Ledger?.Components.AttachTo(this, componentUri, XElement.Load(reader.ReadSubtree()));
-                }
-            } else if (reader.Name.Equals("Count") && (reader.NodeType == XmlNodeType.Element)) {
-                Count = reader.ReadElementContentAsLong();
-            } else if (reader.Name.Equals("Owner") && (reader.NodeType == XmlNodeType.Element)) {
-                string character = reader.ReadElementContentAsString();
-                Owner = Guid.Parse(character);
-            } else if (reader.Name.Equals("Item") && (reader.NodeType == XmlNodeType.Element)) {
-                var rawItemUri = reader.ReadElementContentAsString();
-
-                if (Uri.TryCreate(rawItemUri, UriKind.Absolute, out var itemUri)) {
-                    Item = SH.Ledger?.Things.GetValueOrDefault(itemUri) as IItem ?? new Item() { Uri = itemUri };
-                }
-            }
-        }
-    }
-
-    public override void WriteXml(XmlWriter writer){
-        base.WriteXml(writer);
-        
-        writer.WriteStartElement("Count");
-        writer.WriteValue(Count);
-        writer.WriteEndElement();
-        writer.WriteStartElement("Owner");
-        writer.WriteValue(Owner?.ToString() ?? "");
-        writer.WriteEndElement();
-        writer.WriteStartElement("Item");
-        writer.WriteValue(Item.Uri.ToString());
-        writer.WriteEndElement();
-    }
-
-    public ItemStack(IItem item, long count = 0, Guid? id = null, Guid? owner = null){
-        this._item = item;
-        this._count = count;
-        this._owner = owner;
+    public ItemStack(IItem item, long count, Guid? id = null, ICharacter? owner = null){
+        _item = item;
+        _count = count;
         Id = id ?? Guid.NewGuid();
-        StackCreated?.Invoke(this);
+        _owner = owner;
     }
-
-    public ItemStack(){ }
 
     public static bool operator ==(ItemStack? left, ItemStack? right) => left?.Id.Equals(right?.Id) ?? right is null;
     public static bool operator !=(ItemStack? left, ItemStack? right) => !(left == right);

@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace SkillQuest.API.ECS;
 
-public interface IEntity : IXmlSerializable, IDisposable {
+public interface IEntity : IDisposable {
     public Uri? Uri { get; set; }
 
     delegate void DoTracked(IEntityLedger Entities, IEntity iEntity );

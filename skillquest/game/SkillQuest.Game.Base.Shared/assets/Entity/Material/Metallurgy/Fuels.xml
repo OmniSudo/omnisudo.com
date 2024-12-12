@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<SkillQuest>
-    <Material uri="material://skill.quest/metallurgy/coal">
-        <Component uri="component://skill.quest/material/metallurgy/fuel">
-
-        </Component>
-    </Material>
-</SkillQuest>

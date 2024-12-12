@@ -208,47 +208,4 @@ public class Entity : IEntity{
     public XmlSchema? GetSchema(){
         return null;
     }
-
-    public virtual void ReadXml(XmlReader reader){
-        reader.MoveToContent();
-
-        var rawUri = reader.GetAttribute("uri");
-
-        if (Uri.TryCreate(rawUri, UriKind.Absolute, out var uri)) {
-            Uri = uri;
-        }
-
-        while ( reader.Read() ) {
-            if (reader.Name.Equals("Component") && (reader.NodeType == XmlNodeType.Element)) {
-                string rawComponentUri = reader.GetAttribute("uri");
-                if (Uri.TryCreate(rawComponentUri, UriKind.Absolute, out var componentUri)) {
-                    SH.Ledger.Components.AttachTo( this, componentUri, XElement.Load( reader.ReadSubtree() ) );
-                }
-            }
-        }
-    }
-
-    public virtual void WriteXml(XmlWriter writer){
-        writer.WriteStartAttribute("uri");
-        writer.WriteValue(Uri!.ToString());
-        writer.WriteEndAttribute();
-
-        foreach (var component in Components) {
-            if (component.Value is INetworkedComponent) {
-                writer.WriteStartElement( "Component" );
-                
-                writer.WriteStartAttribute( "uri" );
-                var uri = Ledger.Components[component.Value.GetType()]?.ToString();
-                if (uri is null) {
-                    writer.WriteEndAttribute();
-                    writer.WriteEndElement();
-                    continue;
-                }
-                writer.WriteValue( uri );
-                writer.WriteEndAttribute();
-                component.Value.WriteXml(writer);
-                writer.WriteEndElement();
-            }
-        }
-    }
 }

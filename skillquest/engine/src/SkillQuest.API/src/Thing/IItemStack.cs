@@ -1,4 +1,5 @@
 using SkillQuest.API.ECS;
+using SkillQuest.API.Thing.Character;
 
 namespace SkillQuest.API.Thing;
 
@@ -7,7 +8,7 @@ public interface IItemStack : IEntity {
 
     public long Count { get; set; }
 
-    public Guid? Owner {
+    public ICharacter? Owner {
         get;
         set;
     }
@@ -24,7 +25,7 @@ public interface IItemStack : IEntity {
 
     public event DoCountChanged CountChanged;
 
-    public delegate void DoOwnerChanged(IItemStack stack, Guid? previous, Guid? current);
+    public delegate void DoOwnerChanged(IItemStack stack, ICharacter? previous, ICharacter? current);
 
     public event DoOwnerChanged OwnerChanged;
 

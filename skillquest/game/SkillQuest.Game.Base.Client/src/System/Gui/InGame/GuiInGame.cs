@@ -2,9 +2,13 @@ using System.Numerics;
 using ImGuiNET;
 using Silk.NET.Input;
 using SkillQuest.API.ECS;
+using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;
 using SkillQuest.Client.Engine.Graphics.API;
 using SkillQuest.Client.Engine.Input;
+using SkillQuest.Game.Base.Shared.Entity.Item.Mining.Tool.Pickaxe;
+using SkillQuest.Game.Base.Shared.Entity.Prop.Mining.Vein;
+using SkillQuest.Game.Base.Shared.System.Skill;
 using SkillQuest.Shared.Engine.Entity;
 using SkillQuest.Shared.Engine.Entity.Character;
 using SkillQuest.Shared.Engine.Entity.Universe;
@@ -22,6 +26,16 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
     public GuiInGame(IPlayerCharacter localHost){
         LocalHost = localHost;
         World = new World(LocalHost);
+
+        vein = World.Add(
+            new PropVein(
+                SH.Ledger["material://skill.quest/metallurgy/metal/iron"] as Material,
+                0, 10, TimeSpan.FromSeconds(1)
+            ) {
+                Ledger = SH.Ledger,
+            }
+        ) as PropVein;
+
         this.Tracked += OnTracked;
         this.Untracked += OnUntracked;
     }
@@ -40,7 +54,26 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
                 ImGuiWindowFlags.NoMove
             )
         ) {
+            if (ImGui.Button("+Pickaxe")) {
+                LocalHost.Inventory![new Uri($"slot://{LocalHost.Name}/hand/right")] ??= new ItemStack(
+                    (SH.Ledger[new Uri($"item://skill.quest/mining/tool/pickaxe/iron")] as IItem)!,
+                    1,
+                    null,
+                    LocalHost
+                );
+            }
 
+            if (!vein.Depleted && ImGui.Button("Mine Iron Vein")) {
+                (
+                    LocalHost
+                        .Inventory?[new Uri($"slot://{LocalHost.Name}/hand/right")]
+                        ?.Item as ItemPickaxe
+                )?.Primary(
+                    LocalHost.Inventory![new Uri($"slot://{LocalHost.Name}/hand/right")]!,
+                    LocalHost,
+                    vein
+                );
+            }
 
             ImGui.End();
         }
@@ -55,15 +88,9 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
     void OnTracked(IEntityLedger Entities, IEntity iEntity){
         ConnectInput();
 
-        Ledger.Components.LoadFromXmlFile("game/SkillQuest.Game.Base.Shared/assets/Component/Item/Mining/Ore.xml");
-
-        Task.Run(() => {
-            LocalHost.Inventory = SH.Ledger.Load( $"inventory://skill.quest/{LocalHost.CharacterId}/main", LocalHost.Connection!).Result as Inventory;
-
-            foreach (var pair in LocalHost.Inventory.Stacks) {
-                SH.Ledger.Load(pair.Key, LocalHost.Connection!);
-            }
-        });
+        var skill = new SkillMining(LocalHost);
+        skill.Parent = LocalHost;
+        Ledger.Add(skill);
     }
 
     void OnUntracked(IEntityLedger Entities, IEntity iEntity){
@@ -71,6 +98,7 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
     }
 
     GuiInventory _inventory;
+    readonly PropVein vein;
 
     void KeyboardOnKeyDown(IKeyboard arg1, Key key, int arg3){
         switch (key) {
