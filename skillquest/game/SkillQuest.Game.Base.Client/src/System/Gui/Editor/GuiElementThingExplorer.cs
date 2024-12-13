@@ -13,7 +13,7 @@ public class GuiElementThingExplorer : global::SkillQuest.Shared.Engine.ECS.Syst
         Tracked += (stuff, thing) => {
             Ledger.ThingAdded += StuffOnThingAdded;
             Ledger.ThingRemoved += StuffOnThingRemoved;
-            foreach (var t in Ledger.Things) {
+            foreach (var t in Ledger.Entities) {
                 StuffOnThingAdded(t.Value);
             }
         };

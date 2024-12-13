@@ -12,7 +12,7 @@ public interface IEntityLedger : IDisposable{
 
     public event DoThingRemoved ThingRemoved;
 
-    public ImmutableDictionary<Uri, IEntity> Things { get; }
+    public ImmutableDictionary<Uri, IEntity> Entities { get; }
 
     public IEntity? this[Uri uri] {
         get;
@@ -24,6 +24,14 @@ public interface IEntityLedger : IDisposable{
         }
     }
 
+    public IEntityLedger? this[DateTime time, TimeSpan? span = null] {
+        get;
+    }
+
+    public IEntityLedger? TakeSnapshot(DateTime time);
+
+    public void DiscardSnapshot(DateTime cutoff);
+    
     public TThing Add<TThing>(TThing thing) where TThing : IEntity;
 
     public IEntity? Remove(IEntity iEntity);

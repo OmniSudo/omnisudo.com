@@ -1,7 +1,11 @@
 using SkillQuest.API.Network;
+using SkillQuest.API.Thing.Character;
 using SkillQuest.Game.Base.Server.Database.Character;
 using SkillQuest.Game.Base.Shared.Packet.System.Character;
 using SkillQuest.Game.Base.Shared.Packet.System.Character.Select;
+using SkillQuest.Shared.Engine.Entity;
+using SkillQuest.Shared.Engine.Entity.Character;
+using SkillQuest.Shared.Engine.Entity.Universe;
 
 namespace SkillQuest.Game.Base.Server.System.Character;
 
@@ -52,11 +56,25 @@ public class CharacterSelect : SkillQuest.Shared.Engine.ECS.System{
             character.CharacterId
         );
 
-        CharacterSelected?.Invoke(connection, character);
+        var worldCharacter = new WorldPlayer() {
+            CharacterId = character.CharacterId.GetValueOrDefault(Guid.Empty),
+            Inventory = Ledger?.Add(new Inventory() {
+                Uri = new Uri($"inventory://{character.CharacterId}/main"),
+                Ledger = Ledger,
+            }),
+            Name = character.Name,
+            Uri = character.Uri,
+        };
+
+        var world = Ledger[character.World] as World;
+
+        world?.Add(worldCharacter);
+        
+        CharacterSelected?.Invoke(connection, worldCharacter);
         _channel.Send(connection, new SelectCharacterResponsePacket() { Selected = character });
     }
 
-    public delegate void DoCharacterSelected(IClientConnection client, CharacterInfo character);
+    public delegate void DoCharacterSelected(IClientConnection client, IPlayerCharacter character);
 
     public event DoCharacterSelected CharacterSelected;
 

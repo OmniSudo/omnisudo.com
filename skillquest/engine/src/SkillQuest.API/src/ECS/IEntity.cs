@@ -1,5 +1,7 @@
+using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Xml.Serialization;
+using SkillQuest.Game.Base.Shared.Packet.Entity;
 
 namespace SkillQuest.API.ECS;
 
@@ -43,6 +45,10 @@ public interface IEntity : IDisposable {
     public delegate void DoRemoveChild(IEntity parent, IEntity child);
     
     public event DoRemoveChild RemoveChild;
+
+    public delegate void DoUpdate(IEntity iEntity, EntityUpdatePacket packet, DateTime time, TimeSpan delta);
+    
+    public event DoUpdate Update;
     
     public IEntityLedger? Ledger { get; set; }
 
@@ -61,7 +67,7 @@ public interface IEntity : IDisposable {
         set;
     }
 
-    ImmutableDictionary<Type, IComponent> Components { get; }
+    ConcurrentDictionary<Type, IComponent> Components { get; }
 
     public IEntity? Parent { get; set; }
 
@@ -70,4 +76,6 @@ public interface IEntity : IDisposable {
     public IEntity? this[Uri uri] { get; set; }
     
     public bool this[ IEntity iEntity ] { get; set; }
+
+    public IEntity Clone(IEntityLedger ledger);
 }

@@ -10,7 +10,7 @@ using static global::SkillQuest.Shared.Engine.State;
 public class Authenticator : SkillQuest.Shared.Engine.ECS.System{
     public static Uri InstanceUri => new Uri("cl://control.skill.quest/users/authenticator");
 
-    public static Authenticator Instance => SH.Ledger.Things.GetValueOrDefault(InstanceUri) as Authenticator ?? 
+    public static Authenticator Instance => SH.Ledger.Entities.GetValueOrDefault(InstanceUri) as Authenticator ?? 
                                              SH.Ledger.Add( new Authenticator() );
     
     public override Uri Uri => InstanceUri;

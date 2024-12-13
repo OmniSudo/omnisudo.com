@@ -41,7 +41,7 @@ public class PropVein : SkillQuest.Shared.Engine.Entity.Prop{
             stack?.Item is ItemPickaxe pickaxe &&
             stack?.Count >= 1 &&
             (
-                (Ledger?.Things
+                (Ledger?.Entities
                         .GetValueOrDefault(
                             new Uri($"skill://skill.quest/mining/{actor.CharacterId}")
                         )

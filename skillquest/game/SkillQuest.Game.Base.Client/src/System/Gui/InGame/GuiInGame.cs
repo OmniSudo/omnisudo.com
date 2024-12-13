@@ -2,12 +2,14 @@ using System.Numerics;
 using ImGuiNET;
 using Silk.NET.Input;
 using SkillQuest.API.ECS;
+using SkillQuest.API.Network;
 using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;
 using SkillQuest.Client.Engine.Graphics.API;
 using SkillQuest.Client.Engine.Input;
 using SkillQuest.Game.Base.Shared.Entity.Item.Mining.Tool.Pickaxe;
 using SkillQuest.Game.Base.Shared.Entity.Prop.Mining.Vein;
+using SkillQuest.Game.Base.Shared.Packet.Inventory;
 using SkillQuest.Game.Base.Shared.System.Skill;
 using SkillQuest.Shared.Engine.Entity;
 using SkillQuest.Shared.Engine.Entity.Character;
@@ -38,6 +40,12 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
 
         this.Tracked += OnTracked;
         this.Untracked += OnUntracked;
+        
+        SH.Net.SystemChannel.Subscribe< InventoryUpdatePacket >( OnInventoryUpdatePacket);
+    }
+
+    void OnInventoryUpdatePacket(IClientConnection connection, InventoryUpdatePacket packet){
+        Console.WriteLine( packet.Target );
     }
 
     public void Draw(DateTime now, TimeSpan delta){
@@ -55,7 +63,7 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
             )
         ) {
             if (ImGui.Button("+Pickaxe")) {
-                LocalHost.Inventory![new Uri($"slot://{LocalHost.Name}/hand/right")] ??= new ItemStack(
+                LocalHost.Inventory![new Uri($"slot://{LocalHost.CharacterId}/hand/right")] ??= new ItemStack(
                     (SH.Ledger[new Uri($"item://skill.quest/mining/tool/pickaxe/iron")] as IItem)!,
                     1,
                     null,

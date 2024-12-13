@@ -2,12 +2,15 @@ using System.Collections.Concurrent;
 using SkillQuest.API;
 using SkillQuest.API.Network;
 using SkillQuest.API.Thing;
+using SkillQuest.API.Thing.Character;
 using SkillQuest.Game.Base.Server.System.Asset;
 using SkillQuest.Game.Base.Server.System.Character;
 using SkillQuest.Game.Base.Server.System.Users;
+using SkillQuest.Game.Base.Shared.Packet.Inventory;
 using SkillQuest.Game.Base.Shared.Packet.System.Character;
 using SkillQuest.Game.Base.Shared.System.Addon;
 using SkillQuest.Server.Engine;
+using SkillQuest.Shared.Engine.Component;
 using SkillQuest.Shared.Engine.Database;
 using SkillQuest.Shared.Engine.Entity;
 
@@ -55,8 +58,18 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
 
     public Authenticator Authenticator { get; set; }
 
-    void CharacterSelectOnSelected(IClientConnection client, CharacterInfo character){
-        Console.WriteLine(client.EMail + ": " + character.Name);
+    void CharacterSelectOnSelected(IClientConnection client, IPlayerCharacter character){
+        var inventory = SH.Ledger.Add(new Inventory() {
+            Uri = new Uri($"inventory://{character.CharacterId}/main"),
+            [new Uri("slot://skill.quest/hand/right")] = new ItemStack(
+                SH.Ledger["item://skill.quest/mining/tool/pickaxe/iron"] as Item,
+                1l,
+                null,
+                character
+            ),
+        });
+        inventory.Component<NetworkedDataComponent>(new NetworkedDataComponent());
+        inventory.DispatchUpdate( new InventoryUpdatePacket( inventory ) );
     }
 
     Timer testTimer;

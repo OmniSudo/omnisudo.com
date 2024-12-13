@@ -33,7 +33,7 @@ public class GuiPause : global::SkillQuest.Shared.Engine.ECS.System, IDrawable, 
         ) {
             if (ImGui.Button($"Editor")) {
                 Task.Run(() => {
-                    foreach (var gui in Ledger.Things.Where(g => g.Key.Scheme == "ui")) {
+                    foreach (var gui in Ledger.Entities.Where(g => g.Key.Scheme == "ui")) {
                         if (gui.Value == this) continue;
 
                         Ledger.Remove(gui.Value);
@@ -45,7 +45,7 @@ public class GuiPause : global::SkillQuest.Shared.Engine.ECS.System, IDrawable, 
 
             if (ImGui.Button($"Logout")) {
                 Task.Run(() => {
-                    foreach (var gui in Ledger.Things.Where(g => g.Key.Scheme == "ui")) {
+                    foreach (var gui in Ledger.Entities.Where(g => g.Key.Scheme == "ui")) {
                         if (gui.Value == this) continue;
 
                         Ledger.Remove(gui.Value);

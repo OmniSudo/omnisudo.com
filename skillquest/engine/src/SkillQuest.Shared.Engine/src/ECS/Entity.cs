@@ -1,17 +1,19 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using SkillQuest.API.Component;
 using SkillQuest.API.ECS;
+using SkillQuest.Game.Base.Shared.Packet.Entity;
 
 namespace SkillQuest.Shared.Engine.ECS;
 
 using static State;
 
-[XmlRoot("Entity")]
 public class Entity : IEntity{
     
     public Entity(Uri? uri){
@@ -20,6 +22,13 @@ public class Entity : IEntity{
 
     public Entity(){}
 
+    public event IEntity.DoUpdate? Update;
+
+    public void DispatchUpdate( EntityUpdatePacket packet, DateTime? now = null, TimeSpan? delta = null ){
+        Update?.Invoke( this, packet, now ?? DateTime.Now, delta ?? TimeSpan.Zero );
+    }
+
+    [JsonIgnore]
     public IEntityLedger? Ledger {
         get {
             return _ledger;
@@ -94,11 +103,11 @@ public class Entity : IEntity{
             }
 
             component.Thing = this;
-            _components[type] = component;
+            Components[type] = component;
 
             ConnectComponent?.Invoke(this, component);
         } else {
-            _components.TryRemove( type, out var removed );
+            Components.TryRemove( type, out var removed );
             if (removed is null) return this;
             DisconnectComponent?.Invoke(this, removed);
         }
@@ -116,10 +125,9 @@ public class Entity : IEntity{
         set => Connect(value, type);
     }
 
-    public ImmutableDictionary<Type, IComponent> Components => _components.ToImmutableDictionary();
+    public ConcurrentDictionary<Type, IComponent> Components { get; set; } = new();
 
-    ConcurrentDictionary<Type, IComponent> _components = new();
-
+    [JsonIgnore]
     public IEntity? Parent {
         get {
             return _parent;
@@ -151,10 +159,12 @@ public class Entity : IEntity{
         }
     }
 
+    [JsonIgnore]
     public ImmutableDictionary<Uri, IEntity> Children => _children.ToImmutableDictionary();
 
     private ConcurrentDictionary<Uri, IEntity> _children = new();
 
+    [JsonIgnore]
     public IEntity this[Uri uri] {
         get {
             return Children.GetValueOrDefault(uri);
@@ -178,7 +188,8 @@ public class Entity : IEntity{
             }
         }
     }
-
+    
+    [JsonIgnore]
     public bool this[IEntity iEntity] {
         get {
             return this[iEntity.Uri] == iEntity;
@@ -194,6 +205,24 @@ public class Entity : IEntity{
         }
     }
 
+    public IEntity Clone(IEntityLedger ledger){
+        var json = JsonSerializer.SerializeToDocument(this);
+        var ent = json.RootElement.Deserialize(GetType()) as Entity;
+        
+        ent._ledger = ledger;
+        if ( Parent is not null ) ent._parent = ent._ledger?.Entities.GetValueOrDefault(this.Parent.Uri!) ?? Parent.Clone( ledger );
+
+        if (ent._parent is Entity parent) {
+            parent._children[ent.Uri!] = ent;
+        }
+
+        foreach (var child in Children) {
+            _children[child.Key] = ledger.Entities.GetValueOrDefault( child.Key ) ?? child.Value.Clone(ledger);
+            if ( _children[child.Key] is Entity other ) other._parent = ent;
+        }
+        return ent;
+    }
+
     IEntityLedger? _ledger;
 
     IEntity? _parent = null;
@@ -203,9 +232,5 @@ public class Entity : IEntity{
         foreach (var child in _children) {
             child.Value.Dispose();
         }
-    }
-
-    public XmlSchema? GetSchema(){
-        return null;
     }
 }

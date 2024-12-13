@@ -21,8 +21,4 @@
       </Reference>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="src\Packet\Inventory\" />
-    </ItemGroup>
-
 </Project>

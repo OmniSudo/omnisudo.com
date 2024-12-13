@@ -56,7 +56,7 @@ public class Application : IApplication{
                 pair.Value.Application = null;
                 SH.Ledger.Remove(pair.Value);
             }
-        } else if (SH.Ledger.Things.ContainsKey(addon.Uri!)) {
+        } else if (SH.Ledger.Entities.ContainsKey(addon.Uri!)) {
             SH.Ledger.Remove(addon);
             addon.Application = null;
         }
@@ -101,7 +101,7 @@ public class Application : IApplication{
     
     public event IApplication.DoStop? Stop;
 
-    public ImmutableDictionary<Uri, IAddon> Addons => SH.Ledger.Things
+    public ImmutableDictionary<Uri, IAddon> Addons => SH.Ledger.Entities
         .Where(
             (pair) => pair.Value is IAddon
             )
