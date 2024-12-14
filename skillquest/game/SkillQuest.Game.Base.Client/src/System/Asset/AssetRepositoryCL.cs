@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Security.Cryptography;
 using SkillQuest.API.Asset;
+using SkillQuest.API.ECS;
 using SkillQuest.API.Network;
 using SkillQuest.Game.Base.Shared.Packet.System.Asset;
 using static SkillQuest.Shared.Engine.State;
@@ -19,9 +20,33 @@ public class AssetRepositoryCL : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
     }
 
     private ConcurrentDictionary<string, TaskCompletionSource<byte[]>> _fileRequests = new();
+    
+    private ConcurrentDictionary<Uri, TaskCompletionSource<IEntity>> _entityRequests = new();
 
-    public IPermissionChecker Permissions { get; set; } = null;
+    public async Task<IEntity> Get(Uri entity, IClientConnection client = null, bool force = false){
+        if (client is null) return Ledger[entity];
+        
+        _entityRequests.TryGetValue(entity, out var tcs);
 
+        if (tcs is null) {
+            tcs = new TaskCompletionSource<IEntity>();
+            _entityRequests.TryAdd(entity, tcs);
+        } else if ( !force ) {
+            if (tcs.Task.IsCompleted) return tcs.Task.Result;
+        }
+        
+        
+        if (client is not null) {
+            var ent = Ledger[entity];
+
+            
+        } else {
+            tcs.SetResult(null);
+        }
+
+        return await tcs.Task;
+    }
+    
     public async Task<byte[]> Open(string file, IClientConnection connection = null){
 
         _fileRequests.TryGetValue(file, out var tcs);
@@ -86,13 +111,5 @@ public class AssetRepositoryCL : SkillQuest.Shared.Engine.ECS.System, IAssetRepo
         } else {
             tcs?.SetResult(File.ReadAllBytes(AssetPath.Sanitize(packet.File)));
         }
-    }
-
-    public void Update(Uri uri, IClientConnection connection){
-        throw new NotImplementedException();
-    }
-
-    public void Delete(Uri uri, IClientConnection connection){
-        throw new NotImplementedException();
     }
 }

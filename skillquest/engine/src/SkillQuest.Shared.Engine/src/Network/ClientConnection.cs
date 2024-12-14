@@ -1,10 +1,13 @@
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 using SkillQuest.API.Network;
 
 namespace SkillQuest.Shared.Engine.Network;
@@ -33,7 +36,7 @@ public class ClientConnection : IClientConnection{
         var serialized = JsonSerializer.Serialize(packet, packet.GetType());
 
         Console.WriteLine(serialized);
-        
+
         var typename = packet.GetType().FullName;
 
         byte[] ciphertext = [];
@@ -89,8 +92,8 @@ public class ClientConnection : IClientConnection{
         Console.WriteLine($"Disconnecting @ {ep}");
         OnDisconnect();
         Console.WriteLine($"Disconnected @ {ep}");
-        Connection?.Client?.Disconnect( false );
-        Connection?.Client?.Shutdown( SocketShutdown.Both);
+        Connection?.Client?.Disconnect(false);
+        Connection?.Client?.Shutdown(SocketShutdown.Both);
         _stream = null;
         Connection?.Dispose();
         Connection = null;
@@ -100,7 +103,7 @@ public class ClientConnection : IClientConnection{
     protected internal void OnConnected(){
         _stream = Connection.GetStream();
 
-        _keepalive = new Timer( state => {
+        _keepalive = new Timer(state => {
             if (State == IClientConnection.EnumState.Disconnecting) {
                 Disconnect();
                 _keepalive.Dispose();
@@ -124,10 +127,10 @@ public class ClientConnection : IClientConnection{
     private bool PendingSplit(byte b){
         return b != 0x00;
     }
-    
+
     public bool Receive(){
         bool completed = false;
-        
+
         while ( _stream?.DataAvailable ?? false ) {
             var data = new byte[1024];
             var len = _stream.Read(data, 0, data.Length);
@@ -138,8 +141,8 @@ public class ClientConnection : IClientConnection{
                 if (take.Count() == 0) break;
 
                 var leftover = len - take.Count();
-                
-                buffer = buffer.Concat(take).Concat(leftover >= 1 ? [0x00] : Array.Empty<byte>() );
+
+                buffer = buffer.Concat(take).Concat(leftover >= 1 ? [0x00] : Array.Empty<byte>());
                 data = data.Skip(take.Count()).Skip(leftover >= 1 ? 1 : 0).ToArray();
 
                 len = leftover - (leftover >= 1 ? 1 : 0);
@@ -182,7 +185,7 @@ public class ClientConnection : IClientConnection{
                                     buffer
                                         .Skip(1).SkipWhile(PendingSplit)
                                         .Skip(1)
-                                        .Reverse().Skip( 1 )
+                                        .Reverse().Skip(1)
                                         .Reverse().TakeWhile(PendingSplit)
                                         .ToArray()
                                 );
@@ -261,8 +264,8 @@ public class ClientConnection : IClientConnection{
             TcpConnectionInformation tcpConnInfo = null;
 
             tcpConnInfo = tcpConnInfos.AsParallel().FirstOrDefault(conn => {
-                    return conn.LocalEndPoint.Port == ( Connection?.Client.LocalEndPoint as IPEndPoint )?.Port && 
-                           conn.RemoteEndPoint.Port == ( Connection?.Client.RemoteEndPoint as IPEndPoint )?.Port;
+                    return conn.LocalEndPoint.Port == (Connection?.Client.LocalEndPoint as IPEndPoint)?.Port &&
+                           conn.RemoteEndPoint.Port == (Connection?.Client.RemoteEndPoint as IPEndPoint)?.Port;
                 }
             );
 

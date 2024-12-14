@@ -11,16 +11,16 @@ public class GuiElementThingExplorer : global::SkillQuest.Shared.Engine.ECS.Syst
 
     public GuiElementThingExplorer(){
         Tracked += (stuff, thing) => {
-            Ledger.ThingAdded += StuffOnThingAdded;
+            Ledger.EntityAdded += StuffOnEntityAdded;
             Ledger.ThingRemoved += StuffOnThingRemoved;
             foreach (var t in Ledger.Entities) {
-                StuffOnThingAdded(t.Value);
+                StuffOnEntityAdded(t.Value);
             }
         };
 
         Untracked += (stuff, thing) => {
             Tree.Clear();
-            Ledger.ThingAdded -= StuffOnThingAdded;
+            Ledger.EntityAdded -= StuffOnEntityAdded;
             Ledger.ThingRemoved -= StuffOnThingRemoved;
         };
     }
@@ -35,7 +35,7 @@ public class GuiElementThingExplorer : global::SkillQuest.Shared.Engine.ECS.Syst
     
     ConcurrentDictionary<string, DirNode> Tree = new ConcurrentDictionary<string, DirNode>();
     
-    void StuffOnThingAdded(IEntity iEntity){
+    void StuffOnEntityAdded(IEntity iEntity){
         var root = iEntity.Uri.Scheme + "://" + iEntity.Uri.Host;
         if (!Tree.ContainsKey(root)) Tree[root] = new DirNode() { Name = root };
         var tree = Tree[root];

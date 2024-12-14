@@ -1,6 +1,9 @@
+using System.Text.Json.Nodes;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using SkillQuest.API.Component;
+using SkillQuest.API.ECS;
 using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;
 using static SkillQuest.Shared.Engine.State;
@@ -9,6 +12,51 @@ namespace SkillQuest.Shared.Engine.Entity;
 
 [XmlRoot("Stack")]
 public class ItemStack : Engine.ECS.Entity, IItemStack {
+    public IEntity Clone(IEntityLedger ledger){
+        throw new NotImplementedException();
+    }
+    
+    public JsonObject ToJson(Type?[] components = null){
+        var json = base.ToJson( components );
+
+        json[ "item" ] = Item.Uri.ToString();
+        json["count"] = Count.ToString();
+        json["guid"] = Id.ToString();
+        json["owner"] = Owner.Uri.ToString();
+        
+        return json;
+    }
+    
+    public void FromJson(JsonObject json){
+        if (Uri.TryCreate(json["item"].ToString(), UriKind.Absolute, out var item)) {
+            var i = Ledger[item] as IItem;
+
+            if (i is null) {
+                var network =
+                    (Component(typeof(INetworkedComponent)) as INetworkedComponent).Clone(null) as INetworkedComponent;
+                i = new Item();
+                i.Component<INetworkedComponent>(network);
+                network.DownloadFrom(null);
+            }
+        }
+        
+        _count = long.Parse(json["count"].ToString());
+            
+            Id = Guid.Parse(json["guid"].ToString());
+        
+            if (Uri.TryCreate(json["owner"].ToString(), UriKind.Absolute, out var owner)) {
+                var i = Ledger[owner];
+
+                if (i is null) {
+                    var network =
+                        (Component(typeof(INetworkedComponent)) as INetworkedComponent).Clone(null) as INetworkedComponent;
+                    i = new ECS.Entity(owner);
+                    i.Component<INetworkedComponent>(network);
+                    network.DownloadFrom(null);
+                }
+            }
+    }
+
     public IItem Item {
         get {
             return _item;

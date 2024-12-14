@@ -1,3 +1,5 @@
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -6,45 +8,52 @@ using SkillQuest.API.ECS;
 namespace SkillQuest.Shared.Engine.ECS;
 
 public class Component<TAttached> : IComponent where TAttached : class, IComponent{
-    [XmlIgnore]
-    public IEntity? Thing {
+    public IEntity? Entity {
         get {
-            return _thing;
+            return _entity;
         }
         set {
-            if ( _thing != value ) {
-                var old = _thing;
+            if ( _entity != value ) {
+                var old = _entity;
                 
                 if ( old is not null ) {
-                    DisconnectThing?.Invoke(old, this);
+                    DisconnectFromEntity?.Invoke(old, this);
                     old.Connect( null, this.GetType() );
                 }
                 
-                _thing = value;
+                _entity = value;
                 
-                if (_thing is not null) {
-                    _thing.Component<TAttached>(this);
-                    ConnectThing?.Invoke(_thing, this);
+                if (_entity is not null) {
+                    _entity.Component<TAttached>(this);
+                    ConnectToEntity?.Invoke(_entity, this);
                 }
             }
         }
     }
 
-    public event IComponent.DoConnectThing? ConnectThing;
+    public event IComponent.DoConnectToEntity? ConnectToEntity;
 
-    public event IComponent.DoDisconnectThing? DisconnectThing;
-    
-    public string Name => GetType().Name;
-    
-    IEntity? _thing;
-    
-    public virtual XmlSchema? GetSchema(){
-        return null;
+    public event IComponent.DoDisconnectFromEntity? DisconnectFromEntity;
+
+    public IComponent Clone(IEntityLedger? ledger){
+        var clone = Activator.CreateInstance<TAttached>();
+        clone.FromJson(ToJson());
+        if ( ledger is not null ) clone.Entity = ledger[Entity?.Uri];
+        return clone;
     }
 
-    public virtual void ReadXml(XmlReader reader){ 
+    public JsonObject ToJson(){
+        return new JsonObject() {
+            [ "name" ] = Name,
+            [ "$type" ] = GetType().AssemblyQualifiedName
+        };
+    }
+    
+    public void FromJson(JsonObject json){
+        
     }
 
-    public virtual void WriteXml(XmlWriter writer){
-    }
+    public virtual string Name => GetType().Name;
+
+    IEntity? _entity;
 }

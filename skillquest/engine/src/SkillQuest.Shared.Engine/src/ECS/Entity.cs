@@ -1,6 +1,8 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
+using System.ComponentModel;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Xml;
 using System.Xml.Linq;
@@ -9,26 +11,32 @@ using System.Xml.Serialization;
 using SkillQuest.API.Component;
 using SkillQuest.API.ECS;
 using SkillQuest.Game.Base.Shared.Packet.Entity;
+using IComponent = SkillQuest.API.ECS.IComponent;
 
 namespace SkillQuest.Shared.Engine.ECS;
 
 using static State;
 
 public class Entity : IEntity{
-    
+
     public Entity(Uri? uri){
         Uri = uri ?? Uri;
     }
 
-    public Entity(){}
+    public Entity(){ }
 
     public event IEntity.DoUpdate? Update;
 
-    public void DispatchUpdate( EntityUpdatePacket packet, DateTime? now = null, TimeSpan? delta = null ){
-        Update?.Invoke( this, packet, now ?? DateTime.Now, delta ?? TimeSpan.Zero );
+    public void DispatchUpdate(IEnumerable<Type>? components = null, DateTime? now = null, TimeSpan? delta = null){
+        if (components is not null) {
+            Update?.Invoke( this, null, now ?? DateTime.Now, delta ?? TimeSpan.Zero );
+        } else {
+            foreach (var component in components?.Select(type => Components.GetValueOrDefault(type)) ?? []) {
+                Update?.Invoke(this, component, now ?? DateTime.Now, delta ?? TimeSpan.Zero);
+            }
+        }
     }
 
-    [JsonIgnore]
     public IEntityLedger? Ledger {
         get {
             return _ledger;
@@ -53,13 +61,13 @@ public class Entity : IEntity{
     Uri? _relative = null;
 
     Uri? _uri;
-    
+
     public virtual Uri? Uri {
         get {
             return _uri;
         }
         set {
-            if (!value?.IsAbsoluteUri ?? false ) {
+            if (!value?.IsAbsoluteUri ?? false) {
                 _relative = value;
                 _uri = new Uri(Parent?.Uri ?? new Uri("thing://skill.quest/"), _relative);
                 return;
@@ -102,19 +110,19 @@ public class Entity : IEntity{
                 return this;
             }
 
-            component.Thing = this;
+            component.Entity = this;
             Components[type] = component;
 
             ConnectComponent?.Invoke(this, component);
         } else {
-            Components.TryRemove( type, out var removed );
+            Components.TryRemove(type, out var removed);
             if (removed is null) return this;
             DisconnectComponent?.Invoke(this, removed);
         }
         return this;
     }
 
-    public TComponent? Component<TComponent>(object? component) where TComponent : class, IComponent =>
+    public TComponent? Component<TComponent>() where TComponent : class, IComponent =>
         Component(typeof(TComponent)) as TComponent;
 
 
@@ -127,7 +135,6 @@ public class Entity : IEntity{
 
     public ConcurrentDictionary<Type, IComponent> Components { get; set; } = new();
 
-    [JsonIgnore]
     public IEntity? Parent {
         get {
             return _parent;
@@ -159,12 +166,10 @@ public class Entity : IEntity{
         }
     }
 
-    [JsonIgnore]
     public ImmutableDictionary<Uri, IEntity> Children => _children.ToImmutableDictionary();
 
     private ConcurrentDictionary<Uri, IEntity> _children = new();
 
-    [JsonIgnore]
     public IEntity this[Uri uri] {
         get {
             return Children.GetValueOrDefault(uri);
@@ -188,8 +193,7 @@ public class Entity : IEntity{
             }
         }
     }
-    
-    [JsonIgnore]
+
     public bool this[IEntity iEntity] {
         get {
             return this[iEntity.Uri] == iEntity;
@@ -206,19 +210,21 @@ public class Entity : IEntity{
     }
 
     public IEntity Clone(IEntityLedger ledger){
-        var json = JsonSerializer.SerializeToDocument(this);
-        var ent = json.RootElement.Deserialize(GetType()) as Entity;
-        
+        var ent = Activator.CreateInstance(this.GetType()) as Entity;
         ent._ledger = ledger;
-        if ( Parent is not null ) ent._parent = ent._ledger?.Entities.GetValueOrDefault(this.Parent.Uri!) ?? Parent.Clone( ledger );
+
+        ent.FromJson(ToJson());
+
+        if (Parent is not null)
+            ent._parent = ent._ledger?.Entities.GetValueOrDefault(this.Parent.Uri!) ?? Parent.Clone(ledger);
 
         if (ent._parent is Entity parent) {
             parent._children[ent.Uri!] = ent;
         }
 
         foreach (var child in Children) {
-            _children[child.Key] = ledger.Entities.GetValueOrDefault( child.Key ) ?? child.Value.Clone(ledger);
-            if ( _children[child.Key] is Entity other ) other._parent = ent;
+            _children[child.Key] = ledger.Entities.GetValueOrDefault(child.Key) ?? child.Value.Clone(ledger);
+            if (_children[child.Key] is Entity other) other._parent = ent;
         }
         return ent;
     }
@@ -226,11 +232,68 @@ public class Entity : IEntity{
     IEntityLedger? _ledger;
 
     IEntity? _parent = null;
+
     public void Dispose(){
         Ledger.Remove(this);
-        
+
         foreach (var child in _children) {
             child.Value.Dispose();
+        }
+    }
+
+    public virtual JsonObject ToJson(Type?[] componentTypes = null){
+        JsonObject json = new JsonObject();
+
+        json["$type"] = this.GetType().AssemblyQualifiedName;
+        json["uri"] = Uri!.ToString();
+        
+        json["parent"] = _parent?.Uri!.ToString();
+        JsonArray children = new JsonArray();
+
+        foreach (var child in _children) {
+            children.Add(child.Key.ToString());
+        }
+        json["children"] = children;
+
+
+        if (componentTypes is not null ) {
+            JsonObject components = new JsonObject();
+
+            foreach (var type in componentTypes) {
+                var component = Components.GetValueOrDefault(type);
+                if ( component is null ) continue;
+                components[ component.GetType().Name] = component.ToJson();
+            }
+            json["components"] = components;
+        }
+
+        return json;
+    }
+
+    public virtual void FromJson(JsonObject json){
+        Uri = new Uri(json["uri"]?.ToString() ?? throw new InvalidOperationException());
+        var parentUri = json["parent"]?.ToString();
+        if (parentUri is not null ) _parent = Ledger[ parentUri ];
+
+        foreach (var child in json["children"]?.AsArray() ?? new JsonArray()) {
+            if (Uri.TryCreate(child.ToString(), UriKind.Absolute, out var uri)) {
+                _children[uri] = Ledger[uri];
+            }
+        }
+
+        foreach (var pair in json["components"]?.AsObject() ?? new JsonObject()) {
+            try {
+                var type = Type.GetType(pair.Value["$type"].ToString());
+                if (type is null) continue; // TODO: throw?
+
+                var component = Activator.CreateInstance(type) as IComponent;
+                component.Entity = this;
+                component.FromJson(pair.Value.AsObject());
+
+                Components[type] = component;
+            } catch (Exception e) {
+                Console.WriteLine( $"Error deserializing component {pair.Value?["name"]?.ToString() ?? "unknown"} from json to attach to {Uri}\n\t{e}");
+            }
         }
     }
 }

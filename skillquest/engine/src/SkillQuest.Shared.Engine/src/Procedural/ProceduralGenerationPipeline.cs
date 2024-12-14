@@ -28,11 +28,11 @@ public class ProceduralGenerationPipeline : ECS.System, IProcGenPipeline{
     public ImmutableDictionary<Uri, IEntryPointNode> EntryPoints => _entryPoints.ToImmutableDictionary();
     
     public ProceduralGenerationPipeline(){
-        Nodes.ThingAdded += EntitiesOnThingAdded;
+        Nodes.EntityAdded += EntitiesOnEntityAdded;
         Nodes.ThingRemoved += EntitiesOnThingRemoved;
     }
 
-    void EntitiesOnThingAdded(IEntity iEntity){
+    void EntitiesOnEntityAdded(IEntity iEntity){
         if (iEntity is IEntryPointNode node && iEntity.Uri is not null) {
             _entryPoints.TryAdd(iEntity.Uri, node);
         }

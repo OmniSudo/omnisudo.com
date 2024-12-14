@@ -1,15 +1,22 @@
+using System.Text.Json.Nodes;
 using System.Xml.Serialization;
 
 namespace SkillQuest.API.ECS;
 
-public interface IComponent : IXmlSerializable {
-    public IEntity? Thing { get; set; }
+public interface IComponent {
+    public IEntity? Entity { get; set; }
     
-    public delegate void DoConnectThing ( IEntity iEntity, IComponent component );
+    public delegate void DoConnectToEntity ( IEntity entity, IComponent component );
     
-    public event DoConnectThing ConnectThing;
+    public event DoConnectToEntity ConnectToEntity;
     
-    public delegate void DoDisconnectThing ( IEntity iEntity, IComponent component );
+    public delegate void DoDisconnectFromEntity ( IEntity entity, IComponent component );
     
-    public event DoDisconnectThing DisconnectThing;
+    public event DoDisconnectFromEntity DisconnectFromEntity;
+    
+    public IComponent Clone(IEntityLedger? ledger);
+    
+    public JsonObject ToJson();
+    
+    public void FromJson( JsonObject json );
 }

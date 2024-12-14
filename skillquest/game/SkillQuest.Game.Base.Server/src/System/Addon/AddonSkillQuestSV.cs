@@ -1,12 +1,13 @@
 using System.Collections.Concurrent;
 using SkillQuest.API;
+using SkillQuest.API.Component;
+using SkillQuest.API.ECS;
 using SkillQuest.API.Network;
 using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;
 using SkillQuest.Game.Base.Server.System.Asset;
 using SkillQuest.Game.Base.Server.System.Character;
 using SkillQuest.Game.Base.Server.System.Users;
-using SkillQuest.Game.Base.Shared.Packet.Inventory;
 using SkillQuest.Game.Base.Shared.Packet.System.Character;
 using SkillQuest.Game.Base.Shared.System.Addon;
 using SkillQuest.Server.Engine;
@@ -44,10 +45,21 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
         CharacterCreator = SH.Ledger.Add(new CharacterCreator());
         CharacterCreator.CharacterCreated += CharacterCreatorOnCreated;
 
+        SH.Ledger.EntityAdded += LedgerOnEntityAdded;
 
         application?
             .Mount(new AddonMetallurgySV())
             .Mount(new AddonMiningSV());
+    }
+
+    void LedgerOnEntityAdded(IEntity ientity){
+        if (ientity is IItem item) {
+            item[ typeof( INetworkedComponent ) ] = new NetworkedComponentSV();
+        } else if (ientity is Material material) {
+            material[ typeof( INetworkedComponent ) ] = new NetworkedComponentSV();
+        } else if (ientity is IInventory inventory) {
+            inventory[ typeof( INetworkedComponent ) ] = new NetworkedComponentSV();
+        }
     }
 
     void AuthenticatorOnLoggedIn(IClientConnection connection){
@@ -63,13 +75,12 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
             Uri = new Uri($"inventory://{character.CharacterId}/main"),
             [new Uri("slot://skill.quest/hand/right")] = new ItemStack(
                 SH.Ledger["item://skill.quest/mining/tool/pickaxe/iron"] as Item,
-                1l,
+                1,
                 null,
                 character
             ),
         });
-        inventory.Component<NetworkedDataComponent>(new NetworkedDataComponent());
-        inventory.DispatchUpdate( new InventoryUpdatePacket( inventory ) );
+        inventory.Component<INetworkedComponent>()?.Subscribe(client).UploadTo( null );
     }
 
     Timer testTimer;

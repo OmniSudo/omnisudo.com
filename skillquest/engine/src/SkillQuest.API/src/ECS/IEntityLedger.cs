@@ -6,7 +6,7 @@ namespace SkillQuest.API.ECS;
 public interface IEntityLedger : IDisposable{
     public delegate void DoThingAdded(IEntity iEntity);
 
-    public event DoThingAdded ThingAdded;
+    public event DoThingAdded EntityAdded;
 
     public delegate void DoThingRemoved(IEntity iEntity);
 
@@ -14,7 +14,7 @@ public interface IEntityLedger : IDisposable{
 
     public ImmutableDictionary<Uri, IEntity> Entities { get; }
 
-    public IEntity? this[Uri uri] {
+    public IEntity? this[Uri? uri] {
         get;
     }
 
@@ -37,4 +37,5 @@ public interface IEntityLedger : IDisposable{
     public IEntity? Remove(IEntity iEntity);
 
     public IEntity? Remove(Uri uri);
+    
 }

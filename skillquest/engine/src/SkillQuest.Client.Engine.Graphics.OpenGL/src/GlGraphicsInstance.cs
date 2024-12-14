@@ -51,7 +51,7 @@ public class GlGraphicsInstance : IGraphicsInstance {
         Application.Render += Render;
         Quit += ( application ) => application.Running = false;
         Window.Closing += OnClose;
-        Application.Ledger.ThingAdded += OnLedgerThingAdded;
+        Application.Ledger.EntityAdded += OnLedgerEntityAdded;
         Application.Ledger.ThingRemoved += OnLedgerThingRemoved;
     }
 
@@ -98,7 +98,7 @@ public class GlGraphicsInstance : IGraphicsInstance {
     
     private ConcurrentDictionary< Uri, IEntity > _renderables = new();
 
-    void OnLedgerThingAdded(IEntity iEntity){
+    void OnLedgerEntityAdded(IEntity iEntity){
         // ReSharper disable once SuspiciousTypeConversion.Global
         if (iEntity is IDrawable) {
             _renderables.TryAdd(iEntity.Uri, iEntity);

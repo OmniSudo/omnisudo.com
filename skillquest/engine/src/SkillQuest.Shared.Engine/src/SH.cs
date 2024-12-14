@@ -23,7 +23,7 @@ public class State{
     public IWorldGenPipeline WorldGenerationPipeline {
         get;
     } = new WorldGenerationPipeline();
-
+    
     private State(){
         Net = new Networker(Application);
     }

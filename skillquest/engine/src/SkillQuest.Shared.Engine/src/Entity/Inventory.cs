@@ -1,8 +1,10 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
+using System.Text.Json.Nodes;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using SkillQuest.API.Component;
 using SkillQuest.API.Thing;
 
 namespace SkillQuest.Shared.Engine.Entity;
@@ -49,5 +51,38 @@ public class Inventory : Engine.ECS.Entity, IInventory {
     
     public void Add(Uri uri, IItemStack stack){
         this[uri] = stack;
+    }
+
+    public JsonObject ToJson(Type?[] components = null){
+        var json = base.ToJson( components );
+
+        var stacks = new JsonObject();
+
+        foreach (var stack in Stacks) {
+            stacks[stack.Key.ToString()] = stack.Value.Uri?.ToString();
+        }
+
+        json["stacks"] = stacks;
+
+        return json;
+    }
+    
+    public void FromJson(JsonObject json){
+        base.FromJson( json );
+        
+        var stacks = json["stacks"]?.AsObject();
+
+        foreach (var pair in stacks ?? [] ) {
+            if (Uri.TryCreate(pair.Value?.ToString(), UriKind.Absolute, out var uri)) {
+                var stack = Ledger[uri] as IItemStack;
+
+                if (stack is null) {
+                    var network = (Component(typeof(INetworkedComponent)) as INetworkedComponent)?.Clone(null) as INetworkedComponent;
+                    stack = new ItemStack(null, 0);
+                    stack.Component<INetworkedComponent>(network);
+                    network.DownloadFrom(null);
+                }
+            }
+        }
     }
 }

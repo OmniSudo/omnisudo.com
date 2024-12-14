@@ -1,19 +1,11 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
-using System.Text;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using SkillQuest.API.Asset;
 using SkillQuest.API.ECS;
-using SkillQuest.API.Network;
-using SkillQuest.Shared.Engine.Component;
-using SkillQuest.Shared.Engine.Network;
-using static SkillQuest.Shared.Engine.State;
 
 namespace SkillQuest.Shared.Engine.ECS;
 
 public class EntityLedger : IEntityLedger{
-    public event IEntityLedger.DoThingAdded? ThingAdded;
+    public event IEntityLedger.DoThingAdded? EntityAdded;
 
     public event IEntityLedger.DoThingRemoved? ThingRemoved;
 
@@ -37,7 +29,7 @@ public class EntityLedger : IEntityLedger{
                     .OrderByDescending(x => x.Key.Ticks)
                     .Last().Value;
             } else {
-                var ledger = new EntityLedger( true );
+                var ledger = new EntityLedger(true);
 
                 ledger._things = new(
                     _timelines
@@ -46,11 +38,7 @@ public class EntityLedger : IEntityLedger{
                         .Select(
                             pair => {
                                 return new KeyValuePair<DateTime, IEnumerable<IEntity>>(pair.Key,
-                                    pair.Value.Entities.Where(entity =>
-                                    (
-                                        entity.Value.Component(typeof(NetworkedDataComponent)) as
-                                            NetworkedDataComponent
-                                    )?.Updated ?? false).Select(entity => entity.Value));
+                                    pair.Value.Entities.Select(entity => entity.Value));
                             }
                         ).SelectMany(
                             pair => {
@@ -60,9 +48,9 @@ public class EntityLedger : IEntityLedger{
                             }
                         ).GroupBy(pair => pair.Value.Uri, pair => (pair.Key, pair.Value))
                         .Select(grouping => grouping.OrderByDescending(pair => pair.Key.Ticks).First().Value)
-                        .ToDictionary(entity => entity.Uri!, entity => entity.Clone( ledger ))
+                        .ToDictionary(entity => entity.Uri!, entity => entity.Clone(ledger))
                 );
-                
+
                 return ledger;
             }
         }
@@ -81,7 +69,7 @@ public class EntityLedger : IEntityLedger{
         }
 
         _things[thing.Uri] = thing;
-        ThingAdded?.Invoke(thing);
+        EntityAdded?.Invoke(thing);
         thing.Ledger = this;
 
         return thing;
@@ -92,15 +80,17 @@ public class EntityLedger : IEntityLedger{
             return snapshot;
         }
 
-        var ledger = new EntityLedger( true );
+        var ledger = new EntityLedger(true);
 
         ledger._things = new ConcurrentDictionary<Uri, IEntity>(
             this._things
-                .Where(pair => pair.Value.Component(typeof(NetworkedDataComponent)) is NetworkedDataComponent component && component.Updated)
-                .Select( pair => new KeyValuePair<Uri, IEntity>(pair.Key, pair.Value.Clone( ledger ))) 
+                .Select(pair => new KeyValuePair<Uri, IEntity>(pair.Key, pair.Value.Clone(ledger)))
         );
+
         ledger._snapshot = true;
-        
+
+        if (ledger._things.Count == 0) return null;
+
         return ledger;
     }
 
@@ -108,8 +98,7 @@ public class EntityLedger : IEntityLedger{
         _timelines = new ConcurrentDictionary<DateTime, EntityLedger>(_timelines.Where(pair => pair.Key > cutoff));
     }
 
-    public EntityLedger() : this( false ) {
-    }
+    public EntityLedger() : this(false){ }
 
     public EntityLedger(bool snapshot){
         if (snapshot) {
@@ -137,14 +126,14 @@ public class EntityLedger : IEntityLedger{
 
         return thing;
     }
-
+    
     private ConcurrentDictionary<Uri, IEntity> _things = new();
 
     public void Dispose(){
         var old = new ConcurrentDictionary<Uri, IEntity>(_things);
 
         foreach (var entity in old) {
-            if ( !_snapshot ) entity.Value.Dispose();
+            if (!_snapshot) entity.Value.Dispose();
         }
     }
 }

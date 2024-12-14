@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
+using System.Text.Json.Nodes;
 using System.Xml.Serialization;
 using SkillQuest.Game.Base.Shared.Packet.Entity;
 
@@ -46,7 +47,7 @@ public interface IEntity : IDisposable {
     
     public event DoRemoveChild RemoveChild;
 
-    public delegate void DoUpdate(IEntity iEntity, EntityUpdatePacket packet, DateTime time, TimeSpan delta);
+    public delegate void DoUpdate(IEntity entity, IComponent? component, DateTime? time, TimeSpan delta);
     
     public event DoUpdate Update;
     
@@ -78,4 +79,8 @@ public interface IEntity : IDisposable {
     public bool this[ IEntity iEntity ] { get; set; }
 
     public IEntity Clone(IEntityLedger ledger);
+
+    public JsonObject ToJson(Type?[] components = null);
+    
+    public void FromJson( JsonObject json );
 }

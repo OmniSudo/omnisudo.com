@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using Silk.NET.Core.Native;
 using Silk.NET.Input;
+using SkillQuest.API.Network;
 using SkillQuest.Client.Engine.Graphics.API;
 
 namespace SkillQuest.Client.Engine;
