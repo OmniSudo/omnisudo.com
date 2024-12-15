@@ -1,9 +1,6 @@
 using Silk.NET.Maths;
-using SkillQuest.API.ECS;
-using SkillQuest.API.Procedural.Node;
 using SkillQuest.API.Procedural.World;
 using SkillQuest.API.Thing.Universe;
-using SkillQuest.Shared.Engine.ECS;
 using SkillQuest.Shared.Engine.Entity.Universe;
 using SkillQuest.Shared.Engine.Procedural.World.Node;
 

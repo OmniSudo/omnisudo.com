@@ -1,4 +1,3 @@
-using SkillQuest.API.ECS;
 using SkillQuest.API.Extension;
 using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;

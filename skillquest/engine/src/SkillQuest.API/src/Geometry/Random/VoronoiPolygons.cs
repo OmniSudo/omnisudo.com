@@ -1,7 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.IO.Hashing;
-using System.Runtime.CompilerServices;
 using SharpVoronoiLib;
 using Silk.NET.Maths;
 

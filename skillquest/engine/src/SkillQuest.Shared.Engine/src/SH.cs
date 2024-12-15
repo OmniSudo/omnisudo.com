@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using SkillQuest.API;
 using SkillQuest.API.Asset;
 using SkillQuest.API.ECS;

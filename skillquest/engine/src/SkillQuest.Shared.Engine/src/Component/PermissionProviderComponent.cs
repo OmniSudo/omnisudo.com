@@ -1,7 +1,5 @@
-using System.Text.Json.Serialization;
 using SkillQuest.API.ECS;
 using SkillQuest.API.Network;
-using SkillQuest.Shared.Engine.ECS;
 
 namespace SkillQuest.Shared.Engine.Component;
 

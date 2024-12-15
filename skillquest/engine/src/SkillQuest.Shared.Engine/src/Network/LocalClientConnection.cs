@@ -1,8 +1,6 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
-using System.Text;
-using System.Text.Json;
 using SkillQuest.API.Network;
 using Timer = System.Timers.Timer;
 

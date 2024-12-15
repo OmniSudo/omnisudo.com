@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using Silk.NET.Assimp;
 using Silk.NET.OpenGL;
 using SkillQuest.Client.Engine.Graphics.API;

@@ -1,4 +1,3 @@
-using System.Drawing;
 using System.IO.Hashing;
 using Silk.NET.Maths;
 

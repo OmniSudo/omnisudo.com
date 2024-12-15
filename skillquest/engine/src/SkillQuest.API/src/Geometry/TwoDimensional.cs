@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using Silk.NET.Maths;
 
 namespace SkillQuest.API.Geometry;

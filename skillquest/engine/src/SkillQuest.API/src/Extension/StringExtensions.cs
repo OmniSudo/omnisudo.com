@@ -1,5 +1,3 @@
-using System.Reflection.Metadata.Ecma335;
-
 namespace SkillQuest.API.Extension;
 
 public static class StringExtensions

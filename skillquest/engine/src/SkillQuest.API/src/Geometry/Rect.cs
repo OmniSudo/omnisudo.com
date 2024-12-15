@@ -1,5 +1,4 @@
 using System.IO.Hashing;
-using System.Text;
 using Silk.NET.Maths;
 
 namespace SkillQuest.API.Geometry;

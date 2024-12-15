@@ -3,10 +3,8 @@ using ImGuiNET;
 using Silk.NET.Input;
 using SkillQuest.API.Component;
 using SkillQuest.API.ECS;
-using SkillQuest.API.Network;
 using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;
-using SkillQuest.Client.Engine.Component;
 using SkillQuest.Client.Engine.Graphics.API;
 using SkillQuest.Client.Engine.Input;
 using SkillQuest.Game.Base.Shared.Entity.Item.Mining.Tool.Pickaxe;
@@ -14,7 +12,6 @@ using SkillQuest.Game.Base.Shared.Entity.Prop.Mining.Vein;
 using SkillQuest.Game.Base.Shared.System.Skill;
 using SkillQuest.Shared.Engine.Component;
 using SkillQuest.Shared.Engine.Entity;
-using SkillQuest.Shared.Engine.Entity.Character;
 using SkillQuest.Shared.Engine.Entity.Universe;
 using static SkillQuest.Shared.Engine.State;
 

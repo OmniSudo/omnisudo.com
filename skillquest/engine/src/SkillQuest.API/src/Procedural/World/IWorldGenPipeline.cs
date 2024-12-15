@@ -1,5 +1,4 @@
 using Silk.NET.Maths;
-using SkillQuest.API.Procedural.Node;
 using SkillQuest.API.Thing.Universe;
 
 namespace SkillQuest.API.Procedural.World;

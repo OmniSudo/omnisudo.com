@@ -1,8 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Text.Json.Nodes;
-using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using SkillQuest.API.Component;
 using SkillQuest.API.Thing;

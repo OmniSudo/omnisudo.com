@@ -1,9 +1,8 @@
-using System.Collections.Concurrent;
+using System.Net;
 using SkillQuest.API.Component;
 using SkillQuest.API.ECS;
 using SkillQuest.API.Network;
-using SkillQuest.Game.Base.Shared.Packet.Entity;
-using SkillQuest.Shared.Engine.ECS;
+using SkillQuest.Shared.Engine.Packet.Entity;
 
 namespace SkillQuest.Shared.Engine.Component;
 

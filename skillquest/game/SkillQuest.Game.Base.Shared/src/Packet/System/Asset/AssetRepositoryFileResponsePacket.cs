@@ -1,10 +1,4 @@
-using System.Text;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 using SkillQuest.API.Asset;
-using SkillQuest.API.ECS;
-using static SkillQuest.Shared.Engine.State;
 
 namespace SkillQuest.Game.Base.Shared.Packet.System.Asset;
 

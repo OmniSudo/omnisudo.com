@@ -3,7 +3,6 @@ using Silk.NET.Maths;
 using SkillQuest.API.Procedural.World;
 using SkillQuest.API.Thing.Character;
 using SkillQuest.API.Thing.Universe;
-using SkillQuest.Shared.Engine.Entity.Character;
 using static SkillQuest.Shared.Engine.State;
 
 namespace SkillQuest.Shared.Engine.Entity.Universe;

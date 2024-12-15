@@ -2,7 +2,6 @@ using ImGuiNET;
 using SkillQuest.API.Thing;
 using SkillQuest.Client.Engine.Graphics.API;
 using SkillQuest.Client.Engine.Input;
-using SkillQuest.Shared.Engine.Entity;
 
 namespace SkillQuest.Game.Base.Client.System.Gui.InGame;
 

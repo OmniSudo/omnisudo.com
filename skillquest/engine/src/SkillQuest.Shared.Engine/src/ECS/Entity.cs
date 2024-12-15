@@ -1,20 +1,10 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
-using System.ComponentModel;
-using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Schema;
-using System.Xml.Serialization;
-using SkillQuest.API.Component;
 using SkillQuest.API.ECS;
 using IComponent = SkillQuest.API.ECS.IComponent;
 
 namespace SkillQuest.Shared.Engine.ECS;
-
-using static State;
 
 public class Entity : IEntity{
 

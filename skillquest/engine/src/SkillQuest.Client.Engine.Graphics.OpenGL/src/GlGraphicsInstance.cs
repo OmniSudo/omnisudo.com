@@ -1,7 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Drawing;
-using System.Xml;
 using Silk.NET.GLFW;
 using Silk.NET.Input;
 using Silk.NET.Maths;
@@ -11,7 +10,6 @@ using Silk.NET.Windowing;
 using SkillQuest.API;
 using SkillQuest.API.ECS;
 using SkillQuest.Client.Engine.Graphics.API;
-using SkillQuest.Shared.Engine.ECS;
 
 namespace SkillQuest.Client.Engine.Graphics.OpenGL;
 

@@ -1,6 +1,5 @@
 using SkillQuest.API;
 using SkillQuest.Game.Base.Shared.System.Addon;
-using static SkillQuest.Shared.Engine.State;
 
 namespace SkillQuest.Game.Base.Server.System.Addon;
 

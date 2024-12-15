@@ -1,7 +1,6 @@
 using SkillQuest.API;
 using SkillQuest.Game.Base.Shared.Entity.Item.Mining.Ore;
 using SkillQuest.Game.Base.Shared.Entity.Item.Mining.Tool.Pickaxe;
-using SkillQuest.Game.Base.Shared.Entity.Prop.Mining.Vein;
 using SkillQuest.Shared.Engine.Entity;
 
 namespace SkillQuest.Game.Base.Shared.System.Addon;

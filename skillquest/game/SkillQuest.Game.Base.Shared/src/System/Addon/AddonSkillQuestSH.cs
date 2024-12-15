@@ -1,6 +1,4 @@
 using SkillQuest.API;
-using SkillQuest.Shared.Engine.ECS;
-using SkillQuest.Shared.Engine.Entity;
 
 namespace SkillQuest.Game.Base.Shared.System.Addon;
 

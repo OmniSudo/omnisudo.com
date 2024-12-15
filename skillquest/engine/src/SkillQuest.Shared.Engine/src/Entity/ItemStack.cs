@@ -1,12 +1,9 @@
 using System.Text.Json.Nodes;
-using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using SkillQuest.API.Component;
 using SkillQuest.API.ECS;
 using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;
-using static SkillQuest.Shared.Engine.State;
 
 namespace SkillQuest.Shared.Engine.Entity;
 
