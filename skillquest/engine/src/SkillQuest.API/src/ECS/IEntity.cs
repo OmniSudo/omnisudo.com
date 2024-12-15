@@ -2,7 +2,6 @@ using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Text.Json.Nodes;
 using System.Xml.Serialization;
-using SkillQuest.Game.Base.Shared.Packet.Entity;
 
 namespace SkillQuest.API.ECS;
 

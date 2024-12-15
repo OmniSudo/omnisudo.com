@@ -6,6 +6,7 @@ using SkillQuest.API.ECS;
 using SkillQuest.API.Network;
 using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;
+using SkillQuest.Client.Engine.Component;
 using SkillQuest.Client.Engine.Graphics.API;
 using SkillQuest.Client.Engine.Input;
 using SkillQuest.Game.Base.Shared.Entity.Item.Mining.Tool.Pickaxe;

@@ -1,11 +1,6 @@
 using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
-using SkillQuest.API.ECS;
 
-namespace SkillQuest.Shared.Engine.ECS;
+namespace SkillQuest.API.ECS;
 
 public class Component<TAttached> : IComponent where TAttached : class, IComponent{
     public IEntity? Entity {

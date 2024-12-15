@@ -1,13 +1,12 @@
-using System.Collections.Concurrent;
 using SkillQuest.API.Component;
 using SkillQuest.API.ECS;
 using SkillQuest.API.Network;
-using SkillQuest.Game.Base.Shared.Packet.Entity;
-using SkillQuest.Shared.Engine.ECS;
+using SkillQuest.Shared.Engine.Component;
+using SkillQuest.Shared.Engine.Packet.Entity;
 
-namespace SkillQuest.Shared.Engine.Component;
+namespace SkillQuest.Server.Engine.Component;
 
-using static SkillQuest.Shared.Engine.State;
+using static Shared.Engine.State;
 
 public class NetworkedComponentSV : Component<NetworkedComponentSV>, INetworkedComponent{
     IChannel _channel;

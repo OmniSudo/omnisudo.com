@@ -10,7 +10,6 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using SkillQuest.API.Component;
 using SkillQuest.API.ECS;
-using SkillQuest.Game.Base.Shared.Packet.Entity;
 using IComponent = SkillQuest.API.ECS.IComponent;
 
 namespace SkillQuest.Shared.Engine.ECS;
