@@ -56,7 +56,7 @@ public class CharacterDatabase : global::SkillQuest.Shared.Engine.ECS.System{
                             throw new ArgumentException("Character world null")
                         ),
                         Uri = new Uri(
-                            $"player://skill.quest/{row["world"] as string}/{row["name"] as string}")
+                            $"player://skill.quest/{row["name"] as string}")
                     }
                 );
             } catch (Exception e) {
@@ -102,7 +102,7 @@ public class CharacterDatabase : global::SkillQuest.Shared.Engine.ECS.System{
                     throw new ArgumentException("Character world null")
                 ),
                 Uri = new Uri(
-                    $"player://skill.quest/{characters.First()["world"] as string}/{characters.First()["name"] as string}")
+                    $"player://skill.quest/{characters.First()["name"] as string}")
             };
         } catch (Exception e) {
             Console.WriteLine("Could not fetch user data from GUID {0}", characterId);
@@ -139,7 +139,7 @@ public class CharacterDatabase : global::SkillQuest.Shared.Engine.ECS.System{
                     throw new ArgumentException("Character world null")
                 ),
                 Uri = new Uri(
-                    $"player://skill.quest/{characters.First()["world"] as string}/{characters.First()["name"] as string}")
+                    $"player://skill.quest/{characters.First()["name"] as string}")
             };
         } catch (Exception e) {
             Console.WriteLine("Could not fetch user data from GUID {0}", characterName);

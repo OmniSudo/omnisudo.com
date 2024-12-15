@@ -53,12 +53,8 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
     }
 
     void LedgerOnEntityAdded(IEntity ientity){
-        if (ientity is IItem item) {
-            item[ typeof( INetworkedComponent ) ] = new NetworkedComponentSV();
-        } else if (ientity is Material material) {
-            material[ typeof( INetworkedComponent ) ] = new NetworkedComponentSV();
-        } else if (ientity is IInventory inventory) {
-            inventory[ typeof( INetworkedComponent ) ] = new NetworkedComponentSV();
+        if (ientity is IItem or Material or IInventory or IItemStack) {
+            ientity[ typeof( INetworkedComponent ) ] = new NetworkedComponentSV();
         }
     }
 
@@ -71,15 +67,14 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
     public Authenticator Authenticator { get; set; }
 
     void CharacterSelectOnSelected(IClientConnection client, IPlayerCharacter character){
-        var inventory = SH.Ledger.Add(new Inventory() {
-            Uri = new Uri($"inventory://{character.CharacterId}/main"),
-            [new Uri("slot://skill.quest/hand/right")] = new ItemStack(
-                SH.Ledger["item://skill.quest/mining/tool/pickaxe/iron"] as Item,
-                1,
-                null,
-                character
-            ),
-        });
+        var inventory = SH.Ledger[new Uri($"inventory://{character.CharacterId}/main")] as IInventory;
+
+        inventory[new Uri($"slot://inventory/{character.CharacterId}/main/hand/right")] = new ItemStack(
+            SH.Ledger[ "item://skill.quest/mining/tool/pickaxe/iron" ] as IItem, 
+            1,
+            null,
+            character
+            );
         inventory.Component<INetworkedComponent>()?.Subscribe(client).UploadTo( null );
     }
 

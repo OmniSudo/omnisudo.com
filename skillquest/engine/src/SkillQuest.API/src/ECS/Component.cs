@@ -13,18 +13,18 @@ public class Component<TAttached> : IComponent where TAttached : class, ICompone
             return _entity;
         }
         set {
-            if ( _entity != value ) {
+            if (_entity != value) {
                 var old = _entity;
-                
-                if ( old is not null ) {
+
+                if (old is not null) {
                     DisconnectFromEntity?.Invoke(old, this);
-                    old.Connect( null, this.GetType() );
+                    old.Connect(null, this.GetType());
                 }
-                
+
                 _entity = value;
-                
+
                 if (_entity is not null) {
-                    _entity.Component<TAttached>(this);
+                    _entity.Connect<TAttached>(this as TAttached);
                     ConnectToEntity?.Invoke(_entity, this);
                 }
             }
@@ -38,20 +38,18 @@ public class Component<TAttached> : IComponent where TAttached : class, ICompone
     public IComponent Clone(IEntityLedger? ledger){
         var clone = Activator.CreateInstance<TAttached>();
         clone.FromJson(ToJson());
-        if ( ledger is not null ) clone.Entity = ledger[Entity?.Uri];
+        if (ledger is not null) clone.Entity = ledger[Entity?.Uri];
         return clone;
     }
 
     public JsonObject ToJson(){
         return new JsonObject() {
-            [ "name" ] = Name,
-            [ "$type" ] = GetType().AssemblyQualifiedName
+            ["name"] = Name,
+            ["$type"] = GetType().AssemblyQualifiedName
         };
     }
-    
-    public void FromJson(JsonObject json){
-        
-    }
+
+    public void FromJson(JsonObject json){ }
 
     public virtual string Name => GetType().Name;
 

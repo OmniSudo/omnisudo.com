@@ -57,8 +57,8 @@ public interface IEntity : IDisposable {
 
     IEntity Connect( IComponent? component, Type? type = null );
 
-    void Component<TAttached>(object component) where TAttached : class, IComponent{
-        Component(typeof( TAttached ) );
+    TAttached? Component<TAttached>() where TAttached : class, IComponent{
+        return Component(typeof( TAttached ) ) as TAttached;
     }
 
     IComponent? Component(Type type);

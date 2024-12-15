@@ -66,8 +66,10 @@ public class GuiCharacterSelection : SkillQuest.Shared.Engine.ECS.System, IDrawa
                     Connection = _connection,
                     Name = selected?.Name ?? "ERROR",
                     Inventory = new Inventory(),
+                    Uri = selected?.Uri,
                 };
                 
+                Ledger!.Add( character );
                 Ledger!.Add(new GuiInGame(character!));
                 
                 _characterSelect.Reset();

@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Net;
 using SkillQuest.API.Component;
 using SkillQuest.API.ECS;
 using SkillQuest.API.Network;
@@ -18,28 +19,28 @@ public class NetworkedComponentCL : Component<NetworkedComponentCL>, INetworkedC
 
     public IComponent Clone(IEntityLedger? ledger){
         var component = new NetworkedComponentCL {
-            Subscribers = [..Subscribers]
+            Subscribers = new(Subscribers)
         };
         if (ledger != null) ledger[Entity.Uri][typeof(INetworkedComponent)] = component;
         return component;
     }
 
-    public HashSet<IClientConnection> Subscribers { get; set; } = new();
+    public Dictionary<IPEndPoint, IClientConnection> Subscribers { get; set; } = new();
 
     public INetworkedComponent Subscribe(IClientConnection connection){
-        Subscribers.Add(connection);
+        Subscribers[connection.EndPoint] = connection;
         return this;
     }
 
     public INetworkedComponent Unsubscribe(IClientConnection connection){
-        Subscribers.Remove(connection);
+        Subscribers.Remove(connection.EndPoint);
         return this;
     }
 
     void OnConnectListenForUpdate(IEntity entity, IComponent component){
         _channel = SH.Net.CreateChannel(entity.Uri);
         _channel.Subscribe<EntityUploadPacket>(OnEntityUploadPacket);
-        
+
         entity.Update += OnUpdate;
     }
 
@@ -47,31 +48,34 @@ public class NetworkedComponentCL : Component<NetworkedComponentCL>, INetworkedC
         Updated = true;
 
         foreach (var client in Subscribers) {
-            UploadTo(client, component);
+            UploadTo(client.Value, component);
         }
     }
 
     public bool Updated { get; set; }
 
     public INetworkedComponent DownloadFrom(IClientConnection? remote, IComponent? component = null){
-        Subscribers.Add(remote);
-        foreach (var dest in remote is null ? Subscribers : [remote]) {
-            _channel.Send(dest, new EntityDownloadRequestPacket() { Uri = Entity.Uri });
+        if (remote is not null) Subscribe(remote);
+
+        foreach (var dest in remote is null ? Subscribers : new() { { remote.EndPoint, remote } }) {
+            _channel.Send(dest.Value, new EntityDownloadRequestPacket() { Uri = Entity.Uri });
         }
         return this;
     }
 
     void OnEntityUploadPacket(IClientConnection connection, EntityUploadPacket packet){
-        Uri.TryCreate( packet.Data[ "uri" ].ToString(), UriKind.Absolute, out var uri );
-        
-        var type = Type.GetType( packet.Data[ "$type" ].ToString() );
+        Subscribe(connection); // TODO: If it recieves an upload for the connection, assume it subscribes to the connection
 
-        if (!type?.IsAssignableTo( typeof( IEntity ) ) ?? true ) {
+        Uri.TryCreate(packet.Data["uri"].ToString(), UriKind.Absolute, out var uri);
+
+        var type = Type.GetType(packet.Data["$type"].ToString());
+
+        if (!type?.IsAssignableTo(typeof(IEntity)) ?? true) {
             return;
         }
 
         if (type != Entity.GetType()) {
-            if (Activator.CreateInstance( type ) is not IEntity ent) return;
+            if (Activator.CreateInstance(type) is not IEntity ent) return;
             ent.Uri = uri;
             var components = Entity.Components;
 
@@ -81,7 +85,7 @@ public class NetworkedComponentCL : Component<NetworkedComponentCL>, INetworkedC
             }
 
             var ledger = Entity.Ledger;
-            
+
             Entity = ent;
             ent.Ledger = ledger;
         }

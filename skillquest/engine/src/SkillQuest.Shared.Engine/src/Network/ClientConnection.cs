@@ -226,7 +226,7 @@ public class ClientConnection : IClientConnection{
                                     if (Networker.Channels.TryGetValue(packet.Channel, out var channel)) {
                                         channel.Receive(this, packet);
                                     } else {
-                                        Console.WriteLine($"No channel to receive '{packet}'");
+                                        Console.WriteLine($"No '{packet.Channel}' channel to receive '{packet}'");
                                     }
                                 } else {
                                     Console.WriteLine($"Malformed packet: '{typename}'");

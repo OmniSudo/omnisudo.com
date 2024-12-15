@@ -34,7 +34,7 @@ public class CharacterCreator : SkillQuest.Shared.Engine.ECS.System{
         character.World = new Uri("world://skill.quest/main");
 
         character.Uri =
-            new Uri($"player://skill.quest/{character.World.LocalPath}/{character.Name}");
+            new Uri($"player://skill.quest/{character.Name}");
 
         _channel.Send(
             connection,

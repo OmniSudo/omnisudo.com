@@ -59,7 +59,10 @@ public class Inventory : Engine.ECS.Entity, IInventory {
         var stacks = new JsonObject();
 
         foreach (var stack in Stacks) {
-            stacks[stack.Key.ToString()] = stack.Value.Uri?.ToString();
+            stacks[stack.Key.ToString()] = new JsonArray() {
+                stack.Value.Id.ToString(),
+                stack.Value.Uri,
+            };
         }
 
         json["stacks"] = stacks;
@@ -73,14 +76,18 @@ public class Inventory : Engine.ECS.Entity, IInventory {
         var stacks = json["stacks"]?.AsObject();
 
         foreach (var pair in stacks ?? [] ) {
-            if (Uri.TryCreate(pair.Value?.ToString(), UriKind.Absolute, out var uri)) {
+            var stack_uri = pair.Value[ 1 ].ToString();
+            var stack_guid = pair.Value[ 0 ].ToString();
+            if (Uri.TryCreate(stack_uri?.ToString(), UriKind.Absolute, out var uri) && Uri.TryCreate(pair.Key?.ToString(), UriKind.Absolute, out var key)) {
                 var stack = Ledger[uri] as IItemStack;
 
                 if (stack is null) {
                     var network = (Component(typeof(INetworkedComponent)) as INetworkedComponent)?.Clone(null) as INetworkedComponent;
-                    stack = new ItemStack(null, 0);
-                    stack.Component<INetworkedComponent>(network);
+                    stack = new ItemStack(null, 0, Guid.Parse( stack_guid ));
+                    network.Entity = stack;
+                    this[ key ] = stack;
                     network.DownloadFrom(null);
+                    
                 }
             }
         }
