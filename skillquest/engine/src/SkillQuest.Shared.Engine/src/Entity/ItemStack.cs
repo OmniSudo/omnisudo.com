@@ -25,6 +25,8 @@ public class ItemStack : Engine.ECS.Entity, IItemStack{
     }
 
     public void FromJson(JsonObject json){
+        base.FromJson(json);
+        
         if (Uri.TryCreate(json["item"].ToString(), UriKind.Absolute, out var item)) {
             var i = Ledger[item] as IItem;
 
@@ -47,7 +49,7 @@ public class ItemStack : Engine.ECS.Entity, IItemStack{
             var i = Ledger[owner];
 
             if (i is null) {
-                var network = Component<INetworkedComponent>()?.Clone(null) as INetworkedComponent;
+                var network = Components.Where( c => c.Value is INetworkedComponent ).First().Value?.Clone(null) as INetworkedComponent;
                 i = new ECS.Entity(owner);
                 i?.Connect(network);
                 network?.DownloadFrom(null);

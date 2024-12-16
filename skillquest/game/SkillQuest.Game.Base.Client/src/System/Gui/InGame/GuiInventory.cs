@@ -2,6 +2,7 @@ using ImGuiNET;
 using SkillQuest.API.Thing;
 using SkillQuest.Client.Engine.Graphics.API;
 using SkillQuest.Client.Engine.Input;
+using SkillQuest.Shared.Engine.Component;
 
 namespace SkillQuest.Game.Base.Client.System.Gui.InGame;
 
@@ -17,6 +18,7 @@ public class GuiInventory: global::SkillQuest.Shared.Engine.ECS.System, IDrawabl
     /// <param name="inventory" />
     public GuiInventory(GuiInGame guiInGame, IInventory? inventory){
         _inventory = inventory;
+        inventory.Component<NetworkedComponentCL>().DownloadFrom( guiInGame.LocalHost.Connection );
         Parent = guiInGame;
     }
 

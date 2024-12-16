@@ -19,7 +19,7 @@ public class NetworkedComponentSV : Component<NetworkedComponentSV>, INetworkedC
         var component = new NetworkedComponentSV {
             Subscribers = [..Subscribers]
         };
-        if (ledger != null) component.Entity = ledger[Entity.Uri];
+        if (ledger is not null && Entity is not null) ledger[Entity.Uri][ typeof( INetworkedComponent ) ] = component;
         return component;
     }
 

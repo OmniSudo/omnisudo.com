@@ -80,13 +80,14 @@ public class Inventory : Engine.ECS.Entity, IInventory {
                 var stack = Ledger[uri] as IItemStack;
 
                 if (stack is null) {
-                    var network = (Component(typeof(INetworkedComponent)) as INetworkedComponent)?.Clone(null) as INetworkedComponent;
-                    stack = new ItemStack(null, 0, Guid.Parse( stack_guid ));
+                    var network = Components.Where( c => c.Value is INetworkedComponent ).First().Value?.Clone(null) as INetworkedComponent;
+                    stack = new ItemStack(null, 0, Guid.Parse( stack_guid )) { Uri = uri };
+                    Ledger.Add(stack);
                     network.Entity = stack;
-                    this[ key ] = stack;
                     network.DownloadFrom(null);
-                    
                 }
+                
+                this[ key ] = stack;
             }
         }
     }

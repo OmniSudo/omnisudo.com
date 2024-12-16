@@ -6,6 +6,7 @@ using SkillQuest.Game.Base.Client.System.Character;
 using SkillQuest.Game.Base.Client.System.Gui.InGame;
 using SkillQuest.Game.Base.Client.System.Gui.LoginSignup;
 using SkillQuest.Game.Base.Client.System.Users;
+using SkillQuest.Shared.Engine.Component;
 using SkillQuest.Shared.Engine.Entity;
 using SkillQuest.Shared.Engine.Entity.Character;
 
@@ -22,7 +23,7 @@ public class GuiCharacterSelection : SkillQuest.Shared.Engine.ECS.System, IDrawa
     public GuiCharacterSelection(IClientConnection connection){
         _connection = connection;
         _characterSelect = new CharacterSelect(_connection);
-        
+
         _characters = _characterSelect.Characters();
     }
 
@@ -33,45 +34,52 @@ public class GuiCharacterSelection : SkillQuest.Shared.Engine.ECS.System, IDrawa
 
             Ledger!.Remove(this);
             Ledger!.Remove(_characterSelect);
-            var login = Ledger.Add( new GuiMainMenu() );
+            var login = Ledger.Add(new GuiMainMenu());
             Authenticator.Instance.Logout(_connection);
 
             return;
         }
 
         IPlayerCharacter selection = null;
+
         if (_characters.IsCompleted) {
             selection = DoSelect(_characters.Result);
         }
 
         if (ImGui.Button("Create")) {
             _characterSelect.Reset();
-            Ledger.Add( new GuiCharacterCreation(_connection) );
-            
+            Ledger.Add(new GuiCharacterCreation(_connection));
+
             Ledger!.Remove(_characterSelect);
             Ledger!.Remove(this);
 
             return;
         }
-        
+
         if (selection != null) {
-            Task.Run( async () => {
+            Task.Run(async () => {
                 var selected = await _characterSelect.Select(selection);
                 if (selected is null) return;
-                
+
                 Console.WriteLine("Selected {0}", selected?.Name);
 
                 var character = new WorldPlayer() {
                     CharacterId = selected?.CharacterId ?? Guid.Empty,
                     Connection = _connection,
                     Name = selected?.Name ?? "ERROR",
-                    Inventory = new Inventory(),
+                    Inventory = Ledger?.Add(new Inventory() {
+                        Uri = new Uri($"inventory://{selected?.CharacterId}/main"),
+                        Ledger = Ledger,
+                    }),
                     Uri = selected?.Uri,
                 };
-                
-                Ledger!.Add( character );
+
+                character.Inventory.Connect(new NetworkedComponentCL()).Component<NetworkedComponentCL>()
+                    .DownloadFrom(character.Connection);
+
+                Ledger!.Add(character);
                 Ledger!.Add(new GuiInGame(character!));
-                
+
                 _characterSelect.Reset();
                 Ledger!.Remove(_characterSelect);
                 Ledger!.Remove(this);
@@ -81,11 +89,11 @@ public class GuiCharacterSelection : SkillQuest.Shared.Engine.ECS.System, IDrawa
 
     public IPlayerCharacter DoSelect(IPlayerCharacter[] characters){
         IPlayerCharacter? ret = null;
-        
-        if ((characters?.Length ?? 0 )== 0) {
+
+        if ((characters?.Length ?? 0) == 0) {
             return ret;
         }
-        
+
         foreach (var character in characters) {
             if (ImGui.Button(character.Name)) {
                 ret = character;

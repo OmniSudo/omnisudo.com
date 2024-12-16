@@ -21,5 +21,4 @@ public class WorldPlayer : ECS.Entity, IPlayerCharacter {
     }
     
     public IInventory? Inventory { get; set; }
-
 }

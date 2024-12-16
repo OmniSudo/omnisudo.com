@@ -84,6 +84,12 @@ public class NetworkedComponentCL : Component<NetworkedComponentCL>, INetworkedC
 
             var ledger = Entity.Ledger;
 
+            ent.Parent = Entity.Parent;
+
+            foreach (var child in Entity.Children) {
+                ent[child.Key] = child.Value;
+            }
+            
             Entity = ent;
             ent.Ledger = ledger;
         }

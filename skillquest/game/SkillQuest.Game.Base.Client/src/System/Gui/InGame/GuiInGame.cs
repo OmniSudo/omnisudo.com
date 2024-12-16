@@ -92,11 +92,6 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
         var skill = new SkillMining(LocalHost);
         skill.Parent = LocalHost;
         Ledger.Add(skill);
-        
-        var inventory = SH.Ledger.Add(new Inventory() {
-            Uri = new Uri($"inventory://{LocalHost.CharacterId}/main"),
-        });
-        ( ( inventory[typeof(INetworkedComponent)] = new NetworkedComponentCL() ) as INetworkedComponent )?.DownloadFrom( LocalHost.Connection! );
     }
 
     void OnUntracked(IEntityLedger Entities, IEntity iEntity){
