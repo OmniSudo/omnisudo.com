@@ -117,7 +117,7 @@ public class ItemStack : Engine.ECS.Entity, IItemStack{
     public ItemStack(IItem item, long count, Guid? id = null, ICharacter? owner = null){
         _item = item;
         _count = count;
-        Id = id ?? Guid.NewGuid();
+        Id = id ?? Guid.Empty;
         _owner = owner;
     }
 

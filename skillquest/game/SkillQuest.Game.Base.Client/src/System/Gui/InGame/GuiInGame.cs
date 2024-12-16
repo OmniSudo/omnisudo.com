@@ -56,7 +56,7 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
             )
         ) {
             if (ImGui.Button("+Pickaxe")) {
-                LocalHost.Inventory![new Uri($"slot://{LocalHost.CharacterId}/hand/right")] ??= new ItemStack(
+                LocalHost.Inventory![new Uri($"slot://{LocalHost.Name}/main/hand/right")] ??= new ItemStack(
                     (SH.Ledger[new Uri($"item://skill.quest/mining/tool/pickaxe/iron")] as IItem)!,
                     1,
                     null,
@@ -67,10 +67,10 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
             if (!vein.Depleted && ImGui.Button("Mine Iron Vein")) {
                 (
                     LocalHost
-                        .Inventory?[new Uri($"slot://{LocalHost.Name}/hand/right")]
+                        .Inventory?[new Uri($"slot://{LocalHost.Name}/main/hand/right")]
                         ?.Item as ItemPickaxe
                 )?.Primary(
-                    LocalHost.Inventory![new Uri($"slot://{LocalHost.Name}/hand/right")]!,
+                    LocalHost.Inventory![new Uri($"slot://{LocalHost.Name}/main/hand/right")]!,
                     LocalHost,
                     vein
                 );

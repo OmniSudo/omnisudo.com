@@ -68,15 +68,13 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
     void CharacterSelectOnSelected(IClientConnection client, IPlayerCharacter character){
         var inventory = SH.Ledger[new Uri($"inventory://{character.CharacterId}/main")] as IInventory;
 
-        inventory[new Uri($"slot://{character.CharacterId}/main/hand/right")] = new ItemStack(
+        inventory[new Uri($"slot://{character.Name}/main/hand/right")] = new ItemStack(
             SH.Ledger[ "item://skill.quest/mining/tool/pickaxe/iron" ] as IItem, 
             1,
             null,
             character
             );
     }
-
-    Timer testTimer;
 
     public CharacterSelect CharacterSelect { get; set; }
 

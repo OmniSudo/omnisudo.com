@@ -66,6 +66,11 @@ public class CharacterSelect : SkillQuest.Shared.Engine.ECS.System{
             Uri = character.Uri,
         };
 
+        if (worldCharacter.CharacterId == Guid.Empty) {
+            _channel.Send(connection, new SelectCharacterResponsePacket() { Selected = null });
+            return;
+        }
+
         Ledger.Add(worldCharacter);
         var world = Ledger[character.World] as World;
 

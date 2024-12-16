@@ -13,9 +13,4 @@
         <ProjectReference Include="..\SkillQuest.Game.Base.Shared\SkillQuest.Game.Base.Shared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="assets\System\" />
-      <Folder Include="src\Database\Inventory\" />
-    </ItemGroup>
-
 </Project>
