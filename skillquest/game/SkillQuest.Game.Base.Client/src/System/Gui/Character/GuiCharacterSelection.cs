@@ -67,19 +67,16 @@ public class GuiCharacterSelection : SkillQuest.Shared.Engine.ECS.System, IDrawa
                     CharacterId = selected?.CharacterId ?? Guid.Empty,
                     Connection = _connection,
                     Name = selected?.Name ?? "ERROR",
-                    Inventory = Ledger?.Add(new Inventory() {
-                        Uri = new Uri($"inventory://{selected?.CharacterId}/main"),
-                        Ledger = Ledger,
-                    }),
                     Uri = selected?.Uri,
                 };
-
-                character.Inventory.Connect(new NetworkedComponentCL()).Component<NetworkedComponentCL>()
-                    .DownloadFrom(character.Connection);
 
                 Ledger!.Add(character);
                 Ledger!.Add(new GuiInGame(character!));
 
+                character.Connect(new NetworkedComponentCL())
+                    .Component<NetworkedComponentCL>()
+                    .DownloadFrom(character.Connection);
+                
                 _characterSelect.Reset();
                 Ledger!.Remove(_characterSelect);
                 Ledger!.Remove(this);

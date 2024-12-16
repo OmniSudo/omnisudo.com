@@ -66,6 +66,7 @@ public class CharacterSelect : SkillQuest.Shared.Engine.ECS.System{
             Uri = character.Uri,
         };
 
+        Ledger.Add(worldCharacter);
         var world = Ledger[character.World] as World;
 
         world?.Add(worldCharacter);

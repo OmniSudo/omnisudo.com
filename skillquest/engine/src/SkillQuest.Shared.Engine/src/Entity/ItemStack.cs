@@ -31,12 +31,11 @@ public class ItemStack : Engine.ECS.Entity, IItemStack{
             var i = Ledger[item] as IItem;
 
             if (i is null) {
-                var network =
-                    (Component(typeof(INetworkedComponent)) as INetworkedComponent).Clone(null) as INetworkedComponent;
-                i = new Item();
+                var network = Components.First(c => c.Value is INetworkedComponent).Value?.Clone(null) as INetworkedComponent;
+                i = new Item() { Uri = item };
                 i.Connect(network);
                 Ledger.Add(i);
-                network.DownloadFrom(null);
+                network?.DownloadFrom(null);
             }
             this._item = i;
         }
@@ -49,9 +48,10 @@ public class ItemStack : Engine.ECS.Entity, IItemStack{
             var i = Ledger[owner];
 
             if (i is null) {
-                var network = Components.Where( c => c.Value is INetworkedComponent ).First().Value?.Clone(null) as INetworkedComponent;
+                var network = Components.First(c => c.Value is INetworkedComponent).Value?.Clone(null) as INetworkedComponent;
                 i = new ECS.Entity(owner);
-                i?.Connect(network);
+                i.Connect(network);
+                Ledger.Add(i);
                 network?.DownloadFrom(null);
             }
         }

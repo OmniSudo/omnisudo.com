@@ -74,7 +74,6 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
             null,
             character
             );
-        inventory.Component<NetworkedComponentSV>()?.Subscribe(client).UploadTo( null );
     }
 
     Timer testTimer;
