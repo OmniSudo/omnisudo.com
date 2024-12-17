@@ -4,6 +4,7 @@ using SkillQuest.API.ECS;
 using SkillQuest.API.Network;
 using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;
+using SkillQuest.Game.Base.Server.Database.ItemStack;
 using SkillQuest.Game.Base.Server.System.Asset;
 using SkillQuest.Game.Base.Server.System.Character;
 using SkillQuest.Game.Base.Server.System.Users;
@@ -46,13 +47,15 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
 
         SH.Ledger.EntityAdded += LedgerOnEntityAdded;
 
+        ItemStackDatabase.Instance.CreateTables();
+        
         application?
             .Mount(new AddonMetallurgySV())
             .Mount(new AddonMiningSV());
     }
 
     void LedgerOnEntityAdded(IEntity ientity){
-        if (ientity is ICharacter or IInventory or IItemStack or IItem or Material ) {
+        if (ientity is ICharacter or IItem or Material ) {
             ientity[ typeof( NetworkedComponentSV ) ] = new NetworkedComponentSV();
         }
     }

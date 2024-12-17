@@ -2,6 +2,7 @@ using SkillQuest.API.ECS;
 using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;
 using SkillQuest.Server.Engine;
+using SkillQuest.Server.Engine.Component;
 
 namespace SkillQuest.Game.Base.Server.Database.ItemStack;
 
@@ -61,7 +62,7 @@ public class ItemStackDatabase : SkillQuest.Shared.Engine.ECS.System{
 
     }
 
-    public IItemStack Load(Guid id){
+    public IItemStack? Load(Guid id){
         var res = SV.Database.Query(
             """
             SELECT * FROM itemstacks WHERE stack_id=$stack;
@@ -79,6 +80,7 @@ public class ItemStackDatabase : SkillQuest.Shared.Engine.ECS.System{
             Guid.Parse(res[0]["stack_id"] as string),
             Ledger[res[0]["owner_id"] as string] as ICharacter
         );
+        stack[ typeof( NetworkedComponentSV ) ] = new NetworkedComponentSV();
 
         return stack;
     }
