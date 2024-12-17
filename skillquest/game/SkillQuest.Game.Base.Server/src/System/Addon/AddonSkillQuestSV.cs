@@ -56,7 +56,7 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
     }
 
     void LedgerOnEntityAdded(IEntity ientity){
-        if (ientity is ICharacter or IItem or Material ) {
+        if (ientity is ICharacter ) {
             ientity[ typeof( NetworkedComponentSV ) ] = new NetworkedComponentSV();
         }
     }
