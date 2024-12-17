@@ -11,9 +11,8 @@ namespace SkillQuest.Shared.Engine.Network;
 public class ClientConnection : IClientConnection{
     protected TcpClient? Connection { get; set; } = null;
 
-    protected NetworkStream _stream;
-
-
+    protected NetworkStream? _stream;
+    
     public string EMail { get; set; }
 
     public Guid Id { get; set; }

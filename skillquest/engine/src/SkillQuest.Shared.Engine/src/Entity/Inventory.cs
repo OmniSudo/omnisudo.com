@@ -8,10 +8,8 @@ using SkillQuest.API.Thing;
 namespace SkillQuest.Shared.Engine.Entity;
 
 [XmlRoot("Inventory")]
-public class Inventory : Engine.ECS.Entity, IInventory {
-    ConcurrentDictionary<Uri, IItemStack> _stacks = new();
-
-    public ImmutableDictionary<Uri, IItemStack> Stacks => _stacks.ToImmutableDictionary();
+public class Inventory : Engine.ECS.Entity, IInventory{
+    public Dictionary<Uri, IItemStack> Stacks { get; set; } = new();
 
     public Inventory(){ }
 
@@ -19,17 +17,17 @@ public class Inventory : Engine.ECS.Entity, IInventory {
         get => Stacks.GetValueOrDefault(uri);
         set {
             if (value is null) {
-                _stacks.Remove(uri, out var val);
+                Stacks.Remove(uri, out var val);
                 if (val is not null) val.Ledger = null;
             } else {
-                _stacks.TryGetValue(uri, out var old);
+                Stacks.TryGetValue(uri, out var old);
 
                 if (old is not null && old != value) {
                     StackRemoved?.Invoke(this, old);
                     old.CountChanged -= OnItemStackCountChanged;
                 }
                 
-                _stacks[uri] = value;
+                Stacks[uri] = value;
                 if (value is null) return;
                 
                 value.Ledger = Ledger ?? Shared.Engine.State.SH.Ledger;

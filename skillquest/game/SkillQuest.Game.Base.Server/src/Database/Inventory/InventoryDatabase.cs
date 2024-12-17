@@ -1,15 +1,18 @@
 using SkillQuest.API.Thing;
+using SkillQuest.Game.Base.Server.Database.ItemStack;
 using SkillQuest.Server.Engine;
 
 namespace SkillQuest.Game.Base.Server.Database.Inventory;
 
 using static State;
+using static SkillQuest.Shared.Engine.State;
 
-public class InventoryDatabase : SkillQuest.Shared.Engine.ECS.System {
+public class InventoryDatabase : SkillQuest.Shared.Engine.ECS.System{
     public static InventoryDatabase Instance {
         get {
             if (_instance is null) {
                 _instance = new InventoryDatabase();
+                SH.Ledger.Add(_instance);
                 _instance.CreateTables();
             }
             return _instance;
@@ -47,21 +50,53 @@ public class InventoryDatabase : SkillQuest.Shared.Engine.ECS.System {
             SELECT * FROM inventory_slots WHERE inventory_uri=$uri;
             """,
             new() {
-                { "uri", uri.ToString() },
+                { "$uri", uri.ToString() },
             }
         ).Result;
 
-        if (res.Length == 0) return null;
+        if (res.Length == 0) return new SkillQuest.Shared.Engine.Entity.Inventory() {
+            Uri = uri,
+        };
 
-        // var stack = new SkillQuest.Shared.Engine.Entity.Inventory(
-        //     Ledger[res[0]["item_uri"] as string] as IItem,
-        //     int.Parse(res[0]["count"] as string),
-        //     Guid.Parse(res[0]["stack_id"] as string),
-        //     Ledger[res[0]["owner_id"] as string] as ICharacter
-        // );
-        // stack[ typeof( NetworkedComponentSV ) ] = new NetworkedComponentSV();
+        var stacks = res.Select(row =>
+            new KeyValuePair<Uri, IItemStack>(
+                new Uri(row["slot_uri"].ToString()),
+                ItemStackDatabase.Instance.Load(Guid.Parse(row["stack_id"].ToString()))
+            )
+        ).ToDictionary();
 
-        // return stack;
-        return null;
+        var inv = new SkillQuest.Shared.Engine.Entity.Inventory() {
+            Uri = uri,
+            Stacks = stacks,
+        };
+        Ledger.Add(inv);
+        
+        return inv;
+    }
+
+    public void Save(IInventory inventory){
+        SV.Database.Query(
+            """
+            DELETE FROM inventory_slots WHERE inventory_uri=$uri;
+            """,
+            new() {
+                { "$uri", Uri.ToString() }
+            }
+        );
+
+        foreach (var row in inventory.Stacks) {
+            ItemStackDatabase.Instance.Save( row.Value );
+
+            SV.Database.Query(
+                """
+                INSERT OR REPLACE INTO inventory_slots (inventory_uri, slot_uri, stack_id) VALUES ( $inv, $slot, $stack );
+                """,
+                new() {
+                    { "$inv", inventory.Uri.ToString() },
+                    { "$slot", row.Key.ToString() },
+                    { "$stack", row.Value.Id.ToString() }
+                }
+            ).Wait();
+        }
     }
 }

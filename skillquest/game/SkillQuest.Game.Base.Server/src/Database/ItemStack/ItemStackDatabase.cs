@@ -1,18 +1,21 @@
 using SkillQuest.API.ECS;
 using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;
+using SkillQuest.Game.Base.Server.Database.Character;
 using SkillQuest.Server.Engine;
 using SkillQuest.Server.Engine.Component;
 
 namespace SkillQuest.Game.Base.Server.Database.ItemStack;
 
 using static State;
+using static SkillQuest.Shared.Engine.State;
 
 public class ItemStackDatabase : SkillQuest.Shared.Engine.ECS.System{
     public static ItemStackDatabase Instance {
         get {
             if (_instance is null) {
                 _instance = new ItemStackDatabase();
+                SH.Ledger.Add(_instance);
                 _instance.CreateTables();
             }
             return _instance;
@@ -53,12 +56,12 @@ public class ItemStackDatabase : SkillQuest.Shared.Engine.ECS.System{
             INSERT OR REPLACE INTO itemstacks (stack_id, owner_id, count, item_uri) VALUES ( $stack, $owner, $count, $item );
             """,
             new() {
-                { "stack", stack.Id },
-                { "owner", stack.Owner?.CharacterId.ToString() ?? null },
-                { "count", stack.Count },
-                { "item", stack.Item.Uri.ToString() },
+                { "$stack", stack.Id },
+                { "$owner", stack.Owner?.CharacterId.ToString() ?? null },
+                { "$count", stack.Count },
+                { "$item", stack.Item.Uri.ToString() },
             }
-        );
+        ).Wait();
 
     }
 
@@ -68,7 +71,7 @@ public class ItemStackDatabase : SkillQuest.Shared.Engine.ECS.System{
             SELECT * FROM itemstacks WHERE stack_id=$stack;
             """,
             new() {
-                { "stack", id.ToString() },
+                { "$stack", id.ToString() },
             }
         ).Result;
 
@@ -76,12 +79,15 @@ public class ItemStackDatabase : SkillQuest.Shared.Engine.ECS.System{
 
         var stack = new SkillQuest.Shared.Engine.Entity.ItemStack(
             Ledger[res[0]["item_uri"] as string] as IItem,
-            int.Parse(res[0]["count"] as string),
+            int.Parse(res[0]["count"].ToString()),
             Guid.Parse(res[0]["stack_id"] as string),
-            Ledger[res[0]["owner_id"] as string] as ICharacter
+            Ledger[
+                CharacterDatabase.Instance.Character( Guid.Parse( res[0]["owner_id"] as string ) ).Uri
+            ] as ICharacter
         );
         stack[ typeof( NetworkedComponentSV ) ] = new NetworkedComponentSV();
-
+        Ledger.Add(stack);
+        
         return stack;
     }
 

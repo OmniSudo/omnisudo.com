@@ -19,7 +19,7 @@ public class ItemStack : Engine.ECS.Entity, IItemStack{
         json["item"] = Item.Uri.ToString();
         json["count"] = Count.ToString();
         json["guid"] = Id.ToString();
-        json["owner"] = Owner.Uri.ToString();
+        json["owner"] = Owner?.Uri?.ToString();
 
         return json;
     }
@@ -44,7 +44,7 @@ public class ItemStack : Engine.ECS.Entity, IItemStack{
 
         Id = Guid.Parse(json["guid"].ToString());
 
-        if (Uri.TryCreate(json["owner"].ToString(), UriKind.Absolute, out var owner)) {
+        if (Uri.TryCreate(json["owner"]?.ToString(), UriKind.Absolute, out var owner)) {
             var i = Ledger[owner];
 
             if (i is null) {

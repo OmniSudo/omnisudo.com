@@ -1,8 +1,11 @@
 using SkillQuest.API.Network;
+using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;
 using SkillQuest.Game.Base.Server.Database.Character;
+using SkillQuest.Game.Base.Server.Database.Inventory;
 using SkillQuest.Game.Base.Shared.Packet.System.Character;
 using SkillQuest.Game.Base.Shared.Packet.System.Character.Select;
+using SkillQuest.Server.Engine.Component;
 using SkillQuest.Shared.Engine.Entity;
 using SkillQuest.Shared.Engine.Entity.Character;
 using SkillQuest.Shared.Engine.Entity.Universe;
@@ -58,13 +61,26 @@ public class CharacterSelect : SkillQuest.Shared.Engine.ECS.System{
 
         var worldCharacter = new WorldPlayer() {
             CharacterId = character.CharacterId.GetValueOrDefault(Guid.Empty),
-            Inventory = Ledger?.Add(new Inventory() {
-                Uri = new Uri($"inventory://{character.CharacterId}/main"),
-                Ledger = Ledger,
-            }),
+            Inventory = InventoryDatabase.Instance
+                .Load(new Uri($"inventory://{character.CharacterId}/main"))
+                .Connect(new NetworkedComponentSV()) as IInventory,
             Name = character.Name,
             Uri = character.Uri,
         };
+
+        if (
+            !worldCharacter.Inventory!.Stacks?.ContainsKey(
+                new Uri($"slot://{character.Name}/main/hand/right")
+            ) ?? true
+        ) {
+            worldCharacter.Inventory![new Uri($"slot://{character.Name}/main/hand/right")] = new ItemStack(
+                SH.Ledger["item://skill.quest/mining/tool/pickaxe/iron"] as IItem,
+                1,
+                Guid.NewGuid(),
+                worldCharacter
+            );
+            InventoryDatabase.Instance.Save(worldCharacter.Inventory!);
+        }
 
         if (worldCharacter.CharacterId == Guid.Empty) {
             _channel.Send(connection, new SelectCharacterResponsePacket() { Selected = null });
@@ -75,7 +91,7 @@ public class CharacterSelect : SkillQuest.Shared.Engine.ECS.System{
         var world = Ledger[character.World] as World;
 
         world?.Add(worldCharacter);
-        
+
         CharacterSelected?.Invoke(connection, worldCharacter);
         _channel.Send(connection, new SelectCharacterResponsePacket() { Selected = character });
     }

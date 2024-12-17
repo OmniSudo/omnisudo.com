@@ -4,6 +4,7 @@ using SkillQuest.API.ECS;
 using SkillQuest.API.Network;
 using SkillQuest.API.Thing;
 using SkillQuest.API.Thing.Character;
+using SkillQuest.Game.Base.Server.Database.Inventory;
 using SkillQuest.Game.Base.Server.Database.ItemStack;
 using SkillQuest.Game.Base.Server.System.Asset;
 using SkillQuest.Game.Base.Server.System.Character;
@@ -69,14 +70,6 @@ public class AddonSkillQuestSV : AddonSkillQuestSH{
     public Authenticator Authenticator { get; set; }
 
     void CharacterSelectOnSelected(IClientConnection client, IPlayerCharacter character){
-        var inventory = SH.Ledger[new Uri($"inventory://{character.CharacterId}/main")] as IInventory;
-
-        inventory[new Uri($"slot://{character.Name}/main/hand/right")] = new ItemStack(
-            SH.Ledger[ "item://skill.quest/mining/tool/pickaxe/iron" ] as IItem, 
-            1,
-            null,
-            character
-            );
     }
 
     public CharacterSelect CharacterSelect { get; set; }

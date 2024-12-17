@@ -4,12 +4,14 @@ using SkillQuest.Server.Engine;
 namespace SkillQuest.Game.Base.Server.Database.Character;
 
 using static State;
+using static SkillQuest.Shared.Engine.State;
 
 public class CharacterDatabase : global::SkillQuest.Shared.Engine.ECS.System{
     public static CharacterDatabase Instance {
         get {
             if (_instance is null) {
                 _instance = new CharacterDatabase();
+                SH.Ledger.Add(_instance);
                 _instance.CreateTables();
             }
             return _instance;

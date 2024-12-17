@@ -4,7 +4,7 @@ using SkillQuest.API.ECS;
 namespace SkillQuest.API.Thing;
 
 public interface IInventory : IEntity {
-    public ImmutableDictionary<Uri, IItemStack> Stacks { get; }
+    public Dictionary<Uri, IItemStack> Stacks { get; set; }
 
     public new IItemStack? this[Uri uri] {
         get;
