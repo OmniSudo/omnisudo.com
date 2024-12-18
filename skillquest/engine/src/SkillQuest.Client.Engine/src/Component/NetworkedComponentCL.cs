@@ -71,39 +71,7 @@ public class NetworkedComponentCL : Component<NetworkedComponentCL>, INetworkedC
     void OnEntityUploadPacket(IClientConnection connection, EntityUploadPacket packet){
         Subscribe(connection); // TODO: If it recieves an upload for the connection, assume it subscribes to the connection
 
-        Uri.TryCreate(packet.Data["uri"].ToString(), UriKind.Absolute, out var uri);
-
-        var type = Type.GetType(packet.Data["$type"].ToString());
-
-        if (!type?.IsAssignableTo(typeof(IEntity)) ?? true) {
-            return;
-        }
-
-        if (type != Entity.GetType()) {
-            if (Activator.CreateInstance(type) is not IEntity ent) return;
-            ent.Uri = uri;
-            var components = Entity.Components;
-
-            foreach (var component in components) {
-                ent[component.Key] = component.Value;
-                component.Value.Entity = ent;
-            }
-
-            var ledger = Entity.Ledger;
-
-            ent.Parent = Entity.Parent;
-
-            foreach (var child in Entity.Children) {
-                ent[child.Key] = child.Value;
-            }
-            
-            Entity = ent;
-            ent.Ledger = ledger;
-        }
-
-        Entity.FromJson(packet.Data);
         
-        tcs?.SetResult(this);
     }
 
     public INetworkedComponent UploadTo(IClientConnection client, IComponent? component = null){

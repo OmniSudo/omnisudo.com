@@ -38,7 +38,7 @@ public interface IEntityLedger : IDisposable{
 
     public IEntity? Remove(Uri uri);
 
-    public Task< IEntity? > Download(Uri uri);
+    public Task<IEntity?> Download(Uri uri, IClientConnection source, DateTime? after = null);
     
-    public Task< IEntity? > Upload(IEntity entity, IClientConnection target);
+    public Task< IEntity? > Upload(IEntity entity, IClientConnection destination);
 }

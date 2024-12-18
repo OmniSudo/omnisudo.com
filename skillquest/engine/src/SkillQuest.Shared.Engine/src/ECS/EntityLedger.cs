@@ -128,11 +128,12 @@ public class EntityLedger : IEntityLedger{
         return thing;
     }
 
-    public virtual Task<IEntity?> Download(Uri uri){
+
+    public virtual Task<IEntity?> Download(Uri uri, IClientConnection source, DateTime? after = null){
         throw new NotImplementedException();
     }
     
-    public virtual Task<IEntity?> Upload(IEntity entity, IClientConnection target){
+    public virtual Task<IEntity?> Upload(IEntity entity, IClientConnection destination){
         throw new NotImplementedException();
     }
 
