@@ -1,5 +1,5 @@
 namespace SkillQuest.Shared.Engine.Packet.Component.Interaction;
 
-public class InteractionResponsePacket{
+public class InteractionResponsePacket : API.Network.Packet {
     
 }

@@ -19,7 +19,7 @@ public class NetworkedComponentCL : Component<NetworkedComponentCL>, INetworkedC
         var component = new NetworkedComponentCL {
             Subscribers = new(Subscribers)
         };
-        if (ledger != null) ledger[Entity.Uri][typeof(INetworkedComponent)] = component;
+        if (ledger != null) ledger[Entity.Uri][GetType()] = component;
         return component;
     }
 

@@ -1,3 +1,4 @@
+using System.Net;
 using SkillQuest.API.Component;
 using SkillQuest.API.ECS;
 using SkillQuest.API.Network;
@@ -16,24 +17,25 @@ public class NetworkedComponentSV : Component<NetworkedComponentSV>, INetworkedC
     }
 
     public IComponent Clone(IEntityLedger? ledger){
-        var component = new NetworkedComponentSV {
-            Subscribers = [..Subscribers]
+        var component = new NetworkedComponentSV() {
+            Subscribers = new(Subscribers)
         };
-        if (ledger is not null && Entity is not null) ledger[Entity.Uri][ typeof( INetworkedComponent ) ] = component;
+        if (ledger != null) ledger[Entity.Uri][GetType()] = component;
         return component;
     }
 
-    public HashSet<IClientConnection> Subscribers { get; set; } = new();
+    public Dictionary<IPEndPoint, IClientConnection> Subscribers { get; set; } = new();
 
     public INetworkedComponent Subscribe(IClientConnection connection){
-        Subscribers.Add(connection);
+        Subscribers[connection.EndPoint] = connection;
         return this;
     }
 
     public INetworkedComponent Unsubscribe(IClientConnection connection){
-        Subscribers.Remove(connection);
+        Subscribers.Remove(connection.EndPoint);
         return this;
     }
+
 
     void OnConnectListenForUpdate(IEntity entity, IComponent component){
         _channel = SH.Net.CreateChannel(entity.Uri);
@@ -46,7 +48,7 @@ public class NetworkedComponentSV : Component<NetworkedComponentSV>, INetworkedC
         Updated = true;
 
         foreach (var client in Subscribers) {
-            UploadTo(client, component);
+            UploadTo(client.Value, component);
         }
     }
 
@@ -57,11 +59,15 @@ public class NetworkedComponentSV : Component<NetworkedComponentSV>, INetworkedC
     }
 
     public INetworkedComponent UploadTo(IClientConnection? client, IComponent? component = null){
-        var clients = client is null ? Subscribers : [client];
+        var clients = client is null
+            ? Subscribers
+            : new() {
+                { client.EndPoint, client }
+            };
 
         foreach (var receive in clients) {
             if (component is not null) {
-                _channel.Send(receive, new EntityUploadPacket() {
+                _channel.Send(receive.Value, new EntityUploadPacket() {
                     Data = Entity?.ToJson([
                         component.GetType()
                     ])
@@ -69,7 +75,7 @@ public class NetworkedComponentSV : Component<NetworkedComponentSV>, INetworkedC
                 continue;
             }
 
-            _channel.Send(receive, new EntityUploadPacket() {
+            _channel.Send(receive.Value, new EntityUploadPacket() {
                 Data = Entity?.ToJson()
             });
         }
