@@ -20,7 +20,7 @@ public class NetworkedLedgerCL : EntityLedger{
     ConcurrentDictionary<Uri, Dictionary<DateTime, TaskCompletionSource<IEntity?>>> _tasks;
 
     public override async Task<IEntity?> Download(Uri uri, IClientConnection source, DateTime? after){
-        after ??= DateTime.Now;
+        after ??= DateTime.UtcNow;
         var timed_tasks = _tasks.GetOrAdd(uri, _ => new Dictionary<DateTime, TaskCompletionSource<IEntity?>>());
 
         var tcs = timed_tasks.Where(pair => pair.Key > after)

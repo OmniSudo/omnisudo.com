@@ -7,5 +7,5 @@ public class EntityUploadPacket : API.Network.Packet {
     
     public JsonObject? Data { get; set; }
 
-    public DateTime MinTime { get; set; }
+    public DateTime? MinTime { get; set; }
 }

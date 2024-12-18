@@ -85,7 +85,7 @@ public class ItemStackDatabase : SkillQuest.Shared.Engine.ECS.System{
                 CharacterDatabase.Instance.Character( Guid.Parse( res[0]["owner_id"] as string ) ).Uri
             ] as ICharacter
         );
-        stack[ typeof( NetworkedComponentSV ) ] = new NetworkedComponentSV();
+        stack[ typeof( EntityIsNetworkedComponent ) ] = new EntityIsNetworkedComponent();
         Ledger.Add(stack);
         
         return stack;

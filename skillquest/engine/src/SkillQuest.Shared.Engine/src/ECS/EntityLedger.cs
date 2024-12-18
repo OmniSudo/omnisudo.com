@@ -26,7 +26,7 @@ public class EntityLedger : IEntityLedger{
         get {
             if (span is null) {
                 return _timelines
-                    .TakeWhile(x => x.Key < time)
+                    .Where(x => x.Key < time)
                     .OrderByDescending(x => x.Key.Ticks)
                     .Last().Value;
             } else {

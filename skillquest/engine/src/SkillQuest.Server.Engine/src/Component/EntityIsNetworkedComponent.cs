@@ -9,15 +9,13 @@ namespace SkillQuest.Server.Engine.Component;
 
 using static Shared.Engine.State;
 
-public class NetworkedComponentSV : Component<NetworkedComponentSV>, INetworkedComponent{
-    IChannel _channel;
-
-    public NetworkedComponentSV(){
+public class EntityIsNetworkedComponent : Component<EntityIsNetworkedComponent>, INetworkedComponent{
+    public EntityIsNetworkedComponent(){
         ConnectToEntity += OnConnectListenForUpdate;
     }
 
     public IComponent Clone(IEntityLedger? ledger){
-        var component = new NetworkedComponentSV() {
+        var component = new EntityIsNetworkedComponent() {
             Subscribers = new(Subscribers)
         };
         if (ledger != null) ledger[Entity.Uri][GetType()] = component;
@@ -38,9 +36,6 @@ public class NetworkedComponentSV : Component<NetworkedComponentSV>, INetworkedC
 
 
     void OnConnectListenForUpdate(IEntity entity, IComponent component){
-        _channel = SH.Net.CreateChannel(entity.Uri);
-        _channel.Subscribe<EntityDownloadRequestPacket>(GetDownloadRequestFromClient);
-
         entity.Update += OnUpdate;
     }
 
@@ -66,34 +61,9 @@ public class NetworkedComponentSV : Component<NetworkedComponentSV>, INetworkedC
             };
 
         foreach (var receive in clients) {
-            if (component is not null) {
-                _channel.Send(receive.Value, new EntityUploadPacket() {
-                    Data = Entity?.ToJson([
-                        component.GetType()
-                    ])
-                });
-                continue;
-            }
-
-            _channel.Send(receive.Value, new EntityUploadPacket() {
-                Data = Entity?.ToJson()
-            });
+            Entity.Ledger.Upload(Entity, receive.Value);
         }
 
         return this;
-    }
-
-    public void GetDownloadRequestFromClient(IClientConnection client, EntityDownloadRequestPacket request){
-        var permissions = Entity.Component(typeof(PermissionProviderComponent)) as PermissionProviderComponent;
-
-        if (permissions is not null) {
-            var permit = permissions.HasPermission(client);
-
-            if (!permit.CanView) {
-                return;
-            }
-        }
-
-        UploadTo(client);
     }
 }

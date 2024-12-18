@@ -63,19 +63,10 @@ public class GuiCharacterSelection : SkillQuest.Shared.Engine.ECS.System, IDrawa
 
                 Console.WriteLine("Selected {0}", selected?.Name);
 
-                var character = new WorldPlayer() {
-                    CharacterId = selected?.CharacterId ?? Guid.Empty,
-                    Connection = _connection,
-                    Name = selected?.Name ?? "ERROR",
-                    Uri = selected?.Uri,
-                };
-
+                var character = await Ledger!.Download(selected!.Uri!, _connection)! as IPlayerCharacter;
+                
                 Ledger!.Add(character);
                 Ledger!.Add(new GuiInGame(character!));
-
-                character.Connect(new NetworkedComponentCL())
-                    .Component<NetworkedComponentCL>()
-                    .DownloadFrom(character.Connection);
                 
                 _characterSelect.Reset();
                 Ledger!.Remove(_characterSelect);

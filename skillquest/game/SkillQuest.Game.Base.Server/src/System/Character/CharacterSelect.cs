@@ -63,7 +63,7 @@ public class CharacterSelect : SkillQuest.Shared.Engine.ECS.System{
             CharacterId = character.CharacterId.GetValueOrDefault(Guid.Empty),
             Inventory = InventoryDatabase.Instance
                 .Load(new Uri($"inventory://{character.CharacterId}/main"))
-                .Connect(new NetworkedComponentSV()) as IInventory,
+                .Connect(new EntityIsNetworkedComponent()) as IInventory,
             Name = character.Name,
             Uri = character.Uri,
         };
