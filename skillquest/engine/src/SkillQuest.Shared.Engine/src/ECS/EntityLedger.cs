@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using SkillQuest.API.ECS;
+using SkillQuest.API.Network;
 
 namespace SkillQuest.Shared.Engine.ECS;
 
@@ -126,7 +127,15 @@ public class EntityLedger : IEntityLedger{
 
         return thing;
     }
+
+    public virtual Task<IEntity?> Download(Uri uri){
+        throw new NotImplementedException();
+    }
     
+    public virtual Task<IEntity?> Upload(IEntity entity, IClientConnection target){
+        throw new NotImplementedException();
+    }
+
     private ConcurrentDictionary<Uri, IEntity> _things = new();
 
     public void Dispose(){

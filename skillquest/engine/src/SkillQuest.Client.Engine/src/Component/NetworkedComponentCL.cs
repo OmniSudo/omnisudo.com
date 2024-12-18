@@ -52,13 +52,20 @@ public class NetworkedComponentCL : Component<NetworkedComponentCL>, INetworkedC
 
     public bool Updated { get; set; }
 
-    public INetworkedComponent DownloadFrom(IClientConnection? remote, IComponent? component = null){
+    TaskCompletionSource<INetworkedComponent> tcs;
+    
+    public async Task< INetworkedComponent > DownloadFrom(IClientConnection? remote, IComponent? component = null){
         if (remote is not null) Subscribe(remote);
 
+        if  (tcs is not null ) return await tcs.Task;
+        
+        tcs = new TaskCompletionSource<INetworkedComponent>();
+        
         foreach (var dest in remote is null ? Subscribers : new() { { remote.EndPoint, remote } }) {
             _channel.Send(dest.Value, new EntityDownloadRequestPacket() { Uri = Entity.Uri });
         }
-        return this;
+
+        return await tcs.Task;
     }
 
     void OnEntityUploadPacket(IClientConnection connection, EntityUploadPacket packet){
@@ -95,6 +102,8 @@ public class NetworkedComponentCL : Component<NetworkedComponentCL>, INetworkedC
         }
 
         Entity.FromJson(packet.Data);
+        
+        tcs?.SetResult(this);
     }
 
     public INetworkedComponent UploadTo(IClientConnection client, IComponent? component = null){

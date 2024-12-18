@@ -1,4 +1,5 @@
 using Silk.NET.Maths;
+using SkillQuest.Client.Engine.ECS;
 using SkillQuest.Shared.Engine;
 
 namespace SkillQuest.Client.Engine;
@@ -7,6 +8,8 @@ using static State;
 
 public class ClientApplication : Application{
     public ClientApplication(){
+        Ledger = new NetworkedLedgerCL();
+        
         CL.Graphics = new Graphics.OpenGL.GlGraphicsInstance(
             this,
             name: "SkillQuest",

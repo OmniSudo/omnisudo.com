@@ -49,10 +49,10 @@ public class Item : Engine.ECS.Entity, IItem{
     public event DoPrimary OnPrimary;
 
     void OnInteractionRequestPacket(IClientConnection connection, InteractionRequestPacket packet){
-        throw new NotImplementedException();
+        
     }
 
     void OnInteractionResponsePacket(IClientConnection connection, InteractionResponsePacket packet){
-        throw new NotImplementedException();
+        
     }
 }

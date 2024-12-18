@@ -54,7 +54,7 @@ public class NetworkedComponentSV : Component<NetworkedComponentSV>, INetworkedC
 
     public bool Updated { get; set; }
 
-    public INetworkedComponent DownloadFrom(IClientConnection? remote, IComponent? component = null){
+    public async Task< INetworkedComponent > DownloadFrom(IClientConnection? remote, IComponent? component = null){
         throw new NotImplementedException();
     }
 

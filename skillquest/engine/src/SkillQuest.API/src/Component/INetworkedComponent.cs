@@ -19,7 +19,7 @@ public interface INetworkedComponent : IComponent {
     /// </summary>
     /// <param name="remote"> Usually the server </param>
     /// <param name="component"> Specify to reduce download size </param>
-    public INetworkedComponent DownloadFrom(IClientConnection remote, IComponent? component = null);
+    public Task<INetworkedComponent> DownloadFrom(IClientConnection remote, IComponent? component = null);
     
     /// <summary>
     /// Upload a specific component to the client

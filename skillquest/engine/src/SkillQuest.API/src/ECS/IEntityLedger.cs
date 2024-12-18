@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using SkillQuest.API.Network;
 
 namespace SkillQuest.API.ECS;
 
@@ -36,5 +37,8 @@ public interface IEntityLedger : IDisposable{
     public IEntity? Remove(IEntity iEntity);
 
     public IEntity? Remove(Uri uri);
+
+    public Task< IEntity? > Download(Uri uri);
     
+    public Task< IEntity? > Upload(IEntity entity, IClientConnection target);
 }
