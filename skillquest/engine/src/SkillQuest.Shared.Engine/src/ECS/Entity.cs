@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Text.Json.Nodes;
 using SkillQuest.API.ECS;
+using SkillQuest.API.Network;
 using IComponent = SkillQuest.API.ECS.IComponent;
 
 namespace SkillQuest.Shared.Engine.ECS;
@@ -284,5 +285,9 @@ public class Entity : IEntity{
                 Console.WriteLine( $"Error deserializing component {pair.Value?["name"]?.ToString() ?? "unknown"} from json to attach to {Uri}\n\t{e}");
             }
         }
+    }
+
+    public IEntity? TryDownload(IClientConnection connection){
+        return Ledger?.Download(Uri!, connection).Result;
     }
 }

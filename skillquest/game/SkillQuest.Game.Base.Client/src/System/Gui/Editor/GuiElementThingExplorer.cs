@@ -12,7 +12,7 @@ public class GuiElementThingExplorer : global::SkillQuest.Shared.Engine.ECS.Syst
     public GuiElementThingExplorer(){
         Tracked += (stuff, thing) => {
             Ledger.EntityAdded += StuffOnEntityAdded;
-            Ledger.ThingRemoved += StuffOnThingRemoved;
+            Ledger.EntityRemoved += StuffOnEntityRemoved;
             foreach (var t in Ledger.Entities) {
                 StuffOnEntityAdded(t.Value);
             }
@@ -21,7 +21,7 @@ public class GuiElementThingExplorer : global::SkillQuest.Shared.Engine.ECS.Syst
         Untracked += (stuff, thing) => {
             Tree.Clear();
             Ledger.EntityAdded -= StuffOnEntityAdded;
-            Ledger.ThingRemoved -= StuffOnThingRemoved;
+            Ledger.EntityRemoved -= StuffOnEntityRemoved;
         };
     }
 
@@ -51,7 +51,7 @@ public class GuiElementThingExplorer : global::SkillQuest.Shared.Engine.ECS.Syst
         tree.Thing = iEntity;
     }
 
-    void StuffOnThingRemoved(IEntity iEntity){
+    void StuffOnEntityRemoved(IEntity iEntity){
         var root = iEntity.Uri.Scheme + "://" + iEntity.Uri.Host;
         if (!Tree.ContainsKey(root)) return;
         var tree = Tree[root];

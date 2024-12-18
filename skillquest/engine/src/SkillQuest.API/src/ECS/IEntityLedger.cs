@@ -10,7 +10,7 @@ public interface IEntityLedger : IDisposable{
 
     public delegate void DoThingRemoved(IEntity iEntity);
 
-    public event DoThingRemoved ThingRemoved;
+    public event DoThingRemoved EntityRemoved;
 
     public ImmutableDictionary<Uri, IEntity> Entities { get; }
 

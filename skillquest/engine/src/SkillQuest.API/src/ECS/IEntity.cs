@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Text.Json.Nodes;
+using SkillQuest.API.Network;
 
 namespace SkillQuest.API.ECS;
 
@@ -81,4 +82,8 @@ public interface IEntity : IDisposable {
     public JsonObject ToJson(Type?[] components = null);
     
     public void FromJson( JsonObject json );
+
+    public IEntity? TryDownload(IClientConnection connection);
+    
+    public TEntity? TryDownload< TEntity >(IClientConnection connection) where TEntity : class, IEntity => TryDownload( connection ) as TEntity;
 }

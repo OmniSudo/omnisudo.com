@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using SkillQuest.API.ECS;
+using SkillQuest.API.Network;
 
 namespace SkillQuest.API.Thing;
 
@@ -24,5 +25,5 @@ public interface IInventory : IEntity {
     public event DoCountChanged? CountChanged;
 
     public void Add(Uri uri, IItemStack stack);
-    
+
 }

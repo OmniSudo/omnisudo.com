@@ -50,7 +50,7 @@ public class GlGraphicsInstance : IGraphicsInstance {
         Quit += ( application ) => application.Running = false;
         Window.Closing += OnClose;
         Application.Ledger.EntityAdded += OnLedgerEntityAdded;
-        Application.Ledger.ThingRemoved += OnLedgerThingRemoved;
+        Application.Ledger.EntityRemoved += OnLedgerEntityRemoved;
     }
 
     GlTextureFactory _textureFactory = new();
@@ -103,7 +103,7 @@ public class GlGraphicsInstance : IGraphicsInstance {
         }
     }
 
-    void OnLedgerThingRemoved(IEntity iEntity){
+    void OnLedgerEntityRemoved(IEntity iEntity){
         // ReSharper disable once SuspiciousTypeConversion.Global
         if (iEntity is IDrawable) {
             if (_renderables.TryGetValue(iEntity.Uri, out var old) && old == iEntity) {

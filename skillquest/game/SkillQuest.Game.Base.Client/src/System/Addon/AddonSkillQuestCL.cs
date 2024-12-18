@@ -1,4 +1,7 @@
 using SkillQuest.API;
+using SkillQuest.API.ECS;
+using SkillQuest.API.Thing;
+using SkillQuest.API.Thing.Character;
 using SkillQuest.Game.Base.Client.System.Asset;
 using SkillQuest.Game.Base.Client.System.Gui.LoginSignup;
 using SkillQuest.Game.Base.Shared.System.Addon;
@@ -17,13 +20,32 @@ public class AddonSkillQuestCL : AddonSkillQuestSH {
     }
 
     void OnMounted(IAddon addon, IApplication? application){
+        SH.Assets = SH.Ledger.Add(new AssetRepositoryCL());
+     
+        Ledger!.EntityAdded += LedgerOnEntityAdded;
+        Ledger!.EntityRemoved += LedgerOnEntityRemoved;
+        
         application?
             .Mount(new AddonMetallurgyCL())
             .Mount(new AddonMiningCL());
 
-        SH.Assets = SH.Ledger.Add(new AssetRepositoryCL());
+        Ledger!.Add(new GuiMainMenu());
+    }
 
-        Ledger.Add(new GuiMainMenu());
+    void LedgerOnEntityAdded(IEntity ientity){
+        if (ientity is IItem item) {
+            item.Primary += ItemOnPrimary;
+        }
+    }
+    
+    void LedgerOnEntityRemoved(IEntity ientity){
+        if (ientity is IItem item) {
+            item.Primary -= ItemOnPrimary;
+        }
+    }
+
+    void ItemOnPrimary(IItemStack stack, ICharacter subject, IEntity target){
+        
     }
 
     void OnUnmounted(IAddon addon, IApplication? application){ }

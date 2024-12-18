@@ -9,50 +9,34 @@ namespace SkillQuest.Shared.Engine.Entity;
 
 public class Item : Engine.ECS.Entity, IItem{
     string? _name;
-    
+
     public virtual string Name {
         get => _name ?? Uri?.ToString() ?? "Null";
         protected set => _name = value;
     }
-    
+
     public virtual string? Description { get; set; }
-    
-    private IChannel _channel;
 
-    public Item(){
-        _channel = State.SH.Net.CreateChannel(Uri);
-        
-        _channel.Subscribe<InteractionRequestPacket>( OnInteractionRequestPacket);
-        _channel.Subscribe<InteractionResponsePacket>( OnInteractionResponsePacket);
+    #region Primary
+
+    public void OnPrimary(IItemStack stack, ICharacter subject, IEntity target){
+        if (stack.Item != this) return;
+        Primary?.Invoke(stack, subject, target);
     }
 
-    /// <summary>
-    /// Client side request primary function of an item
-    /// </summary>
-    /// <param name="stack"></param>
-    /// <param name="subject"></param>
-    /// <param name="target"></param>
-    public void Primary( IItemStack stack, ICharacter subject, IEntity target){
-        var net = Components.First( comp => comp is INetworkedComponent ).Value as INetworkedComponent;
-        foreach (var conn in net.Subscribers) {
-            _channel.Send( conn.Value, new InteractionRequestPacket() {
-                Type = ItemInteraction.Primary,
-                Stack = stack.Uri,
-                Subject = subject.Uri,
-                Target = target.Uri,
-            });
-        }
+    public event IItem.DoPrimary? Primary;
+
+    #endregion
+
+    #region Secondary
+
+    public void OnSecondary(IItemStack stack, ICharacter subject, IEntity target){
+        if (stack.Item != this) return;
+        Secondary?.Invoke(stack, subject, target);
     }
 
-    public delegate void DoPrimary( IItemStack stack, ICharacter subject, IEntity target );
-    
-    public event DoPrimary OnPrimary;
+    public event IItem.DoSecondary? Secondary;
 
-    void OnInteractionRequestPacket(IClientConnection connection, InteractionRequestPacket packet){
-        
-    }
+    #endregion
 
-    void OnInteractionResponsePacket(IClientConnection connection, InteractionResponsePacket packet){
-        
-    }
 }

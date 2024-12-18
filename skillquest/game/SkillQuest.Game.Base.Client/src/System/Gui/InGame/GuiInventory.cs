@@ -17,8 +17,8 @@ public class GuiInventory: global::SkillQuest.Shared.Engine.ECS.System, IDrawabl
     /// <param name="guiInGame"></param>
     /// <param name="inventory" />
     public GuiInventory(GuiInGame guiInGame, IInventory? inventory){
-        _inventory = inventory;
-        inventory.Component<NetworkedComponentCL>().DownloadFrom( guiInGame.LocalHost.Connection );
+        if (guiInGame.LocalHost.Connection is null) throw new NullReferenceException();
+        _inventory = inventory?.TryDownload<IInventory>(guiInGame.LocalHost.Connection);
         Parent = guiInGame;
     }
 

@@ -56,12 +56,9 @@ public class GuiInGame : global::SkillQuest.Shared.Engine.ECS.System, IDrawable,
             )
         ) {
             if (!vein.Depleted && ImGui.Button("Mine Iron Vein")) {
-                (
-                    LocalHost
-                        .Inventory?[new Uri($"slot://{LocalHost.Name}/main/hand/right")]
-                        ?.Item as ItemPickaxe
-                )?.Primary(
-                    LocalHost.Inventory![new Uri($"slot://{LocalHost.Name}/main/hand/right")]!,
+                LocalHost.Inventory?.TryDownload<IInventory>(
+                    LocalHost.Connection!
+                )?[new Uri($"slot://{LocalHost.Name}/main/hand/right")]?.Primary(
                     LocalHost,
                     vein
                 );

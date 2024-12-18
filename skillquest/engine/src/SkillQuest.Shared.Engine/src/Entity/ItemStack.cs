@@ -112,7 +112,7 @@ public class ItemStack : Engine.ECS.Entity, IItemStack{
     public Guid Id { get; set; }
 
     public void Primary(ICharacter subject, IEntity target){
-        _item?.Primary(this, subject, target);
+        _item?.OnPrimary(this, subject, target);
     }
 
     public override Uri? Uri => new Uri($"stack://skill.quest/{Id}");

@@ -8,7 +8,7 @@ namespace SkillQuest.Shared.Engine.ECS;
 public class EntityLedger : IEntityLedger{
     public event IEntityLedger.DoThingAdded? EntityAdded;
 
-    public event IEntityLedger.DoThingRemoved? ThingRemoved;
+    public event IEntityLedger.DoThingRemoved? EntityRemoved;
 
     public ImmutableDictionary<Uri, IEntity> Entities => _things.ToImmutableDictionary();
 
@@ -66,7 +66,7 @@ public class EntityLedger : IEntityLedger{
         if (old == (IEntity?)thing) return thing;
 
         if (old is not null) {
-            ThingRemoved?.Invoke(old);
+            EntityRemoved?.Invoke(old);
         }
 
         _things[thing.Uri] = thing;
@@ -122,7 +122,7 @@ public class EntityLedger : IEntityLedger{
         _things.TryRemove(uri, out var thing);
         if (thing is null) return null;
 
-        ThingRemoved?.Invoke(thing);
+        EntityRemoved?.Invoke(thing);
         thing.Ledger = null;
 
         return thing;

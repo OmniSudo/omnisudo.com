@@ -29,7 +29,7 @@ public class ProceduralGenerationPipeline : ECS.System, IProcGenPipeline{
     
     public ProceduralGenerationPipeline(){
         Nodes.EntityAdded += EntitiesOnEntityAdded;
-        Nodes.ThingRemoved += EntitiesOnThingRemoved;
+        Nodes.EntityRemoved += EntitiesOnEntityRemoved;
     }
 
     void EntitiesOnEntityAdded(IEntity iEntity){
@@ -38,7 +38,7 @@ public class ProceduralGenerationPipeline : ECS.System, IProcGenPipeline{
         }
     }
 
-    void EntitiesOnThingRemoved(IEntity iEntity){
+    void EntitiesOnEntityRemoved(IEntity iEntity){
         if (iEntity is IEntryPointNode node && iEntity.Uri is not null) {
             if (_entryPoints.TryGetValue(iEntity.Uri, out var old) && old == node ) {
                 _entryPoints.TryRemove(iEntity.Uri, out var _);
