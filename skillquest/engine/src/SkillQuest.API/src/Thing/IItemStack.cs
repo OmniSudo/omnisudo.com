@@ -30,4 +30,6 @@ public interface IItemStack : IEntity {
     public event DoOwnerChanged OwnerChanged;
 
     public Guid Id { get; set; }
+    
+    public void Primary (ICharacter subject, IEntity target);
 }

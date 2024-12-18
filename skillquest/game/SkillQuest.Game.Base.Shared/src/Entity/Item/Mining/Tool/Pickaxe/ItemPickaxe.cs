@@ -22,10 +22,4 @@ public class ItemPickaxe : SkillQuest.Shared.Engine.Entity.Item{
 
         Uri = new Uri("item://skill.quest/mining/tool/pickaxe/" + material.Name.ToLower());
     }
-
-    public void Primary( IItemStack stack, ICharacter actor, IEntity target){
-        if (target is PropVein vein ) {
-            vein.TryMine(stack, actor);
-        }
-    }
 }

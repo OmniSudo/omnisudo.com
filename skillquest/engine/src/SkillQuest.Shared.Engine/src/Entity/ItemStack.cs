@@ -7,7 +7,6 @@ using SkillQuest.API.Thing.Character;
 
 namespace SkillQuest.Shared.Engine.Entity;
 
-[XmlRoot("Stack")]
 public class ItemStack : Engine.ECS.Entity, IItemStack{
     public IEntity Clone(IEntityLedger ledger){
         throw new NotImplementedException();
@@ -26,7 +25,7 @@ public class ItemStack : Engine.ECS.Entity, IItemStack{
 
     public void FromJson(JsonObject json){
         base.FromJson(json);
-        
+
         if (Uri.TryCreate(json["item"].ToString(), UriKind.Absolute, out var item)) {
             var i = Ledger[item] as IItem;
 
@@ -111,6 +110,10 @@ public class ItemStack : Engine.ECS.Entity, IItemStack{
     public event IItemStack.DoOwnerChanged OwnerChanged;
 
     public Guid Id { get; set; }
+
+    public void Primary(ICharacter subject, IEntity target){
+        _item?.Primary(this, subject, target);
+    }
 
     public override Uri? Uri => new Uri($"stack://skill.quest/{Id}");
 

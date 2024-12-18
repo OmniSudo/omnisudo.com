@@ -1,3 +1,4 @@
+using System.Net;
 using SkillQuest.API.ECS;
 using SkillQuest.API.Network;
 
@@ -5,6 +6,8 @@ namespace SkillQuest.API.Component;
 
 public interface INetworkedComponent : IComponent {
     public bool Updated { get; set; }
+    
+    public Dictionary<IPEndPoint, IClientConnection> Subscribers { get; set; }
 
     public INetworkedComponent Subscribe(IClientConnection client);
     
