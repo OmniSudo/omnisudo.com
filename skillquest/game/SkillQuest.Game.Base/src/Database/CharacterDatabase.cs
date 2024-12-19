@@ -1,4 +1,8 @@
+using SkillQuest.Engine.Core;
+
 namespace SkillQuest.Game.Base.Database;
+
+using static State;
 
 public class CharacterDatabase : global::SkillQuest.Engine.Core.ECS.System{
     public static CharacterDatabase Instance {
@@ -18,7 +22,7 @@ public class CharacterDatabase : global::SkillQuest.Engine.Core.ECS.System{
     public CharacterDatabase(){ }
 
     public CharacterInfo[]? Characters(Guid userId){
-        var characters = SV.Database.Query(
+        var characters = SH.Datatabase.Query(
             $"""SELECT * FROM characters WHERE user_id = $user_id;""",
             new Dictionary<string, object>() {
                 { "$user_id", userId.ToString() }
@@ -69,7 +73,7 @@ public class CharacterDatabase : global::SkillQuest.Engine.Core.ECS.System{
     }
 
     public CharacterInfo? Character(Guid characterId){
-        var characters = SV.Database.Query(
+        var characters = SH.Datatabase.Query(
             $"""
              SELECT * FROM characters WHERE character_id = $character;
              """,
@@ -106,7 +110,7 @@ public class CharacterDatabase : global::SkillQuest.Engine.Core.ECS.System{
     }
 
     public CharacterInfo? Character(string characterName){
-        var characters = SV.Database.Query(
+        var characters = SH.Datatabase.Query(
             $"""
              SELECT * FROM characters WHERE name = $name;
              """,
@@ -143,7 +147,7 @@ public class CharacterDatabase : global::SkillQuest.Engine.Core.ECS.System{
     }
 
     public bool Create(CharacterInfo character, out string? result){
-        var existing = SV.Database.Query(
+        var existing = SH.Datatabase.Query(
             """
             SELECT name FROM characters WHERE name=$name;
             """,
@@ -168,7 +172,7 @@ public class CharacterDatabase : global::SkillQuest.Engine.Core.ECS.System{
         do {
             characterId = Guid.NewGuid();
 
-            var uids = SV.Database.Query(
+            var uids = SH.Datatabase.Query(
                 $"""
                  SELECT character_id FROM characters WHERE character_id = $character;
                  """,
@@ -180,7 +184,7 @@ public class CharacterDatabase : global::SkillQuest.Engine.Core.ECS.System{
             if (uids.Any()) characterId = null;
         } while ( characterId == null );
 
-        var insert = SV.Database.Query(
+        var insert = SH.Datatabase.Query(
             $"""
              INSERT INTO characters (character_id, user_id, name, world) VALUES ($character, $user, $name, $world);
              """,
@@ -197,7 +201,7 @@ public class CharacterDatabase : global::SkillQuest.Engine.Core.ECS.System{
     }
 
     public bool Destroy(CharacterInfo character){
-        var existing = SV.Database.Query(
+        var existing = SH.Datatabase.Query(
             """
             SELECT name FROM characters WHERE name=$name;
             """,
@@ -210,7 +214,7 @@ public class CharacterDatabase : global::SkillQuest.Engine.Core.ECS.System{
             return false;
         }
 
-        SV.Database.Query(
+        SH.Datatabase.Query(
             """
             DELETE FROM characters WHERE character_id = $character;
             """,
@@ -223,8 +227,8 @@ public class CharacterDatabase : global::SkillQuest.Engine.Core.ECS.System{
     }
 
     public void CreateTables(){
-        if (!SV.Database.TableExists("characters")) {
-            SV.Database.Query(
+        if (!SH.Datatabase.TableExists("characters")) {
+            SH.Datatabase.Query(
                 $"""
                  create table characters(
                      character_id varchar not null
