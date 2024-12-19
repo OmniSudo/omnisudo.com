@@ -1,6 +1,6 @@
-namespace SkillQuest.Game.Base.Server.Database.Character;
+namespace SkillQuest.Game.Base.Database;
 
-public class CharacterDatabase : global::SkillQuest.Shared.Engine.ECS.System{
+public class CharacterDatabase : global::SkillQuest.Engine.Core.ECS.System{
     public static CharacterDatabase Instance {
         get {
             if (_instance is null) {

@@ -1,10 +1,10 @@
 using System.Numerics;
 using ImGuiNET;
-using SkillQuest.Client.Engine.Graphics.API;
+using SkillQuest.Engine.Graphics.API;
 
-namespace SkillQuest.Game.Base.Client.System.Gui.Singleplayer.MainMenu;
+namespace SkillQuest.Game.Base.System.Gui.Singleplayer.MainMenu;
 
-public class GuiTitleScreen : SkillQuest.Shared.Engine.ECS.System, IDrawable{
+public class GuiTitleScreen : Engine.Core.ECS.System, IDrawable{
     public override Uri? Uri { get; set; } = new Uri("ui://title");
 
     public void Draw(DateTime now, TimeSpan delta){

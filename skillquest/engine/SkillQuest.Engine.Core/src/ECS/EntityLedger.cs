@@ -1,14 +1,8 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
-using System.Text;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using SkillQuest.API.Asset;
-using SkillQuest.API.ECS;
-using SkillQuest.API.Network;
-using static SkillQuest.Shared.Engine.State;
+using SkillQuest.Engine.API.ECS;
 
-namespace SkillQuest.Shared.Engine.ECS;
+namespace SkillQuest.Engine.Core.ECS;
 
 public class EntityLedger : IEntityLedger{
     public event IEntityLedger.DoThingAdded? ThingAdded;

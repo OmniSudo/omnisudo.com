@@ -1,9 +1,9 @@
-using SkillQuest.API;
-using SkillQuest.Game.Base.Client.System.Gui.Singleplayer.MainMenu;
+using SkillQuest.Engine.API;
+using SkillQuest.Game.Base.System.Gui.Singleplayer.MainMenu;
 
-namespace SkillQuest.Game.Base.Client.System.Addon;
+namespace SkillQuest.Game.Base.System.Addon;
 
-public class AddonSkillQuestCL : Shared.Engine.Addon {
+public class AddonSkillQuestCL : Engine.Core.Addon {
     public override Uri? Uri { get; set; } = new Uri("cl://addon.skill.quest/skillquest");
 
     public override string Description { get; } = "Base Game";

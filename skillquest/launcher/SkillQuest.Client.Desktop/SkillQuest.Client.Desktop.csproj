@@ -8,6 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\engine\SkillQuest.Engine.API\SkillQuest.Engine.API.csproj" />
+      <ProjectReference Include="..\..\engine\SkillQuest.Engine.Core\SkillQuest.Engine.Core.csproj" />
       <ProjectReference Include="..\..\game\SkillQuest.Game.Base\SkillQuest.Game.Base.csproj" />
     </ItemGroup>
     

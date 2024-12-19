@@ -1,12 +1,11 @@
 using System.Collections.Concurrent;
 using Silk.NET.Maths;
-using SkillQuest.API.Procedural.World;
-using SkillQuest.API.Thing.Character;
-using SkillQuest.API.Thing.Universe;
-using SkillQuest.Shared.Engine.Entity.Character;
-using static SkillQuest.Shared.Engine.State;
+using SkillQuest.Engine.API.Procedural.World;
+using SkillQuest.Engine.API.Thing.Character;
+using SkillQuest.Engine.API.Thing.Universe;
+using static SkillQuest.Engine.Core.State;
 
-namespace SkillQuest.Shared.Engine.Entity.Universe;
+namespace SkillQuest.Engine.Core.Entity.Universe;
 
 public class World : IWorld {
     readonly IPlayerCharacter _localhost;

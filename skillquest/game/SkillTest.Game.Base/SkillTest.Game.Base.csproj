@@ -7,7 +7,7 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>SkillTest.Game.Base.Client</RootNamespace>
+        <RootNamespace>SkillTest.Game.Base</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

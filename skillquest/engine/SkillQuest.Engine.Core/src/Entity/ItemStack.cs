@@ -1,14 +1,11 @@
-using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
-using SkillQuest.API.Thing;
-using SkillQuest.API.Thing.Character;
-using static SkillQuest.Shared.Engine.State;
+using SkillQuest.Engine.API.Thing;
+using SkillQuest.Engine.API.Thing.Character;
 
-namespace SkillQuest.Shared.Engine.Entity;
+namespace SkillQuest.Engine.Core.Entity;
 
 [XmlRoot("Stack")]
-public class ItemStack : Engine.ECS.Entity, IItemStack {
+public class ItemStack : ECS.Entity, IItemStack {
     public IItem Item {
         get {
             return _item;

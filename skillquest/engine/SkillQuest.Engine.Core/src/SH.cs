@@ -1,13 +1,12 @@
-using System.Runtime.CompilerServices;
-using SkillQuest.API;
-using SkillQuest.API.Asset;
-using SkillQuest.API.Database;
-using SkillQuest.API.ECS;
-using SkillQuest.API.Network;
-using SkillQuest.API.Procedural.World;
-using SkillQuest.Shared.Engine.Procedural.World;
+using SkillQuest.Engine.API;
+using SkillQuest.Engine.API.Database;
+using SkillQuest.Engine.API.ECS;
+using SkillQuest.Engine.API.Procedural.World;
+using SkillQuest.Engine.Core.Procedural.World;
+using SkillQuest.Engine.Graphics.API;
+using SkillQuest.Engine.Graphics.OpenGL;
 
-namespace SkillQuest.Shared.Engine;
+namespace SkillQuest.Engine.Core;
 
 public class State{
     public static State SH { get; set; } = new State();
@@ -21,4 +20,6 @@ public class State{
     public IWorldGenPipeline WorldGenerationPipeline {
         get;
     } = new WorldGenerationPipeline();
+
+    public IGraphicsInstance Graphics { get; set; }
 }

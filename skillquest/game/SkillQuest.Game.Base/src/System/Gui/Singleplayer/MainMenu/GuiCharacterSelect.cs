@@ -1,4 +1,4 @@
-namespace SkillQuest.Game.Base.Client.System.Gui.Singleplayer.MainMenu;
+namespace SkillQuest.Game.Base.System.Gui.Singleplayer.MainMenu;
 
 public class GuiCharacterSelect{
     

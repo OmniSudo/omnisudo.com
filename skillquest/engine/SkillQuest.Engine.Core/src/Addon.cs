@@ -1,7 +1,6 @@
-using SkillQuest.API;
-using SkillQuest.Shared.Engine.ECS;
+using SkillQuest.Engine.API;
 
-namespace SkillQuest.Shared.Engine;
+namespace SkillQuest.Engine.Core;
 
 public class Addon : ECS.System, IAddon{
 

@@ -4,10 +4,13 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>SkillQuest.Game.Base.Client</RootNamespace>
+        <RootNamespace>SkillQuest.Game.Base</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\engine\SkillQuest.Engine.API\SkillQuest.Engine.API.csproj" />
+      <ProjectReference Include="..\..\engine\SkillQuest.Engine.Core\SkillQuest.Engine.Core.csproj" />
+      <ProjectReference Include="..\..\engine\SkillQuest.Engine.Graphics.API\SkillQuest.Engine.Graphics.API.csproj" />
       <ProjectReference Include="..\..\engine\src\SkillQuest.Engine.Core\SkillQuest.Engine.Core.csproj" />
     </ItemGroup>
 

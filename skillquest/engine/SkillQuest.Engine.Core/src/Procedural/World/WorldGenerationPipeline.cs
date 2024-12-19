@@ -1,13 +1,10 @@
 using Silk.NET.Maths;
-using SkillQuest.API.ECS;
-using SkillQuest.API.Procedural.Node;
-using SkillQuest.API.Procedural.World;
-using SkillQuest.API.Thing.Universe;
-using SkillQuest.Shared.Engine.ECS;
-using SkillQuest.Shared.Engine.Entity.Universe;
-using SkillQuest.Shared.Engine.Procedural.World.Node;
+using SkillQuest.Engine.API.Procedural.World;
+using SkillQuest.Engine.API.Thing.Universe;
+using SkillQuest.Engine.Core.Entity.Universe;
+using SkillQuest.Engine.Core.Procedural.World.Node;
 
-namespace SkillQuest.Shared.Engine.Procedural.World;
+namespace SkillQuest.Engine.Core.Procedural.World;
 
 public class WorldGenerationPipeline : ProceduralGenerationPipeline, IWorldGenPipeline{
     public async Task<IRegion?> Generate(IWorld world, Vector3D<long> position){

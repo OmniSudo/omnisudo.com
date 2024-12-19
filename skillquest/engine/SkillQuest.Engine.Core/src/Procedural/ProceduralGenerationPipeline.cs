@@ -1,11 +1,11 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
-using SkillQuest.API.ECS;
-using SkillQuest.API.Procedural;
-using SkillQuest.API.Procedural.Node;
-using SkillQuest.Shared.Engine.ECS;
+using SkillQuest.Engine.API.ECS;
+using SkillQuest.Engine.API.Procedural;
+using SkillQuest.Engine.API.Procedural.Node;
+using SkillQuest.Engine.Core.ECS;
 
-namespace SkillQuest.Shared.Engine.Procedural;
+namespace SkillQuest.Engine.Core.Procedural;
 
 public class ProceduralGenerationPipeline : ECS.System, IProcGenPipeline{
     public IEntityLedger Nodes {

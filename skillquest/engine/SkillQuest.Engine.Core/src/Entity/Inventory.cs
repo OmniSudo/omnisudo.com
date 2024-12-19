@@ -1,14 +1,12 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
-using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
-using SkillQuest.API.Thing;
+using SkillQuest.Engine.API.Thing;
 
-namespace SkillQuest.Shared.Engine.Entity;
+namespace SkillQuest.Engine.Core.Entity;
 
 [XmlRoot("Inventory")]
-public class Inventory : Engine.ECS.Entity, IInventory {
+public class Inventory : ECS.Entity, IInventory {
     ConcurrentDictionary<Uri, IItemStack> _stacks = new();
 
     public ImmutableDictionary<Uri, IItemStack> Stacks => _stacks.ToImmutableDictionary();
@@ -32,7 +30,7 @@ public class Inventory : Engine.ECS.Entity, IInventory {
                 _stacks[uri] = value;
                 if (value is null) return;
                 
-                value.Ledger = Ledger ?? Shared.Engine.State.SH.Ledger;
+                value.Ledger = Ledger ?? State.SH.Ledger;
                 value.CountChanged += OnItemStackCountChanged;
                 StackAdded?.Invoke(this, value);
             }

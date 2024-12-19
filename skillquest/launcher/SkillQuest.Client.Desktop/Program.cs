@@ -1,5 +1,6 @@
-﻿using SkillQuest.Game.Base.Client.System.Addon;
-using State = SkillQuest.Shared.Engine.State;
+﻿using SkillQuest.Engine.Core;
+using SkillQuest.Game.Base.System.Addon;
+using State = SkillQuest.Engine.Core.State;
 
 namespace SkillQuest.Client.Desktop;
 

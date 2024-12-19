@@ -1,8 +1,8 @@
-using SkillQuest.API.Network;
-using SkillQuest.API.Thing;
-using SkillQuest.API.Thing.Character;
+using SkillQuest.Engine.API.Network;
+using SkillQuest.Engine.API.Thing;
+using SkillQuest.Engine.API.Thing.Character;
 
-namespace SkillQuest.Shared.Engine.Entity.Character;
+namespace SkillQuest.Engine.Core.Entity.Character;
 
 public class WorldPlayer : ECS.Entity, IPlayerCharacter {
     public Guid CharacterId {

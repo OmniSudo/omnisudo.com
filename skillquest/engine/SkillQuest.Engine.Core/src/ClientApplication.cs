@@ -1,13 +1,12 @@
 using Silk.NET.Maths;
-using SkillQuest.Shared.Engine;
 
-namespace SkillQuest.Client.Engine;
+namespace SkillQuest.Engine.Core;
 
 using static State;
 
 public class ClientApplication : Application{
     public ClientApplication(){
-        CL.Graphics = new Graphics.OpenGL.GlGraphicsInstance(
+        SH.Graphics = new Graphics.OpenGL.GlGraphicsInstance(
             this,
             name: "SkillQuest",
             size: new Vector2D<int>(1280, 720),
@@ -33,7 +32,7 @@ public class ClientApplication : Application{
     }
 
     bool OnStop(){
-        CL.Graphics.Dispose();
+        SH.Graphics.Dispose();
         return true;
     }
 }

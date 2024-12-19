@@ -1,6 +1,6 @@
-using SkillQuest.API.ECS;
+using SkillQuest.Engine.API.ECS;
 
-namespace SkillQuest.Shared.Engine.ECS;
+namespace SkillQuest.Engine.Core.ECS;
 
 public class System : Entity, ISystem {
     public System(Uri? uri = null) : base(uri){

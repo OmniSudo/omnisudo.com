@@ -4,7 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>SkillQuest.Client.Engine.Audio.API</RootNamespace>
+        <RootNamespace>SkillQuest.Engine.Audio.API</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

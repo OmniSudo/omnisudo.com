@@ -1,11 +1,8 @@
-using System.Xml.Serialization;
-using SkillQuest.API.ECS;
-using SkillQuest.API.Thing;
-using SkillQuest.Shared.Engine.Component;
+using SkillQuest.Engine.API.Thing;
 
-namespace SkillQuest.Shared.Engine.Entity;
+namespace SkillQuest.Engine.Core.Entity;
 
-public class Item : Engine.ECS.Entity, IItem{
+public class Item : ECS.Entity, IItem{
     string? _name;
     
     public virtual string Name {

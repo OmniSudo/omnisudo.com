@@ -1,10 +1,9 @@
 using System.Collections.Immutable;
-using System.Reflection;
-using SkillQuest.API;
-using SkillQuest.API.ECS;
-using SkillQuest.Shared.Engine.ECS;
+using SkillQuest.Engine.API;
+using SkillQuest.Engine.API.ECS;
+using SkillQuest.Engine.Core.ECS;
 
-namespace SkillQuest.Shared.Engine;
+namespace SkillQuest.Engine.Core;
 
 using static State;
 

@@ -7,7 +7,7 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>SkillTest.Client.Engine.Graphics.Vulkan</RootNamespace>
+        <RootNamespace>SkillTest.Engine.Graphics.Vulkan</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

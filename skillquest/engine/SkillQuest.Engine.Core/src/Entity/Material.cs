@@ -1,6 +1,6 @@
 using System.Xml.Serialization;
 
-namespace SkillQuest.Shared.Engine.Entity;
+namespace SkillQuest.Engine.Core.Entity;
 
 [XmlRoot("Material")]
 public class Material : ECS.Entity {

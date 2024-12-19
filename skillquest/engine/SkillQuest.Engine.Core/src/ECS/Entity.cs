@@ -1,15 +1,9 @@
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Schema;
 using System.Xml.Serialization;
-using SkillQuest.API.Component;
-using SkillQuest.API.ECS;
+using SkillQuest.Engine.API.ECS;
 
-namespace SkillQuest.Shared.Engine.ECS;
-
-using static State;
+namespace SkillQuest.Engine.Core.ECS;
 
 [XmlRoot("Entity")]
 public class Entity : IEntity{
