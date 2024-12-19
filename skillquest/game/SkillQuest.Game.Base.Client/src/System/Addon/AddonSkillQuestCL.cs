@@ -1,12 +1,9 @@
 using SkillQuest.API;
-using SkillQuest.Game.Base.Client.System.Asset;
-using SkillQuest.Game.Base.Client.System.Gui.LoginSignup;
-using SkillQuest.Game.Base.Shared.System.Addon;
-using static SkillQuest.Shared.Engine.State;
+using SkillQuest.Game.Base.Client.System.Gui.Singleplayer.MainMenu;
 
 namespace SkillQuest.Game.Base.Client.System.Addon;
 
-public class AddonSkillQuestCL : AddonSkillQuestSH {
+public class AddonSkillQuestCL : Shared.Engine.Addon {
     public override Uri? Uri { get; set; } = new Uri("cl://addon.skill.quest/skillquest");
 
     public override string Description { get; } = "Base Game";
@@ -21,9 +18,7 @@ public class AddonSkillQuestCL : AddonSkillQuestSH {
             .Mount(new AddonMetallurgyCL())
             .Mount(new AddonMiningCL());
 
-        SH.Assets = SH.Ledger.Add(new AssetRepositoryCL());
-        
-        Ledger.Add(new GuiMainMenu());
+        Ledger!.Add(new GuiTitleScreen());
     }
 
 

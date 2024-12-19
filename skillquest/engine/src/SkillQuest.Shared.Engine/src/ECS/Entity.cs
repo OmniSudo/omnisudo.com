@@ -204,8 +204,4 @@ public class Entity : IEntity{
             child.Value.Dispose();
         }
     }
-
-    public XmlSchema? GetSchema(){
-        return null;
-    }
 }
