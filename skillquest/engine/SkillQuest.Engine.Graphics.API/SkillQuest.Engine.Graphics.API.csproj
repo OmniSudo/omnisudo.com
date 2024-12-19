@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <RootNamespace>SkillQuest.Client.Engine.Graphics.API</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="ImGui.NET" Version="1.91.0.1" />
+      <PackageReference Include="Silk.NET.Core" Version="2.22.0" />
+      <PackageReference Include="Silk.NET.Input" Version="2.22.0" />
+      <PackageReference Include="Silk.NET.Input.Common" Version="2.22.0" />
+      <PackageReference Include="Silk.NET.Input.Sdl" Version="2.22.0" />
+      <PackageReference Include="Silk.NET.SDL" Version="2.22.0" />
+      <PackageReference Include="Silk.NET.Windowing" Version="2.22.0" />
+      <PackageReference Include="Silk.NET.Windowing.Common" Version="2.22.0" />
+      <PackageReference Include="Silk.NET.Windowing.Sdl" Version="2.22.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SkillQuest.Engine.API\SkillQuest.Engine.API.csproj" />
+    </ItemGroup>
+
+</Project>

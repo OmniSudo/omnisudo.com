@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>SkillQuest.Client.Engine</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SkillQuest.Engine.API\SkillQuest.Engine.API.csproj" />
+      <ProjectReference Include="..\SkillQuest.Engine.Audio.API\SkillQuest.Engine.Audio.API.csproj" />
+      <ProjectReference Include="..\SkillQuest.Engine.Audio.OpenAL\SkillQuest.Engine.Audio.OpenAL.csproj" />
+      <ProjectReference Include="..\SkillQuest.Engine.Graphics.API\SkillQuest.Engine.Graphics.API.csproj" />
+      <ProjectReference Include="..\SkillQuest.Engine.Graphics.OpenGL\SkillQuest.Engine.Graphics.OpenGL.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.Data.Sqlite">
+        <HintPath>..\..\..\..\..\..\.nuget\packages\microsoft.data.sqlite.core\9.0.0\lib\net8.0\Microsoft.Data.Sqlite.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

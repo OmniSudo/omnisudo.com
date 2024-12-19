@@ -2,31 +2,25 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Client.Desktop", "skillquest\launcher\SkillQuest.Client.Desktop\SkillQuest.Client.Desktop.csproj", "{F9F06239-B191-43DF-BDB2-B201B65AD428}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.API", "skillquest\engine\src\SkillQuest.API\SkillQuest.API.csproj", "{B37B3DC5-BB61-4F81-94B1-9A7D4408AAFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Engine.API", "skillquest\engine\SkillQuest.Engine.API\SkillQuest.Engine.API.csproj", "{B37B3DC5-BB61-4F81-94B1-9A7D4408AAFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.API", "skillquest\engine\test\SkillTest.API\SkillTest.API.csproj", "{8F71AD0C-5DCB-4005-BCCF-9D0FBE89D202}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Engine.Core", "skillquest\engine\SkillQuest.Engine.Core\SkillQuest.Engine.Core.csproj", "{82ED07DE-2908-4306-9B0F-DC975DE63D87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Shared.Engine", "skillquest\engine\src\SkillQuest.Shared.Engine\SkillQuest.Shared.Engine.csproj", "{0E9DEE72-4E6C-4ABA-A24F-E49E7443D2AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Engine.Graphics.API", "skillquest\engine\SkillQuest.Engine.Graphics.API\SkillQuest.Engine.Graphics.API.csproj", "{42BF5E6B-375C-4445-8FDD-7BC814B7B753}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Server.Engine", "skillquest\engine\src\SkillQuest.Server.Engine\SkillQuest.Server.Engine.csproj", "{DD33C39E-DF25-42E5-BE74-3EC40124D963}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Engine.Graphics.Vulkan", "skillquest\engine\SkillQuest.Engine.Graphics.Vulkan\SkillQuest.Engine.Graphics.Vulkan.csproj", "{21E2266A-E0DA-4A10-9C0B-95456C85DB55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Client.Engine", "skillquest\engine\src\SkillQuest.Client.Engine\SkillQuest.Client.Engine.csproj", "{82ED07DE-2908-4306-9B0F-DC975DE63D87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Engine.Graphics.OpenGL", "skillquest\engine\SkillQuest.Engine.Graphics.OpenGL\SkillQuest.Engine.Graphics.OpenGL.csproj", "{75EC606A-852B-4904-BE1D-1409FD5DE31D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Client.Engine.Graphics.API", "skillquest\engine\src\SkillQuest.Client.Engine.Graphics.API\SkillQuest.Client.Engine.Graphics.API.csproj", "{42BF5E6B-375C-4445-8FDD-7BC814B7B753}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Engine.Graphics.Vulkan", "skillquest\engine\SkillTest.Engine.Graphics.Vulkan\SkillTest.Engine.Graphics.Vulkan.csproj", "{24AF1EA4-B118-4518-9DC0-594D6BA7FBDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Client.Engine.Graphics.Vulkan", "skillquest\engine\src\SkillQuest.Client.Engine.Graphics.Vulkan\SkillQuest.Client.Engine.Graphics.Vulkan.csproj", "{21E2266A-E0DA-4A10-9C0B-95456C85DB55}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Engine.Graphics.OpenGL", "skillquest\engine\SkillTest.Engine.Graphics.OpenGL\SkillTest.Engine.Graphics.OpenGL.csproj", "{492E2A0D-D827-4B0A-8800-74D22244B8F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Client.Engine.Graphics.OpenGL", "skillquest\engine\src\SkillQuest.Client.Engine.Graphics.OpenGL\SkillQuest.Client.Engine.Graphics.OpenGL.csproj", "{75EC606A-852B-4904-BE1D-1409FD5DE31D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Engine.Audio.API", "skillquest\engine\SkillQuest.Engine.Audio.API\SkillQuest.Engine.Audio.API.csproj", "{0B25AE24-F5F0-4EC7-80CC-AD94110E249A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Client.Engine.Graphics.Vulkan", "skillquest\engine\test\SkillTest.Client.Engine.Graphics.Vulkan\SkillTest.Client.Engine.Graphics.Vulkan.csproj", "{24AF1EA4-B118-4518-9DC0-594D6BA7FBDD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Engine.Audio.OpenAL", "skillquest\engine\SkillQuest.Engine.Audio.OpenAL\SkillQuest.Engine.Audio.OpenAL.csproj", "{2A6A1B26-9B90-4287-A842-4AB83523F21A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Client.Engine.Graphics.OpenGL", "skillquest\engine\test\SkillTest.Client.Engine.Graphics.OpenGL\SkillTest.Client.Engine.Graphics.OpenGL.csproj", "{492E2A0D-D827-4B0A-8800-74D22244B8F1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Client.Engine.Audio.API", "skillquest\engine\src\SkillQuest.Client.Engine.Audio.API\SkillQuest.Client.Engine.Audio.API.csproj", "{0B25AE24-F5F0-4EC7-80CC-AD94110E249A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Client.Engine.Audio.OpenAL", "skillquest\engine\src\SkillQuest.Client.Engine.Audio.OpenAL\SkillQuest.Client.Engine.Audio.OpenAL.csproj", "{2A6A1B26-9B90-4287-A842-4AB83523F21A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Client.Engine.Audio.OpenAL", "skillquest\engine\test\SkillTest.Client.Engine.Audio.OpenAL\SkillTest.Client.Engine.Audio.OpenAL.csproj", "{CAE17C1C-AE1D-4514-B187-3A0BE5A1E117}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Engine.Audio.OpenAL", "skillquest\engine\SkillTest.Engine.Audio.OpenAL\SkillTest.Engine.Audio.OpenAL.csproj", "{CAE17C1C-AE1D-4514-B187-3A0BE5A1E117}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Game", "Game", "{545D0A81-BC4B-4969-A077-21714013AAED}"
 EndProject
@@ -42,17 +36,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SkillQuest", "SkillQuest", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{5E1D796E-7E7E-4C30-9D34-867FBBF0D042}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{0DE1A33A-ABBE-4910-A976-FA0F24A34009}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{678DA446-7255-4046-9D7D-9711DE5F4D08}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{4FDD3774-C85C-482B-85EA-9153140B12C9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{8721D957-47C5-40C4-8D96-FF6C1365C24B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Game.Base.Client", "skillquest\game\SkillQuest.Game.Base.Client\SkillQuest.Game.Base.Client.csproj", "{0C9EB046-7C6E-4991-A3D0-D7DD899306F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillQuest.Game.Base", "skillquest\game\SkillQuest.Game.Base\SkillQuest.Game.Base.csproj", "{0C9EB046-7C6E-4991-A3D0-D7DD899306F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Game.Base.Client", "skillquest\game\SkillTest.Game.Base.Client\SkillTest.Game.Base.Client.csproj", "{5467F3FA-F867-4726-81C6-60A3930DC8CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillTest.Game.Base", "skillquest\game\SkillTest.Game.Base\SkillTest.Game.Base.csproj", "{5467F3FA-F867-4726-81C6-60A3930DC8CE}"
 EndProject
 Global
 GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,10 +56,6 @@ EndGlobalSection
 		{B37B3DC5-BB61-4F81-94B1-9A7D4408AAFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B37B3DC5-BB61-4F81-94B1-9A7D4408AAFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B37B3DC5-BB61-4F81-94B1-9A7D4408AAFF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F71AD0C-5DCB-4005-BCCF-9D0FBE89D202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F71AD0C-5DCB-4005-BCCF-9D0FBE89D202}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F71AD0C-5DCB-4005-BCCF-9D0FBE89D202}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F71AD0C-5DCB-4005-BCCF-9D0FBE89D202}.Release|Any CPU.Build.0 = Release|Any CPU
 		{853022C2-FA4B-45DD-810C-94F19FF69DC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{853022C2-FA4B-45DD-810C-94F19FF69DC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{853022C2-FA4B-45DD-810C-94F19FF69DC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -140,14 +124,6 @@ EndGlobalSection
 		{1EA3F511-3D1E-4F71-A403-5E4E5093E354}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EA3F511-3D1E-4F71-A403-5E4E5093E354}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EA3F511-3D1E-4F71-A403-5E4E5093E354}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0E9DEE72-4E6C-4ABA-A24F-E49E7443D2AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E9DEE72-4E6C-4ABA-A24F-E49E7443D2AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E9DEE72-4E6C-4ABA-A24F-E49E7443D2AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0E9DEE72-4E6C-4ABA-A24F-E49E7443D2AF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD33C39E-DF25-42E5-BE74-3EC40124D963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD33C39E-DF25-42E5-BE74-3EC40124D963}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD33C39E-DF25-42E5-BE74-3EC40124D963}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD33C39E-DF25-42E5-BE74-3EC40124D963}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82ED07DE-2908-4306-9B0F-DC975DE63D87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82ED07DE-2908-4306-9B0F-DC975DE63D87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82ED07DE-2908-4306-9B0F-DC975DE63D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -204,21 +180,15 @@ EndGlobalSection
 		{21E2266A-E0DA-4A10-9C0B-95456C85DB55} = {6E00E3AA-A17A-4402-8876-0524B3253CD7}
 		{492E2A0D-D827-4B0A-8800-74D22244B8F1} = {6E00E3AA-A17A-4402-8876-0524B3253CD7}
 		{24AF1EA4-B118-4518-9DC0-594D6BA7FBDD} = {6E00E3AA-A17A-4402-8876-0524B3253CD7}
-		{8F71AD0C-5DCB-4005-BCCF-9D0FBE89D202} = {5E1D796E-7E7E-4C30-9D34-867FBBF0D042}
 		{B37B3DC5-BB61-4F81-94B1-9A7D4408AAFF} = {5E1D796E-7E7E-4C30-9D34-867FBBF0D042}
-		{0DE1A33A-ABBE-4910-A976-FA0F24A34009} = {9870372D-6219-4E82-8930-914616E35D40}
-		{AAF38EED-82E2-458D-AE54-6F9D0364CD7F} = {0DE1A33A-ABBE-4910-A976-FA0F24A34009}
-		{6E00E3AA-A17A-4402-8876-0524B3253CD7} = {0DE1A33A-ABBE-4910-A976-FA0F24A34009}
-		{82ED07DE-2908-4306-9B0F-DC975DE63D87} = {0DE1A33A-ABBE-4910-A976-FA0F24A34009}
-		{678DA446-7255-4046-9D7D-9711DE5F4D08} = {9870372D-6219-4E82-8930-914616E35D40}
-		{DD33C39E-DF25-42E5-BE74-3EC40124D963} = {678DA446-7255-4046-9D7D-9711DE5F4D08}
-		{4FDD3774-C85C-482B-85EA-9153140B12C9} = {9870372D-6219-4E82-8930-914616E35D40}
-		{0E9DEE72-4E6C-4ABA-A24F-E49E7443D2AF} = {4FDD3774-C85C-482B-85EA-9153140B12C9}
-		{5E1D796E-7E7E-4C30-9D34-867FBBF0D042} = {4FDD3774-C85C-482B-85EA-9153140B12C9}
 		{8721D957-47C5-40C4-8D96-FF6C1365C24B} = {B3BA68F5-44FF-4F4F-9FCA-DC8B9E82CFA0}
 		{F9F06239-B191-43DF-BDB2-B201B65AD428} = {8721D957-47C5-40C4-8D96-FF6C1365C24B}
 		{545D0A81-BC4B-4969-A077-21714013AAED} = {AEECB6DB-7050-4BEB-8949-ACE95D8652D9}
 		{0C9EB046-7C6E-4991-A3D0-D7DD899306F7} = {545D0A81-BC4B-4969-A077-21714013AAED}
 		{5467F3FA-F867-4726-81C6-60A3930DC8CE} = {545D0A81-BC4B-4969-A077-21714013AAED}
+		{5E1D796E-7E7E-4C30-9D34-867FBBF0D042} = {9870372D-6219-4E82-8930-914616E35D40}
+		{AAF38EED-82E2-458D-AE54-6F9D0364CD7F} = {9870372D-6219-4E82-8930-914616E35D40}
+		{6E00E3AA-A17A-4402-8876-0524B3253CD7} = {9870372D-6219-4E82-8930-914616E35D40}
+		{82ED07DE-2908-4306-9B0F-DC975DE63D87} = {9870372D-6219-4E82-8930-914616E35D40}
 	EndGlobalSection
 EndGlobal

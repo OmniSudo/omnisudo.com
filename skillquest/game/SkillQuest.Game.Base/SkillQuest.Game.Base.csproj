@@ -1,14 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>SkillQuest.Game.Base.Client</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\game\SkillQuest.Game.Base\SkillQuest.Game.Base.csproj" />
+      <ProjectReference Include="..\..\engine\src\SkillQuest.Engine.Core\SkillQuest.Engine.Core.csproj" />
     </ItemGroup>
-    
+
+    <ItemGroup>
+      <Folder Include="assets\SkillQuest\" />
+    </ItemGroup>
+
 </Project>

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<SkillQuest>
-    <Ability 
-        asm="SkillQuest.Game.Base.Server"
-        type="SkillQuest.Game.Base.Server.System.Ability.Mining.AbilityMineOre"
-    >
-        <Alias>ability://skill.quest/mining/mine</Alias>
-    </Ability>
-</SkillQuest>
