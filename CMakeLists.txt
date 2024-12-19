@@ -5,11 +5,7 @@ project(SkillQuest)
 set(CMAKE_INSTALL_LIBDIR "${PROJECT_SOURCE_DIR}/lib/")
 
 # SKILLQUEST ENGINE
-include("${PROJECT_SOURCE_DIR}/skillquest/engine/shared/CMakeLists.txt")
-include("${PROJECT_SOURCE_DIR}/skillquest/engine/client/CMakeLists.txt")
-if (NOT EMSCRIPTEN)
-    include("${PROJECT_SOURCE_DIR}/skillquest/engine/server/CMakeLists.txt")
-endif ()
+include("skillquest/engine/CMakeLists.txt")
 
 file(GLOB addons "${CMAKE_CURRENT_SOURCE_DIR}/skillquest/addon/*")
 foreach (addon_dir ${addons})
@@ -28,8 +24,7 @@ endforeach ()
 
 # SKILLQUEST LAUNCHER
 if (NOT EMSCRIPTEN)
-    include("${PROJECT_SOURCE_DIR}/skillquest/platform/client/desktop/CMakeLists.txt")
-    include("${PROJECT_SOURCE_DIR}/skillquest/platform/server/terminal/CMakeLists.txt")
+    include("skillquest/platform/desktop/CMakeLists.txt")
 else ()
-    include("${PROJECT_SOURCE_DIR}/skillquest/platform/client/web/CMakeLists.txt")
+    include("skillquest/platform/web/CMakeLists.txt")
 endif ()
