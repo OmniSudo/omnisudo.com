@@ -1,6 +1,6 @@
 include_guard()
 
-set(ENABLE_ADDON FALSE)
+set(ENABLE_ADDON TRUE)
 
 if(ENABLE_ADDON)
     project(GENERATED)
