@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using SkillQuest.Engine.API;
 using SkillQuest.Engine.API.ECS;
+using SkillQuest.Engine.Core.Database;
 using SkillQuest.Engine.Core.ECS;
 
 namespace SkillQuest.Engine.Core;
@@ -39,6 +40,7 @@ public class Application : IApplication{
 
     public Application(){
         Ledger = new EntityLedger();
+        SH.Database = new SqliteDatabase("");
     }
 
     public IApplication Mount(IAddon addon){

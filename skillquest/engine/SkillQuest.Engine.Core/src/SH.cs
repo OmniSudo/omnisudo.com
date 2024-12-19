@@ -22,4 +22,6 @@ public class State{
     } = new WorldGenerationPipeline();
 
     public IGraphicsInstance Graphics { get; set; }
+
+    public IDatabaseConnection Datatabase { get; set; }
 }
